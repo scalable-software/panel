@@ -130,6 +130,9 @@ export class Panel extends Component implements Meta {
 
       // Mutate
       this._status = status;
+
+      // Synchronize
+      this._showStatus();
     } finally {
       // Reflect
       this._reflect(Attributes.STATUS, this._status, Status.UNPINNED);
@@ -195,5 +198,15 @@ export class Panel extends Component implements Meta {
     fits(this._condition !== Condition.MINIMIZED, taskbar?.minimize);
     fits(this._condition !== Condition.MAXIMIZED, taskbar?.maximize);
     fits(this._condition !== Condition.NORMAL, taskbar?.restore);
+  };
+
+  /**
+   * Makes the pin of the taskbar show the status
+   * @category Configuration
+   * @hidden
+   */
+  private _showStatus = () => {
+    const pin = this.elements.taskbar?.pin;
+    this._status === Status.PINNED ? pin?.pin() : pin?.unpin();
   };
 }
