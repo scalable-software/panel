@@ -644,6 +644,26 @@ state(State.STATUS, () => {
               expect(panel.status).toBe(Status.PINNED);
             });
           });
+
+          when("`panel.status` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                panel.status = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
+            });
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
+            });
+
+            then("error message contains 'Invalid status value: invalid'", () => {
+              expect(error.message).toBe("Invalid status value: invalid");
+            });
+          });
         });
       });
     });
