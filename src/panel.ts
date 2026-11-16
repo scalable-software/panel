@@ -107,7 +107,10 @@ export class Panel extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _attributeHandlers = {};
+  protected _attributeHandlers = {
+    [Attributes.CONDITION]: (value: Condition | null) =>
+      (this.condition = value)
+  };
 
   /**
    * Cache element references to improve performance
