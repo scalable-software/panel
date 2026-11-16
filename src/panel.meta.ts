@@ -1,5 +1,5 @@
 /**
- * @module Component
+ * @module Panel
  */
 
 /**
@@ -10,7 +10,7 @@ export const Tag = "component-template" as const;
 /**
  * @category Configuration
  */
-export const CSS = "component.style.css" as const;
+export const CSS = "panel.style.css" as const;
 
 /**
  * HTML Attributes available to set

@@ -1,5 +1,5 @@
-import { component } from "@scalable.software/panel";
+import { Panel } from "@scalable.software/panel";
 
-await component.Template.load("component.template.html");
+await Panel.Template.load("panel.template.html");
 
-customElements.define(component.Tag, component);
+customElements.define(Panel.Tag, Panel);

@@ -6,6 +6,6 @@ export {
   Operation,
   Event,
   Gesture
-} from "./component.meta.js";
+} from "./panel.meta.js";
 
-export { component } from "./component.js";
+export { Panel } from "./panel.js";
