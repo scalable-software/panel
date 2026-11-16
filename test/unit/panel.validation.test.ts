@@ -189,6 +189,34 @@ validation(State.STATUS, () => {
           });
         });
       });
+
+      and("`value` is `invalid`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = "invalid";
+        });
+
+        when("`Validate.status(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.status(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid status value: invalid'", () => {
+            expect((error as Error).message).toEqual(
+              "Invalid status value: invalid"
+            );
+          });
+        });
+      });
     });
   });
 });
