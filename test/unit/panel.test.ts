@@ -645,6 +645,16 @@ state(State.STATUS, () => {
             });
           });
 
+          when("`panel.status` is set to `null`", () => {
+            beforeEach(() => {
+              panel.status = null;
+            });
+
+            then("`panel.status` is `Status.UNPINNED`", () => {
+              expect(panel.status).toBe(Status.UNPINNED);
+            });
+          });
+
           when("`panel.status` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
