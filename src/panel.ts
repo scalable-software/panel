@@ -11,6 +11,9 @@ import { Tag, CSS, Attributes, Condition } from "./panel.meta.js";
 
 import { type Meta } from "./panel.meta.js";
 
+// Validation
+import { Validate } from "./panel.validation.js";
+
 // Taskbar
 import { Taskbar } from "@scalable.software/taskbar";
 
@@ -84,6 +87,9 @@ export class Panel extends Component implements Meta {
     return this._condition;
   }
   public set condition(condition: Condition) {
+    // Validate
+    condition = Validate.condition(condition);
+
     // Mutate
     this._condition = condition;
   }
