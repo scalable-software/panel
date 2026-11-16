@@ -19,6 +19,14 @@ module.exports = function (config) {
         pattern: "./node_modules/@scalable.software/**/dist/*.js",
         type: "module"
       },
+      {
+        pattern: "./node_modules/@scalable.software/**/dist/*.html",
+        included: false
+      },
+      {
+        pattern: "./node_modules/@scalable.software/**/dist/*.css",
+        included: false
+      },
       { pattern: "./src/**/*.js", type: "module" },
       { pattern: "./test/unit/**/*.js", type: "module" }
     ],
@@ -29,7 +37,7 @@ module.exports = function (config) {
     reporters: ["spec", "coverage-istanbul", "json"],
     jsonReporter: {
       dir: "./report",
-      filename: "component.template.report.json"
+      filename: "panel.report.json"
     },
     coverageIstanbulInstrumenter: {
       esModules: true

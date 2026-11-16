@@ -1,7 +1,7 @@
 {
-  "name": "@scalable.software/component.template",
+  "name": "@scalable.software/panel",
   "version": "0.4.0",
-  "description": "A template for creating web components using Scalable.Software standards and practices.",
+  "description": "A theme-aware web component that holds content in a window under a taskbar: the end user moves, resizes, pins, minimizes, maximizes, restores and closes it.",
   "keywords": [
     "web component"
   ],
@@ -13,7 +13,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "clean.test": "node ./tasks/clean.test.mjs",
-    "pretest": "npm run clean.test && tsc --project tsconfig.test.json",
+    "check.specification": "node ./tasks/check.specification.mjs",
+    "pretest": "npm run clean.test && npm run check.specification && tsc --project tsconfig.test.json",
     "test": "karma start",
     "posttest": "npm run clean.test",
     "prebuild": "node ./tasks/clean.build.mjs",
@@ -26,17 +27,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scalable-software/component.template.git"
+    "url": "git+https://github.com/scalable-software/panel.git"
   },
   "author": "Scalable.Software",
   "license": "CC-BY-NC-SA-4.0",
   "bugs": {
-    "url": "https://github.com/scalable-software/component.template/issues"
+    "url": "https://github.com/scalable-software/panel/issues"
   },
-  "homepage": "https://github.com/scalable-software/component.template#readme",
+  "homepage": "https://github.com/scalable-software/panel#readme",
   "devDependencies": {
     "@types/jasmine": "^5.1.4",
     "@web/dev-server": "^0.4.6",
+    "ajv": "^8.20.0",
     "jasmine": "^5.1.0",
     "karma": "^6.4.3",
     "karma-chrome-launcher": "^3.2.0",
@@ -49,6 +51,12 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@scalable.software/component": "^0.4.0"
+    "@scalable.software/close": "^0.1.1",
+    "@scalable.software/component": "^0.7.0",
+    "@scalable.software/maximize": "^0.1.1",
+    "@scalable.software/minimize": "^0.1.1",
+    "@scalable.software/pin": "^0.3.0",
+    "@scalable.software/restore": "^0.1.1",
+    "@scalable.software/taskbar": "^0.2.0"
   }
 }
