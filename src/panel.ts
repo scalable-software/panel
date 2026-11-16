@@ -9,6 +9,9 @@ import { type Configuration } from "@scalable.software/component";
 // Panel Metadata
 import { Tag, CSS, Attributes } from "./panel.meta.js";
 
+// Taskbar
+import { Taskbar } from "@scalable.software/taskbar";
+
 /**
  * Optional Configuration: required for panels with custom layout and style
  * @category Configuration
@@ -54,7 +57,7 @@ export class Panel extends Component {
    * @category State
    * @hidden
    */
-  protected elements: {} = {};
+  protected elements: { taskbar: Taskbar | null } = { taskbar: null };
 
   /**
    * @hidden
@@ -75,7 +78,9 @@ export class Panel extends Component {
    * @category Configuration
    * @hidden
    */
-  protected _cache = () => {};
+  protected _cache = () => {
+    this.elements.taskbar = this.root.querySelector<Taskbar>(Taskbar.Tag);
+  };
 
   /**
    * Initialize panel attributes with default values
