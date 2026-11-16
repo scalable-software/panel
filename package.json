@@ -49,6 +49,7 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "@scalable.software/close": "^0.1.1",
     "@scalable.software/component": "^0.7.0",
     "@scalable.software/maximize": "^0.1.1",
     "@scalable.software/minimize": "^0.1.1",
