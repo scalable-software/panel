@@ -792,6 +792,37 @@ state(State.STATUS, () => {
             });
           }
         );
+
+        and("`panel.status` is set to `Status.PINNED`", () => {
+          beforeEach(() => {
+            panel.status = Status.PINNED;
+          });
+
+          when("`panel.status` is set to `Status.UNPINNED`", () => {
+            beforeEach(() => {
+              panel.status = Status.UNPINNED;
+            });
+
+            then("the pin in the taskbar shows unpinned", () => {
+              expect(pinOf(panel).status).toBe(PinStatus.UNPINNED);
+            });
+          });
+
+          when("the panel is removed from DOM and added again", () => {
+            beforeEach(() => {
+              panel.remove();
+              document.body.appendChild(panel);
+            });
+
+            then("`panel.status` is `Status.PINNED`", () => {
+              expect(panel.status).toBe(Status.PINNED);
+            });
+
+            then("the pin in the taskbar shows pinned", () => {
+              expect(pinOf(panel).status).toBe(PinStatus.PINNED);
+            });
+          });
+        });
       });
     });
   });
