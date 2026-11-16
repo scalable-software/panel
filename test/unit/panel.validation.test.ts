@@ -93,6 +93,34 @@ validation(State.CONDITION, () => {
           });
         });
       });
+
+      and("`value` is `invalid`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = "invalid";
+        });
+
+        when("`Validate.condition(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.condition(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid condition value: invalid'", () => {
+            expect((error as Error).message).toEqual(
+              "Invalid condition value: invalid"
+            );
+          });
+        });
+      });
     });
   });
 });
