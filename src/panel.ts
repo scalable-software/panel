@@ -120,7 +120,10 @@ export class Panel extends Component implements Meta {
   public get status(): Status {
     return this._status;
   }
-  public set status(status: Status) {
+  public set status(status: Status | null) {
+    // Normalize
+    status = status ?? Status.UNPINNED;
+
     // Validate
     status = Validate.status(status);
 
