@@ -49,6 +49,7 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@scalable.software/component": "^0.7.0"
+    "@scalable.software/component": "^0.7.0",
+    "@scalable.software/taskbar": "^0.2.0"
   }
 }
