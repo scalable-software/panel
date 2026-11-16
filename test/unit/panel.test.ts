@@ -156,6 +156,18 @@ composition(Composition.TEMPLATE, () => {
             const slot = div.querySelector("slot.title");
             expect(slot?.getAttribute("name")).toBe("title");
           });
+
+          then("`div.content` contains a `slot`, and nothing else", () => {
+            const parts = [...div.querySelectorAll("div.content > *")].map(
+              (part) => part.localName
+            );
+            expect(parts).toEqual(["slot"]);
+          });
+
+          then("the `slot` of `div.content` has no `name`", () => {
+            const slot = div.querySelector("div.content > slot");
+            expect(slot?.hasAttribute("name")).toBeFalse();
+          });
         });
       });
     });
