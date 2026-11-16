@@ -114,11 +114,15 @@ export class Panel extends Component implements Meta {
   }
 
   /**
-   * Get the status of the panel
+   * Get and set the status of the panel
    * @category State
    */
   public get status(): Status {
     return this._status;
+  }
+  public set status(status: Status) {
+    // Mutate
+    this._status = status;
   }
 
   /**
