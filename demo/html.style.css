@@ -27,8 +27,10 @@ body {
   }
 }
 
-pin-component {
+window-panel {
   position: absolute;
   left: 48px;
   top: 48px;
+  width: 480px;
+  height: 320px;
 }
