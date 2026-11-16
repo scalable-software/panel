@@ -643,6 +643,11 @@ state(State.STATUS, () => {
             then("`panel.status` is `Status.PINNED`", () => {
               expect(panel.status).toBe(Status.PINNED);
             });
+
+            then("panel `status` attribute is `Status.PINNED`", () => {
+              const value = panel.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.PINNED);
+            });
           });
 
           when("`panel.status` is set to `null`", () => {
