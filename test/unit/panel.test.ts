@@ -144,6 +144,18 @@ composition(Composition.TEMPLATE, () => {
               expect(parts).toEqual([Taskbar.Tag, "div.content"]);
             }
           );
+
+          then("`task-bar` contains `slot.title`, and nothing else", () => {
+            const parts = [...div.querySelectorAll("task-bar > *")].map(
+              (part) => `${part.localName}.${part.className}`
+            );
+            expect(parts).toEqual(["slot.title"]);
+          });
+
+          then("`slot.title` has `name` `title`", () => {
+            const slot = div.querySelector("slot.title");
+            expect(slot?.getAttribute("name")).toBe("title");
+          });
         });
       });
     });
