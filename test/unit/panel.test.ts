@@ -10,7 +10,7 @@ import {
   Status
 } from "@scalable.software/panel";
 import { Taskbar, Control, Visibility } from "@scalable.software/taskbar";
-import { Pin } from "@scalable.software/pin";
+import { Pin, Status as PinStatus } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
 import { Maximize } from "@scalable.software/maximize";
 import { Restore } from "@scalable.software/restore";
@@ -50,6 +50,10 @@ const shown = (panel: Panel) => {
     Control.CLOSE
   ].filter((control) => taskbar[control]?.visibility === Visibility.VISIBLE);
 };
+
+// The pin in the taskbar of a panel
+const pinOf = (panel: Panel) =>
+  (panel.root.querySelector(Taskbar.Tag) as Taskbar).pin as Pin;
 
 // Configuration
 configuration(Configuration.TAG, () => {
@@ -753,6 +757,16 @@ state(State.STATUS, () => {
             then("error message contains 'Invalid status value: invalid'", () => {
               expect(error.message).toBe("Invalid status value: invalid");
             });
+          });
+        });
+
+        when("`panel.status` is set to `Status.PINNED`", () => {
+          beforeEach(() => {
+            panel.status = Status.PINNED;
+          });
+
+          then("the pin in the taskbar shows pinned", () => {
+            expect(pinOf(panel).status).toBe(PinStatus.PINNED);
           });
         });
       });
