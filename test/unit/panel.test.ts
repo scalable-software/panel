@@ -357,6 +357,16 @@ state(State.CONDITION, () => {
               const value = panel.getAttribute(Attributes.CONDITION);
               expect(value).toBe(Condition.MINIMIZED);
             });
+
+            when("`panel.condition` is set to `Condition.NORMAL`", () => {
+              beforeEach(() => {
+                panel.condition = Condition.NORMAL;
+              });
+
+              then("`condition` attribute does not exist", () => {
+                expect(panel.hasAttribute(Attributes.CONDITION)).toBeFalse();
+              });
+            });
           });
 
           when("`panel.condition` is set to `null`", () => {
@@ -376,6 +386,61 @@ state(State.CONDITION, () => {
 
             then("`panel.condition` is `Condition.MINIMIZED`", () => {
               expect(panel.condition).toBe(Condition.MINIMIZED);
+            });
+          });
+
+          when("`condition` attribute is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
+                panel.setAttribute(Attributes.CONDITION, "invalid");
+                error = reported.calls.mostRecent()?.args[0];
+              });
+            });
+
+            then("`condition` attribute does not exist", () => {
+              expect(panel.hasAttribute(Attributes.CONDITION)).toBeFalse();
+            });
+
+            then("`panel.condition` is `Condition.NORMAL`", () => {
+              expect(panel.condition).toBe(Condition.NORMAL);
+            });
+
+            then("an error is reported", () => {
+              expect(error).toBeDefined();
+            });
+
+            then("error message contains 'Invalid condition value: invalid'", () => {
+              expect(error.message).toBe("Invalid condition value: invalid");
+            });
+          });
+
+          when("`condition` attribute is set to `Condition.NORMAL`", () => {
+            beforeEach(() => {
+              panel.setAttribute(Attributes.CONDITION, Condition.NORMAL);
+            });
+
+            then("`condition` attribute does not exist", () => {
+              expect(panel.hasAttribute(Attributes.CONDITION)).toBeFalse();
+            });
+          });
+
+          and("`panel.condition` is set to `Condition.MINIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MINIMIZED;
+            });
+
+            when("`condition` attribute is set to `invalid`", () => {
+              beforeEach(async () => {
+                await jasmine.spyOnGlobalErrorsAsync(async () => {
+                  panel.setAttribute(Attributes.CONDITION, "invalid");
+                });
+              });
+
+              then("`condition` attribute is `Condition.MINIMIZED`", () => {
+                const value = panel.getAttribute(Attributes.CONDITION);
+                expect(value).toBe(Condition.MINIMIZED);
+              });
             });
           });
 
