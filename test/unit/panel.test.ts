@@ -354,6 +354,16 @@ state(State.CONDITION, () => {
             });
           });
 
+          when("`panel.condition` is set to `null`", () => {
+            beforeEach(() => {
+              panel.condition = null;
+            });
+
+            then("`panel.condition` is `Condition.NORMAL`", () => {
+              expect(panel.condition).toBe(Condition.NORMAL);
+            });
+          });
+
           when("`panel.condition` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
