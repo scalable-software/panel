@@ -338,6 +338,22 @@ state(State.CONDITION, () => {
         then("`condition` attribute does not exist", () => {
           expect(panel.hasAttribute(Attributes.CONDITION)).toBeFalse();
         });
+
+        then("`panel.condition` setter exists", () => {
+          expect(hasSetter(panel, "condition")).toBeTrue();
+        });
+
+        and("`panel.condition` setter exists", () => {
+          when("`panel.condition` is set to `Condition.MINIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MINIMIZED;
+            });
+
+            then("`panel.condition` is `Condition.MINIMIZED`", () => {
+              expect(panel.condition).toBe(Condition.MINIMIZED);
+            });
+          });
+        });
       });
     });
   });
