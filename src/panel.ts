@@ -96,6 +96,9 @@ export class Panel extends Component implements Meta {
 
       // Mutate
       this._condition = condition;
+
+      // Synchronize
+      this._showControls();
     } finally {
       // Reflect
       this._reflect(Attributes.CONDITION, this._condition, Condition.NORMAL);
