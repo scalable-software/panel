@@ -77,11 +77,15 @@ export class Panel extends Component implements Meta {
   }
 
   /**
-   * Get the condition of the panel
+   * Get and set the condition of the panel
    * @category State
    */
   public get condition(): Condition {
     return this._condition;
+  }
+  public set condition(condition: Condition) {
+    // Mutate
+    this._condition = condition;
   }
 
   /**
