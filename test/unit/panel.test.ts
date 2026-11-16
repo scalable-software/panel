@@ -353,6 +353,26 @@ state(State.CONDITION, () => {
               expect(panel.condition).toBe(Condition.MINIMIZED);
             });
           });
+
+          when("`panel.condition` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                panel.condition = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
+            });
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
+            });
+
+            then("error message contains 'Invalid condition value: invalid'", () => {
+              expect(error.message).toBe("Invalid condition value: invalid");
+            });
+          });
         });
       });
     });
