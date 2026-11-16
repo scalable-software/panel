@@ -18,7 +18,8 @@ export const CSS = "panel.style.css" as const;
  * @enum
  */
 export const Attributes = {
-  CONDITION: "condition"
+  CONDITION: "condition",
+  STATUS: "status"
 } as const;
 /**
  * HTML Attributes available to set
@@ -58,6 +59,21 @@ export const Condition = {
  * @category Metadata
  */
 export type Condition = (typeof Condition)[keyof typeof Condition];
+
+/**
+ * Indicates whether the window is pinned in place or unpinned
+ * @category Metadata
+ * @enum
+ */
+export const Status = {
+  UNPINNED: "unpinned",
+  PINNED: "pinned"
+} as const;
+/**
+ * Indicates whether the window is pinned in place or unpinned
+ * @category Metadata
+ */
+export type Status = (typeof Status)[keyof typeof Status];
 
 /**
  * @category Metadata

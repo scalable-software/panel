@@ -7,7 +7,7 @@ import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
 // Panel Metadata
-import { Tag, CSS, Attributes, Condition } from "./panel.meta.js";
+import { Tag, CSS, Attributes, Condition, Status } from "./panel.meta.js";
 
 import { type Meta } from "./panel.meta.js";
 
@@ -66,6 +66,14 @@ export class Panel extends Component implements Meta {
   private _condition: Condition = Condition.NORMAL;
 
   /**
+   * Internal Status state of the component
+   * @category State
+   * @default Status.UNPINNED
+   * @hidden
+   */
+  private _status: Status = Status.UNPINNED;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -103,6 +111,14 @@ export class Panel extends Component implements Meta {
       // Reflect
       this._reflect(Attributes.CONDITION, this._condition, Condition.NORMAL);
     }
+  }
+
+  /**
+   * Get the status of the panel
+   * @category State
+   */
+  public get status(): Status {
+    return this._status;
   }
 
   /**
