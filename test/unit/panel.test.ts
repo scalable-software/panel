@@ -240,6 +240,54 @@ composition(Composition.ELEMENT, () => {
             expect(panel["elements"].taskbar).toBe(part);
           }
         );
+
+        then("the cached `task-bar` offers its five controls", () => {
+          const taskbar = panel["elements"].taskbar;
+          const controls = [
+            taskbar?.pin,
+            taskbar?.minimize,
+            taskbar?.maximize,
+            taskbar?.restore,
+            taskbar?.close
+          ].map((control) => control?.localName);
+          expect(controls).toEqual([
+            Pin.Tag,
+            Minimize.Tag,
+            Maximize.Tag,
+            Restore.Tag,
+            Close.Tag
+          ]);
+        });
+      });
+
+      and("a new panel with a title and content is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(() => {
+          panel = place(
+            `<${Tag}><span slot="title">Title</span><p>Content</p></${Tag}>`
+          );
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("the title is shown in `slot.title`, in the `task-bar`", () => {
+          const slot = panel.root.querySelector(
+            "task-bar > slot.title"
+          ) as HTMLSlotElement;
+          expect(slot.assignedElements()).toEqual([
+            panel.querySelector("span") as Element
+          ]);
+        });
+
+        then("the content is shown in the `slot` of `div.content`", () => {
+          const slot = panel.root.querySelector(
+            "div.content > slot"
+          ) as HTMLSlotElement;
+          expect(slot.assignedElements()).toEqual([
+            panel.querySelector("p") as Element
+          ]);
+        });
       });
     });
   });
