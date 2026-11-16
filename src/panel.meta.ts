@@ -5,7 +5,7 @@
 /**
  * @category Configuration
  */
-export const Tag = "component-template" as const;
+export const Tag = "window-panel" as const;
 
 /**
  * @category Configuration
