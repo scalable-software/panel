@@ -769,6 +769,29 @@ state(State.STATUS, () => {
             expect(pinOf(panel).status).toBe(PinStatus.PINNED);
           });
         });
+
+        and(
+          "a panel with `status` `Status.PINNED` in its markup is added to DOM",
+          () => {
+            let pinned: Panel;
+            beforeEach(() => {
+              pinned = place(
+                `<${Tag} ${Attributes.STATUS}="${Status.PINNED}"></${Tag}>`
+              );
+            });
+            afterEach(() => {
+              pinned.remove();
+            });
+
+            then("its `status` is `Status.PINNED`", () => {
+              expect(pinned.status).toBe(Status.PINNED);
+            });
+
+            then("the pin in its taskbar shows pinned", () => {
+              expect(pinOf(pinned).status).toBe(PinStatus.PINNED);
+            });
+          }
+        );
       });
     });
   });
