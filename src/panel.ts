@@ -121,14 +121,19 @@ export class Panel extends Component implements Meta {
     return this._status;
   }
   public set status(status: Status | null) {
-    // Normalize
-    status = status ?? Status.UNPINNED;
+    try {
+      // Normalize
+      status = status ?? Status.UNPINNED;
 
-    // Validate
-    status = Validate.status(status);
+      // Validate
+      status = Validate.status(status);
 
-    // Mutate
-    this._status = status;
+      // Mutate
+      this._status = status;
+    } finally {
+      // Reflect
+      this._reflect(Attributes.STATUS, this._status, Status.UNPINNED);
+    }
   }
 
   /**
