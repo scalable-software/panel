@@ -660,6 +660,16 @@ state(State.STATUS, () => {
             });
           });
 
+          when("`status` attribute is set to `Status.PINNED`", () => {
+            beforeEach(() => {
+              panel.setAttribute(Attributes.STATUS, Status.PINNED);
+            });
+
+            then("`panel.status` is `Status.PINNED`", () => {
+              expect(panel.status).toBe(Status.PINNED);
+            });
+          });
+
           when("`panel.status` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
