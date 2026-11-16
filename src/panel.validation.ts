@@ -2,7 +2,7 @@
  * @module Panel
  */
 
-import { Condition } from "./panel.meta.js";
+import { Condition, Status } from "./panel.meta.js";
 
 /**
  * @category Validation
@@ -19,5 +19,14 @@ export class Validate {
       throw new Error(`Invalid condition value: ${value}`);
     }
     return value as Condition;
+  };
+
+  /**
+   * Validates that the value is a member of the `Status` enum.
+   * Throws if the value is not a recognized status state.
+   * @category Validation
+   */
+  public static status = (value: unknown) => {
+    return value as Status;
   };
 }
