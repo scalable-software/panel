@@ -502,6 +502,91 @@ state(State.CONDITION, () => {
             }
           );
         });
+
+        when("`panel.condition` is set to `Condition.MAXIMIZED`", () => {
+          beforeEach(() => {
+            panel.condition = Condition.MAXIMIZED;
+          });
+
+          then(
+            "the taskbar shows `minimize`, `restore` and `close`, and hides `maximize`",
+            () => {
+              expect(shown(panel)).toEqual([
+                Control.MINIMIZE,
+                Control.RESTORE,
+                Control.CLOSE
+              ]);
+            }
+          );
+
+          when("`panel.condition` is set to `Condition.NORMAL`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.NORMAL;
+            });
+
+            then(
+              "the taskbar shows `minimize`, `maximize` and `close`, and hides `restore`",
+              () => {
+                expect(shown(panel)).toEqual([
+                  Control.MINIMIZE,
+                  Control.MAXIMIZE,
+                  Control.CLOSE
+                ]);
+              }
+            );
+          });
+        });
+
+        and(
+          "a panel with `condition` `Condition.MAXIMIZED` in its markup is added to DOM",
+          () => {
+            let maximized: Panel;
+            beforeEach(() => {
+              maximized = place(
+                `<${Tag} ${Attributes.CONDITION}="${Condition.MAXIMIZED}"></${Tag}>`
+              );
+            });
+            afterEach(() => {
+              maximized.remove();
+            });
+
+            then("its `condition` is `Condition.MAXIMIZED`", () => {
+              expect(maximized.condition).toBe(Condition.MAXIMIZED);
+            });
+
+            then(
+              "its taskbar shows `minimize`, `restore` and `close`, and hides `maximize`",
+              () => {
+                expect(shown(maximized)).toEqual([
+                  Control.MINIMIZE,
+                  Control.RESTORE,
+                  Control.CLOSE
+                ]);
+              }
+            );
+          }
+        );
+
+        and("a panel made with `document.createElement` is added to DOM", () => {
+          let created: Panel;
+          beforeEach(() => {
+            created = add<Panel>(Panel.Tag);
+          });
+          afterEach(() => {
+            created.remove();
+          });
+
+          then(
+            "its taskbar shows `minimize`, `maximize` and `close`, and hides `restore`",
+            () => {
+              expect(shown(created)).toEqual([
+                Control.MINIMIZE,
+                Control.MAXIMIZE,
+                Control.CLOSE
+              ]);
+            }
+          );
+        });
       });
     });
   });
