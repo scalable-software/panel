@@ -1,0 +1,69 @@
+{
+  "Component": "Panel",
+  "Package": "panel",
+  "Description": "A theme-aware web component that holds the host's content in a window, under a taskbar that brings the window's controls. The panel is part of the page's HTML when the page loads, and the host defines the five controls, then `task-bar`, then `window-panel`, each after loading its template.",
+  "Tag": "window-panel",
+  "Composition": {
+    "template": {
+      "description": "The HTML template for the panel component.",
+      "type": "template",
+      "id": "window-panel",
+      "contains": ["div.window"]
+    },
+    "div.window": {
+      "description": "The surface of the window. It holds the taskbar along its top and the content below it.",
+      "type": "div",
+      "class": "window",
+      "contains": ["task-bar", "div.content"]
+    },
+    "task-bar": {
+      "description": "The taskbar of the panel: the `task-bar` component, which brings the pin and the minimize, maximize, restore and close controls. The host defines the five controls, then `task-bar`, and loads their templates, before the panel. Cached as `elements.taskbar`: the panel listens to each control through it, with the control's own `on…` properties, so that connecting the panel again never subscribes twice, and hides the controls that do not fit its `condition`.",
+      "type": "task-bar",
+      "cached": true,
+      "contains": ["slot.title"]
+    },
+    "slot.title": {
+      "description": "The place where the title the host gives the panel is shown, in the centre of the taskbar. The host marks the title with `slot=\"title\"`. The title is the host's own: the panel neither listens to it nor changes it.",
+      "type": "slot",
+      "class": "title",
+      "attributes": {
+        "name": "title"
+      }
+    },
+    "div.content": {
+      "description": "The region below the taskbar. It holds the slot for the host's content.",
+      "type": "div",
+      "class": "content",
+      "contains": ["slot"]
+    },
+    "slot": {
+      "description": "The place where the content the host places inside the panel is shown. The content is the host's own: the panel neither listens to it nor changes it.",
+      "type": "slot"
+    }
+  },
+  "States": {
+    "condition": {
+      "type": "Condition",
+      "description": "Indicates whether the window is normal, collapsed to its taskbar, or enlarged to fill the space it has. It decides which controls the taskbar shows: minimize and maximize while `normal`; restore and maximize while `minimized`; minimize and restore while `maximized`. Close is always shown.",
+      "values": ["normal", "minimized", "maximized"],
+      "default": "normal",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    },
+    "status": {
+      "type": "Status",
+      "description": "Indicates whether the window is pinned in place or unpinned. The panel holds it, and the pin in the taskbar shows it.",
+      "values": ["pinned", "unpinned"],
+      "default": "unpinned",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    }
+  },
+  "Operations": {},
+  "Events": {},
+  "Gestures": {}
+}
