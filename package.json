@@ -53,6 +53,7 @@
     "@scalable.software/maximize": "^0.1.1",
     "@scalable.software/minimize": "^0.1.1",
     "@scalable.software/pin": "^0.3.0",
+    "@scalable.software/restore": "^0.1.1",
     "@scalable.software/taskbar": "^0.2.0"
   }
 }
