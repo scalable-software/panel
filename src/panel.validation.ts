@@ -27,6 +27,10 @@ export class Validate {
    * @category Validation
    */
   public static status = (value: unknown) => {
+    const valid = Object.values(Status).includes(value as Status);
+    if (!valid) {
+      throw new Error(`Invalid status value: ${value}`);
+    }
     return value as Status;
   };
 }
