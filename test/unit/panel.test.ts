@@ -6,7 +6,8 @@ import {
   CSS,
   Attributes,
   State,
-  Condition
+  Condition,
+  Status
 } from "@scalable.software/panel";
 import { Taskbar, Control, Visibility } from "@scalable.software/taskbar";
 import { Pin } from "@scalable.software/pin";
@@ -586,6 +587,47 @@ state(State.CONDITION, () => {
               ]);
             }
           );
+        });
+      });
+    });
+  });
+});
+
+state(State.STATUS, () => {
+  given("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(() => {
+          panel = place();
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("`panel.status` getter exists", () => {
+          expect(panel.status).toBeDefined();
+        });
+
+        when("`panel.status` getter exists", () => {
+          then("`panel.status` is `Status.UNPINNED`", () => {
+            expect(panel.status).toBe(Status.UNPINNED);
+          });
+        });
+
+        then("`status` attribute does not exist", () => {
+          expect(panel.hasAttribute(Attributes.STATUS)).toBeFalse();
         });
       });
     });

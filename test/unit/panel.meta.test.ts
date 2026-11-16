@@ -2,6 +2,7 @@ import {
   Tag,
   Attributes,
   State,
+  Status,
   Condition,
   Operation,
   Event,
@@ -41,6 +42,14 @@ metadata(Metadata.ATTRIBUTES, () => {
         then("`Attributes.CONDITION` is `condition`", () => {
           expect(Attributes.CONDITION).toBe("condition");
         });
+
+        then("`Attributes.STATUS` exists", () => {
+          expect(Attributes.STATUS).toBeDefined();
+        });
+
+        then("`Attributes.STATUS` is `status`", () => {
+          expect(Attributes.STATUS).toBe("status");
+        });
       });
     });
   });
@@ -65,6 +74,14 @@ metadata(Metadata.STATE, () => {
 
         then("`State.CONDITION` is `condition`", () => {
           expect(State.CONDITION).toBe("condition");
+        });
+
+        then("`State.STATUS` exists", () => {
+          expect(State.STATUS).toBeDefined();
+        });
+
+        then("`State.STATUS` is `status`", () => {
+          expect(State.STATUS).toBe("status");
         });
       });
     });
@@ -105,6 +122,38 @@ metadata(State.CONDITION, () => {
 
         then("`Condition.MAXIMIZED` is `maximized`", () => {
           expect(Condition.MAXIMIZED).toBe("maximized");
+        });
+      });
+    });
+  });
+});
+
+metadata(State.STATUS, () => {
+  and("Status imported", () => {
+    then("Status is defined", () => {
+      expect(Status).toBeDefined();
+    });
+
+    and("Status is defined", () => {
+      then("Status is an object", () => {
+        expect(typeof Status).toBe("object");
+      });
+
+      when("Status is an object", () => {
+        then("`Status.UNPINNED` exists", () => {
+          expect(Status.UNPINNED).toBeDefined();
+        });
+
+        then("`Status.UNPINNED` is `unpinned`", () => {
+          expect(Status.UNPINNED).toBe("unpinned");
+        });
+
+        then("`Status.PINNED` exists", () => {
+          expect(Status.PINNED).toBeDefined();
+        });
+
+        then("`Status.PINNED` is `pinned`", () => {
+          expect(Status.PINNED).toBe("pinned");
         });
       });
     });
