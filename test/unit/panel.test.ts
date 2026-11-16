@@ -210,6 +210,41 @@ composition(Composition.CSS, () => {
   });
 });
 
+composition(Composition.ELEMENT, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(() => {
+          panel = place();
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then(
+          "`panel.elements.taskbar` is a cached reference to the `task-bar`",
+          () => {
+            const part = panel.root.querySelector(Taskbar.Tag) as Taskbar;
+            expect(panel["elements"].taskbar).toBe(part);
+          }
+        );
+      });
+    });
+  });
+});
+
 // State
 
 // Operation
