@@ -86,7 +86,10 @@ export class Panel extends Component implements Meta {
   public get condition(): Condition {
     return this._condition;
   }
-  public set condition(condition: Condition) {
+  public set condition(condition: Condition | null) {
+    // Normalize
+    condition = condition ?? Condition.NORMAL;
+
     // Validate
     condition = Validate.condition(condition);
 
