@@ -8,7 +8,7 @@ import {
   State,
   Condition
 } from "@scalable.software/panel";
-import { Taskbar } from "@scalable.software/taskbar";
+import { Taskbar, Control, Visibility } from "@scalable.software/taskbar";
 import { Pin } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
 import { Maximize } from "@scalable.software/maximize";
@@ -38,6 +38,17 @@ const place = (markup = `<${Tag}></${Tag}>`) => {
   const host = document.createElement("div");
   host.innerHTML = markup;
   return document.body.appendChild(host.firstElementChild as Panel);
+};
+
+// The window controls the taskbar of a panel shows, in their order
+const shown = (panel: Panel) => {
+  const taskbar = panel.root.querySelector(Taskbar.Tag) as Taskbar;
+  return [
+    Control.MINIMIZE,
+    Control.MAXIMIZE,
+    Control.RESTORE,
+    Control.CLOSE
+  ].filter((control) => taskbar[control]?.visibility === Visibility.VISIBLE);
 };
 
 // Configuration
@@ -464,6 +475,17 @@ state(State.CONDITION, () => {
             });
           });
         });
+
+        then(
+          "the taskbar shows `minimize`, `maximize` and `close`, and hides `restore`",
+          () => {
+            expect(shown(panel)).toEqual([
+              Control.MINIMIZE,
+              Control.MAXIMIZE,
+              Control.CLOSE
+            ]);
+          }
+        );
       });
     });
   });
