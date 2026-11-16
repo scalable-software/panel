@@ -648,6 +648,16 @@ state(State.STATUS, () => {
               const value = panel.getAttribute(Attributes.STATUS);
               expect(value).toBe(Status.PINNED);
             });
+
+            when("`panel.status` is set to `Status.UNPINNED`", () => {
+              beforeEach(() => {
+                panel.status = Status.UNPINNED;
+              });
+
+              then("`status` attribute does not exist", () => {
+                expect(panel.hasAttribute(Attributes.STATUS)).toBeFalse();
+              });
+            });
           });
 
           when("`panel.status` is set to `null`", () => {
@@ -667,6 +677,61 @@ state(State.STATUS, () => {
 
             then("`panel.status` is `Status.PINNED`", () => {
               expect(panel.status).toBe(Status.PINNED);
+            });
+          });
+
+          when("`status` attribute is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
+                panel.setAttribute(Attributes.STATUS, "invalid");
+                error = reported.calls.mostRecent()?.args[0];
+              });
+            });
+
+            then("`status` attribute does not exist", () => {
+              expect(panel.hasAttribute(Attributes.STATUS)).toBeFalse();
+            });
+
+            then("`panel.status` is `Status.UNPINNED`", () => {
+              expect(panel.status).toBe(Status.UNPINNED);
+            });
+
+            then("an error is reported", () => {
+              expect(error).toBeDefined();
+            });
+
+            then("error message contains 'Invalid status value: invalid'", () => {
+              expect(error.message).toBe("Invalid status value: invalid");
+            });
+          });
+
+          when("`status` attribute is set to `Status.UNPINNED`", () => {
+            beforeEach(() => {
+              panel.setAttribute(Attributes.STATUS, Status.UNPINNED);
+            });
+
+            then("`status` attribute does not exist", () => {
+              expect(panel.hasAttribute(Attributes.STATUS)).toBeFalse();
+            });
+          });
+
+          and("`panel.status` is set to `Status.PINNED`", () => {
+            beforeEach(() => {
+              panel.status = Status.PINNED;
+            });
+
+            when("`status` attribute is set to `invalid`", () => {
+              beforeEach(async () => {
+                await jasmine.spyOnGlobalErrorsAsync(async () => {
+                  panel.setAttribute(Attributes.STATUS, "invalid");
+                });
+              });
+
+              then("`status` attribute is `Status.PINNED`", () => {
+                const value = panel.getAttribute(Attributes.STATUS);
+                expect(value).toBe(Status.PINNED);
+              });
             });
           });
 
