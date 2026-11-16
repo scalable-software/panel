@@ -87,14 +87,19 @@ export class Panel extends Component implements Meta {
     return this._condition;
   }
   public set condition(condition: Condition | null) {
-    // Normalize
-    condition = condition ?? Condition.NORMAL;
+    try {
+      // Normalize
+      condition = condition ?? Condition.NORMAL;
 
-    // Validate
-    condition = Validate.condition(condition);
+      // Validate
+      condition = Validate.condition(condition);
 
-    // Mutate
-    this._condition = condition;
+      // Mutate
+      this._condition = condition;
+    } finally {
+      // Reflect
+      this._reflect(Attributes.CONDITION, this._condition, Condition.NORMAL);
+    }
   }
 
   /**
