@@ -629,6 +629,22 @@ state(State.STATUS, () => {
         then("`status` attribute does not exist", () => {
           expect(panel.hasAttribute(Attributes.STATUS)).toBeFalse();
         });
+
+        then("`panel.status` setter exists", () => {
+          expect(hasSetter(panel, "status")).toBeTrue();
+        });
+
+        and("`panel.status` setter exists", () => {
+          when("`panel.status` is set to `Status.PINNED`", () => {
+            beforeEach(() => {
+              panel.status = Status.PINNED;
+            });
+
+            then("`panel.status` is `Status.PINNED`", () => {
+              expect(panel.status).toBe(Status.PINNED);
+            });
+          });
+        });
       });
     });
   });
