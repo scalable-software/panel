@@ -352,6 +352,11 @@ state(State.CONDITION, () => {
             then("`panel.condition` is `Condition.MINIMIZED`", () => {
               expect(panel.condition).toBe(Condition.MINIMIZED);
             });
+
+            then("panel `condition` attribute is `Condition.MINIMIZED`", () => {
+              const value = panel.getAttribute(Attributes.CONDITION);
+              expect(value).toBe(Condition.MINIMIZED);
+            });
           });
 
           when("`panel.condition` is set to `null`", () => {
