@@ -1,4 +1,4 @@
-import { State, Condition } from "@scalable.software/panel";
+import { State, Condition, Status } from "@scalable.software/panel";
 
 import { Validate } from "@scalable.software/panel";
 
@@ -118,6 +118,74 @@ validation(State.CONDITION, () => {
             expect((error as Error).message).toEqual(
               "Invalid condition value: invalid"
             );
+          });
+        });
+      });
+    });
+  });
+});
+
+validation(State.STATUS, () => {
+  given("Validate imported", () => {
+    then("Validate is defined", () => {
+      expect(Validate).toBeDefined();
+    });
+
+    and("Validate is defined", () => {
+      then("`Validate.status` static method exists", () => {
+        expect(Validate.status).toBeDefined();
+      });
+
+      and("`value` is `Status.UNPINNED`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = Status.UNPINNED;
+        });
+
+        when("`Validate.status(value)` is called", () => {
+          let error: unknown | undefined;
+          let result: any;
+          beforeEach(() => {
+            try {
+              result = Validate.status(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("no error is thrown", () => {
+            expect(error).toBeUndefined();
+          });
+
+          then("result is `Status.UNPINNED`", () => {
+            expect(result).toBe(Status.UNPINNED);
+          });
+        });
+      });
+
+      and("`value` is `Status.PINNED`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = Status.PINNED;
+        });
+
+        when("`Validate.status(value)` is called", () => {
+          let error: unknown | undefined;
+          let result: any;
+          beforeEach(() => {
+            try {
+              result = Validate.status(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("no error is thrown", () => {
+            expect(error).toBeUndefined();
+          });
+
+          then("result is `Status.PINNED`", () => {
+            expect(result).toBe(Status.PINNED);
           });
         });
       });
