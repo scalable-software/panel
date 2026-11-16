@@ -32,8 +32,7 @@ beforeAll(async () => {
   define(Taskbar.Tag, Taskbar);
 });
 
-// Adds a panel to DOM as the page's HTML does: from markup, so that it is constructed
-// once it is in the page, as the specification requires
+// Adds a panel to DOM as the page's HTML does: from markup
 const place = (markup = `<${Tag}></${Tag}>`) => {
   const host = document.createElement("div");
   host.innerHTML = markup;
@@ -486,6 +485,23 @@ state(State.CONDITION, () => {
             ]);
           }
         );
+
+        when("`panel.condition` is set to `Condition.MINIMIZED`", () => {
+          beforeEach(() => {
+            panel.condition = Condition.MINIMIZED;
+          });
+
+          then(
+            "the taskbar shows `maximize`, `restore` and `close`, and hides `minimize`",
+            () => {
+              expect(shown(panel)).toEqual([
+                Control.MAXIMIZE,
+                Control.RESTORE,
+                Control.CLOSE
+              ]);
+            }
+          );
+        });
       });
     });
   });
