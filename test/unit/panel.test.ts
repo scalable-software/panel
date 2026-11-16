@@ -369,6 +369,16 @@ state(State.CONDITION, () => {
             });
           });
 
+          when("`condition` attribute is set to `Condition.MINIMIZED`", () => {
+            beforeEach(() => {
+              panel.setAttribute(Attributes.CONDITION, Condition.MINIMIZED);
+            });
+
+            then("`panel.condition` is `Condition.MINIMIZED`", () => {
+              expect(panel.condition).toBe(Condition.MINIMIZED);
+            });
+          });
+
           when("`panel.condition` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
