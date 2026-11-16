@@ -121,6 +121,9 @@ export class Panel extends Component implements Meta {
     return this._status;
   }
   public set status(status: Status) {
+    // Validate
+    status = Validate.status(status);
+
     // Mutate
     this._status = status;
   }
