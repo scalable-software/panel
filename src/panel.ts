@@ -118,6 +118,9 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   protected _cache = () => {
+    // The taskbar and its controls are upgraded before they are used: an element in the
+    // template is not upgraded yet when the panel is connected
+    customElements.upgrade(this.root);
     this.elements.taskbar = this.root.querySelector<Taskbar>(Taskbar.Tag);
   };
 
@@ -126,7 +129,9 @@ export class Panel extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _initialize = () => {};
+  protected _initialize = () => {
+    this._showControls();
+  };
 
   /**
    * Called by the connectedCallback prototypical method
@@ -141,4 +146,19 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   protected _removeEventListeners = () => {};
+
+  /**
+   * Shows the controls of the taskbar that fit the condition, and hides the others
+   * @category Configuration
+   * @hidden
+   */
+  private _showControls = () => {
+    const taskbar = this.elements.taskbar;
+    const fits = (fit: boolean, control?: { show(): void; hide(): void } | null) =>
+      fit ? control?.show() : control?.hide();
+
+    fits(this._condition !== Condition.MINIMIZED, taskbar?.minimize);
+    fits(this._condition !== Condition.MAXIMIZED, taskbar?.maximize);
+    fits(this._condition !== Condition.NORMAL, taskbar?.restore);
+  };
 }
