@@ -169,6 +169,7 @@ export class Panel extends Component implements Meta {
    */
   protected _initialize = () => {
     this._showControls();
+    this._showStatus();
   };
 
   /**
