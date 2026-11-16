@@ -2,6 +2,7 @@ import {
   Tag,
   Attributes,
   State,
+  Condition,
   Operation,
   Event,
   Gesture
@@ -27,9 +28,19 @@ metadata(Metadata.ATTRIBUTES, () => {
       expect(Attributes).toBeDefined();
     });
 
-    when("Attributes is defined", () => {
+    and("Attributes is defined", () => {
       then("Attributes is an object", () => {
         expect(typeof Attributes).toBe("object");
+      });
+
+      when("Attributes is an object", () => {
+        then("`Attributes.CONDITION` exists", () => {
+          expect(Attributes.CONDITION).toBeDefined();
+        });
+
+        then("`Attributes.CONDITION` is `condition`", () => {
+          expect(Attributes.CONDITION).toBe("condition");
+        });
       });
     });
   });
@@ -42,9 +53,59 @@ metadata(Metadata.STATE, () => {
       expect(State).toBeDefined();
     });
 
-    when("State is defined", () => {
+    and("State is defined", () => {
       then("State is an object", () => {
         expect(typeof State).toBe("object");
+      });
+
+      when("State is an object", () => {
+        then("`State.CONDITION` exists", () => {
+          expect(State.CONDITION).toBeDefined();
+        });
+
+        then("`State.CONDITION` is `condition`", () => {
+          expect(State.CONDITION).toBe("condition");
+        });
+      });
+    });
+  });
+});
+
+metadata(State.CONDITION, () => {
+  and("Condition imported", () => {
+    then("Condition is defined", () => {
+      expect(Condition).toBeDefined();
+    });
+
+    and("Condition is defined", () => {
+      then("Condition is an object", () => {
+        expect(typeof Condition).toBe("object");
+      });
+
+      when("Condition is an object", () => {
+        then("`Condition.NORMAL` exists", () => {
+          expect(Condition.NORMAL).toBeDefined();
+        });
+
+        then("`Condition.NORMAL` is `normal`", () => {
+          expect(Condition.NORMAL).toBe("normal");
+        });
+
+        then("`Condition.MINIMIZED` exists", () => {
+          expect(Condition.MINIMIZED).toBeDefined();
+        });
+
+        then("`Condition.MINIMIZED` is `minimized`", () => {
+          expect(Condition.MINIMIZED).toBe("minimized");
+        });
+
+        then("`Condition.MAXIMIZED` exists", () => {
+          expect(Condition.MAXIMIZED).toBeDefined();
+        });
+
+        then("`Condition.MAXIMIZED` is `maximized`", () => {
+          expect(Condition.MAXIMIZED).toBe("maximized");
+        });
       });
     });
   });

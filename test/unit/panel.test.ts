@@ -1,6 +1,13 @@
 import { Template } from "@scalable.software/component";
 
-import { Panel, Tag, CSS, Attributes } from "@scalable.software/panel";
+import {
+  Panel,
+  Tag,
+  CSS,
+  Attributes,
+  State,
+  Condition
+} from "@scalable.software/panel";
 import { Taskbar } from "@scalable.software/taskbar";
 import { Pin } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
@@ -294,6 +301,47 @@ composition(Composition.ELEMENT, () => {
 });
 
 // State
+
+state(State.CONDITION, () => {
+  given("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(() => {
+          panel = place();
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("`panel.condition` getter exists", () => {
+          expect(panel.condition).toBeDefined();
+        });
+
+        when("`panel.condition` getter exists", () => {
+          then("`panel.condition` is `Condition.NORMAL`", () => {
+            expect(panel.condition).toBe(Condition.NORMAL);
+          });
+        });
+
+        then("`condition` attribute does not exist", () => {
+          expect(panel.hasAttribute(Attributes.CONDITION)).toBeFalse();
+        });
+      });
+    });
+  });
+});
 
 // Operation
 
