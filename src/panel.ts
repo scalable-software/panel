@@ -7,7 +7,9 @@ import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
 // Panel Metadata
-import { Tag, CSS, Attributes } from "./panel.meta.js";
+import { Tag, CSS, Attributes, Condition } from "./panel.meta.js";
+
+import { type Meta } from "./panel.meta.js";
 
 // Taskbar
 import { Taskbar } from "@scalable.software/taskbar";
@@ -29,7 +31,7 @@ export const configuration: Configuration = {
 /**
  * @category Panel
  */
-export class Panel extends Component {
+export class Panel extends Component implements Meta {
   /**
    * The tag name of the panel
    * @category Configuration
@@ -53,6 +55,14 @@ export class Panel extends Component {
   public static Template = new Template(import.meta.url);
 
   /**
+   * Internal Condition state of the component
+   * @category State
+   * @default Condition.NORMAL
+   * @hidden
+   */
+  private _condition: Condition = Condition.NORMAL;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -64,6 +74,14 @@ export class Panel extends Component {
    */
   constructor() {
     super(configuration);
+  }
+
+  /**
+   * Get the condition of the panel
+   * @category State
+   */
+  public get condition(): Condition {
+    return this._condition;
   }
 
   /**

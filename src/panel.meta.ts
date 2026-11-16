@@ -17,7 +17,9 @@ export const CSS = "panel.style.css" as const;
  * @category Metadata
  * @enum
  */
-export const Attributes = {} as const;
+export const Attributes = {
+  CONDITION: "condition"
+} as const;
 /**
  * HTML Attributes available to set
  * @category Metadata
@@ -38,6 +40,24 @@ export const State = {
  * @category Metadata
  */
 export type State = (typeof State)[keyof typeof State];
+
+/**
+ * Indicates whether the window is normal, collapsed to its taskbar, or enlarged to fill
+ * the space it has
+ * @category Metadata
+ * @enum
+ */
+export const Condition = {
+  NORMAL: "normal",
+  MINIMIZED: "minimized",
+  MAXIMIZED: "maximized"
+} as const;
+/**
+ * Indicates whether the window is normal, collapsed to its taskbar, or enlarged to fill
+ * the space it has
+ * @category Metadata
+ */
+export type Condition = (typeof Condition)[keyof typeof Condition];
 
 /**
  * @category Metadata
@@ -69,3 +89,27 @@ export const Gesture = {} as const;
  * @category Metadata
  */
 export type Gesture = (typeof Gesture)[keyof typeof Gesture];
+
+/**
+ * Every state the component must have
+ * @category Metadata
+ */
+export type States = Record<State, unknown>;
+
+/**
+ * Every operation the component must have
+ * @category Metadata
+ */
+export type Operations = Record<Operation, (...parameters: any[]) => unknown>;
+
+/**
+ * Every event the component must have a subscription property for
+ * @category Metadata
+ */
+export type Events = Record<Event, EventListener | null>;
+
+/**
+ * Everything the metadata says the component has: implemented by the component
+ * @category Metadata
+ */
+export type Meta = States & Operations & Events;
