@@ -187,6 +187,10 @@ export class Panel extends Component implements Meta {
         Visibility.VISIBLE
       );
     }
+
+    // Dispatch
+    const detail = { visibility };
+    visibility === Visibility.HIDDEN && this._dispatch(Event.ON_HIDE, detail);
   }
 
   /**
