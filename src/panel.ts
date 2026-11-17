@@ -190,6 +190,13 @@ export class Panel extends Component implements Meta {
   private _onmove: EventListener | null = null;
 
   /**
+   * onresize triggered each time the end user drags the grip to new dimensions
+   * @category Events
+   * @hidden
+   */
+  private _onresize: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -449,6 +456,17 @@ export class Panel extends Component implements Meta {
    */
   public set onmove(handler: EventListener | null) {
     this._onmove = this._subscribe(Event.ON_MOVE, this._onmove, handler);
+  }
+
+  /**
+   * Triggered each time the end user drags the grip to new dimensions.
+   * Deliberately replaces the `onresize` property every HTML element has:
+   * on the panel it subscribes to the component's own `onresize` event.
+   * @event
+   * @category Events
+   */
+  public set onresize(handler: EventListener | null) {
+    this._onresize = this._subscribe(Event.ON_RESIZE, this._onresize, handler);
   }
 
   /**
