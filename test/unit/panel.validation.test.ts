@@ -733,6 +733,136 @@ validation(Datum.DIMENSIONS, () => {
           });
         });
       });
+
+      and("`value` is dimensions without `width`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { height: 80 };
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid dimensions value: width is required'", () => {
+            expect((error as Error).message).toEqual("Invalid dimensions value: width is required");
+          });
+        });
+      });
+
+      and("`value` is dimensions whose `width` is not a number", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { width: "120", height: 80 };
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid dimensions value: width is invalid'", () => {
+            expect((error as Error).message).toEqual("Invalid dimensions value: width is invalid");
+          });
+        });
+      });
+
+      and("`value` is dimensions whose `width` is negative", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { width: -1, height: 80 };
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid dimensions value: width is invalid'", () => {
+            expect((error as Error).message).toEqual("Invalid dimensions value: width is invalid");
+          });
+        });
+      });
+
+      and("`value` is dimensions without `height`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { width: 120 };
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid dimensions value: height is required'", () => {
+            expect((error as Error).message).toEqual("Invalid dimensions value: height is required");
+          });
+        });
+      });
+
+      and("`value` is dimensions whose `height` is not a number", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { width: 120, height: NaN };
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid dimensions value: height is invalid'", () => {
+            expect((error as Error).message).toEqual("Invalid dimensions value: height is invalid");
+          });
+        });
+      });
     });
   });
 });
