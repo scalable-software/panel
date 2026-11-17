@@ -125,6 +125,18 @@ const onControl = (panel: Panel, control: Control) => {
   return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
 };
 
+// A pointer event of the end user on the grip of a panel, at a place in the viewport
+const gripPointer = (panel: Panel, type: string, x: number, y: number) =>
+  (panel.root.querySelector(".grip") as HTMLElement).dispatchEvent(
+    new PointerEvent(type, { clientX: x, clientY: y, pointerId: 1, bubbles: true })
+  );
+
+// The centre of the grip of a panel
+const onGrip = (panel: Panel) => {
+  const box = (panel.root.querySelector(".grip") as HTMLElement).getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+};
+
 // Configuration
 configuration(Configuration.TAG, () => {
   and("Panel imported", () => {
@@ -4188,6 +4200,53 @@ events(Event.ON_RESIZE, () => {
         then("`panel.onresize` setter exists", () => {
           expect(hasSetter(panel, Event.ON_RESIZE)).toBeTrue();
         });
+
+        and("`panel.onresize` setter exists", () => {
+          and("`panel.onresize` is set to a listener", () => {
+            let onresize: jasmine.Spy;
+            beforeEach(() => {
+              onresize = jasmine.createSpy("onresize");
+              panel.onresize = onresize;
+            });
+            afterEach(() => {
+              panel.onresize = null;
+            });
+
+            and("the end user presses on the grip", () => {
+              let origin: Dimensions;
+              let start: { x: number; y: number };
+              beforeEach(() => {
+                origin = { width: panel.offsetWidth, height: panel.offsetHeight };
+                start = onGrip(panel);
+                gripPointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+              });
+              afterEach(() => {
+                gripPointer(panel, Gesture.POINTERUP, start.x, start.y);
+              });
+
+              then("`panel.onresize` is not called", () => {
+                expect(onresize).not.toHaveBeenCalled();
+              });
+
+              when("the pointer moves 25 to the right and 15 down", () => {
+                beforeEach(() => {
+                  gripPointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+                });
+
+                then("`panel.onresize` is called once", () => {
+                  expect(onresize).toHaveBeenCalledTimes(1);
+                });
+
+                then("`panel.onresize` is called with the new dimensions in `detail`", () => {
+                  const message = {
+                    detail: { dimensions: { width: origin.width + 25, height: origin.height + 15 } }
+                  };
+                  expect(onresize).toHaveBeenCalledWith(jasmine.objectContaining(message));
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
@@ -4532,6 +4591,69 @@ gesture(Gesture.POINTERMOVE, () => {
                 then("`panel.position` is `{ left: 140, top: 90 }`", () => {
                   expect(panel.position).toEqual({ left: 140, top: 90 });
                 });
+              });
+            });
+          });
+        });
+
+        and("`panel.onresize` is set to a listener", () => {
+          let onresize: jasmine.Spy;
+          beforeEach(() => {
+            onresize = jasmine.createSpy("onresize");
+            panel.onresize = onresize;
+          });
+          afterEach(() => {
+            panel.onresize = null;
+          });
+
+          when("the pointer moves over the grip without a press", () => {
+            beforeEach(() => {
+              const start = onGrip(panel);
+              gripPointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+            });
+
+            then("`panel.dimensions` is `null`", () => {
+              expect(panel.dimensions).toBeNull();
+            });
+
+            then("`panel.onresize` is not called", () => {
+              expect(onresize).not.toHaveBeenCalled();
+            });
+          });
+
+          and("the end user presses on the grip", () => {
+            let start: { x: number; y: number };
+            beforeEach(() => {
+              start = onGrip(panel);
+              gripPointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+            });
+            afterEach(() => {
+              gripPointer(panel, Gesture.POINTERUP, start.x, start.y);
+            });
+
+            when("the pointer moves 25 to the right and 15 down", () => {
+              beforeEach(() => {
+                gripPointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+              });
+
+              then("`panel.dimensions` is 25 wider and 15 higher", () => {
+                expect(panel.dimensions).toEqual({ width: 505, height: 335 });
+              });
+
+              then("the lower right of the panel has followed the pointer", () => {
+                expect([panel.offsetWidth, panel.offsetHeight]).toEqual([505, 335]);
+              });
+
+              then("`panel.onresize` is called once", () => {
+                expect(onresize).toHaveBeenCalledTimes(1);
+              });
+
+              then("`panel.position` is `null` still", () => {
+                expect(panel.position).toBeNull();
+              });
+
+              then("the panel is where it was", () => {
+                expect([panel.offsetLeft, panel.offsetTop]).toEqual([40, 30]);
               });
             });
           });
