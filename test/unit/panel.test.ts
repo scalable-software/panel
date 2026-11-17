@@ -900,6 +900,16 @@ state(State.VISIBILITY, () => {
             });
           });
 
+          when("`visibility` attribute is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              panel.setAttribute(Attributes.VISIBILITY, Visibility.HIDDEN);
+            });
+
+            then("`panel.visibility` is `Visibility.HIDDEN`", () => {
+              expect(panel.visibility).toBe(Visibility.HIDDEN);
+            });
+          });
+
           when("`panel.visibility` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
