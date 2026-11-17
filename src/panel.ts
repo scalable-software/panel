@@ -634,11 +634,14 @@ export class Panel extends Component implements Meta {
   private _handleClose = () => this.close();
 
   /**
-   * Handles a press on the taskbar: grabs the panel where the pointer is
+   * Handles a press on the taskbar: grabs the panel where the pointer is, unless the
+   * panel is pinned
    * @category Gesture
    * @hidden
    */
   private _handleTaskbarPointerdown = (event: PointerEvent) => {
+    if (this._status === Status.PINNED) return;
+
     this._capture(event);
     this._grab({ left: event.clientX, top: event.clientY });
   };
