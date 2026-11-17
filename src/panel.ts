@@ -470,14 +470,16 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   protected _addEventListeners = () => {
-    const { pin, minimize, maximize, restore } = this.elements.taskbar ?? {};
-    if (!pin || !minimize || !maximize || !restore) return;
+    const { pin, minimize, maximize, restore, close } =
+      this.elements.taskbar ?? {};
+    if (!pin || !minimize || !maximize || !restore || !close) return;
 
     pin.onpin = this._handlePin;
     pin.onunpin = this._handleUnpin;
     minimize.onminimize = this._handleMinimize;
     maximize.onmaximize = this._handleMaximize;
     restore.onrestore = this._handleRestore;
+    close.onclose = this._handleClose;
   };
 
   /**
@@ -486,14 +488,16 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   protected _removeEventListeners = () => {
-    const { pin, minimize, maximize, restore } = this.elements.taskbar ?? {};
-    if (!pin || !minimize || !maximize || !restore) return;
+    const { pin, minimize, maximize, restore, close } =
+      this.elements.taskbar ?? {};
+    if (!pin || !minimize || !maximize || !restore || !close) return;
 
     pin.onpin = null;
     pin.onunpin = null;
     minimize.onminimize = null;
     maximize.onmaximize = null;
     restore.onrestore = null;
+    close.onclose = null;
   };
 
   /**
@@ -530,6 +534,13 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handleRestore = () => this.restore();
+
+  /**
+   * Handles the close control in the taskbar asking to close: closes the panel
+   * @category Gesture
+   * @hidden
+   */
+  private _handleClose = () => this.close();
 
   /**
    * Shows the controls of the taskbar that fit the condition, and hides the others
