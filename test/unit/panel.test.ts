@@ -1726,6 +1726,61 @@ events(Event.ON_PIN, () => {
                 expect(onpin).toHaveBeenCalledTimes(1);
               });
             });
+
+            when("`panel.onpin` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  panel.onpin = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid onpin value: invalid'", () => {
+                expect(error.message).toBe("Invalid onpin value: invalid");
+              });
+
+              when("`panel.status` is set to `Status.PINNED`", () => {
+                beforeEach(() => {
+                  panel.status = Status.PINNED;
+                });
+
+                then("`panel.onpin` is still called", () => {
+                  expect(onpin).toHaveBeenCalled();
+                });
+              });
+            });
+
+            and("`panel.onpin` is set to a new listener", () => {
+              let onpin2: jasmine.Spy;
+              beforeEach(() => {
+                onpin2 = jasmine.createSpy("onpin2");
+                panel.onpin = onpin2;
+              });
+              afterEach(() => {
+                panel.onpin = null;
+              });
+
+              when("`panel.status` is set to `Status.PINNED`", () => {
+                beforeEach(() => {
+                  panel.status = Status.PINNED;
+                });
+
+                then("old `panel.onpin` is not called", () => {
+                  expect(onpin).not.toHaveBeenCalled();
+                });
+
+                then("new `panel.onpin` is called", () => {
+                  expect(onpin2).toHaveBeenCalled();
+                });
+              });
+            });
           });
         });
       });
