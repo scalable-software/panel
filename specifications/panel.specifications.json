@@ -8,7 +8,11 @@
       "description": "The HTML template for the panel component.",
       "type": "template",
       "id": "window-panel",
-      "contains": ["div.window"]
+      "contains": ["style", "div.window"]
+    },
+    "style": {
+      "description": "Hides the window until the stylesheet of the panel has loaded, so that the panel is never shown before it is laid out. The stylesheet shows the window, once the controls of the taskbar have settled.",
+      "type": "style"
     },
     "div.window": {
       "description": "The surface of the window. It holds the taskbar along its top, the content below it, and the grip at its lower right.",
