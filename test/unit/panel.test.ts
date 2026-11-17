@@ -1524,6 +1524,14 @@ operation(Operation.RESTORE, () => {
               then("`panel.restore` returns nothing", () => {
                 expect(result).toBeUndefined();
               });
+
+              then("the taskbar shows `minimize`, `maximize`, `close`", () => {
+                expect(shown(panel)).toEqual([
+                  Control.MINIMIZE,
+                  Control.MAXIMIZE,
+                  Control.CLOSE
+                ]);
+              });
             });
           });
 
@@ -3019,6 +3027,30 @@ events(Event.ON_RESTORE, () => {
                 });
               });
 
+              when("invoking `panel.restore`", () => {
+                beforeEach(() => {
+                  panel.restore();
+                });
+
+                then("`panel.onrestore` is called once", () => {
+                  expect(onrestore).toHaveBeenCalledTimes(1);
+                });
+              });
+
+              when("`condition` attribute is removed", () => {
+                beforeEach(() => {
+                  panel.removeAttribute(Attributes.CONDITION);
+                });
+
+                then("`panel.condition` is `Condition.NORMAL`", () => {
+                  expect(panel.condition).toBe(Condition.NORMAL);
+                });
+
+                then("`panel.onrestore` is called once", () => {
+                  expect(onrestore).toHaveBeenCalledTimes(1);
+                });
+              });
+
               when("the end user clicks `restore` in the taskbar", () => {
                 beforeEach(() => {
                   click(panel, Control.RESTORE);
@@ -3030,6 +3062,102 @@ events(Event.ON_RESTORE, () => {
 
                 then("`panel.onrestore` is called once", () => {
                   expect(onrestore).toHaveBeenCalledTimes(1);
+                });
+
+                then("the taskbar shows `minimize`, `maximize`, `close`", () => {
+                  expect(shown(panel)).toEqual([
+                    Control.MINIMIZE,
+                    Control.MAXIMIZE,
+                    Control.CLOSE
+                  ]);
+                });
+              });
+
+              and("the panel is removed from DOM and added again", () => {
+                beforeEach(() => {
+                  panel.remove();
+                  document.body.appendChild(panel);
+                });
+
+                when("the end user clicks `restore` in the taskbar", () => {
+                  beforeEach(() => {
+                    click(panel, Control.RESTORE);
+                  });
+
+                  then("`panel.onrestore` is called once", () => {
+                    expect(onrestore).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
+
+              when("invoking `panel.restore` twice", () => {
+                beforeEach(() => {
+                  panel.restore();
+                  panel.restore();
+                });
+
+                then("`panel.condition` is `Condition.NORMAL`", () => {
+                  expect(panel.condition).toBe(Condition.NORMAL);
+                });
+
+                then("`panel.onrestore` is called once", () => {
+                  expect(onrestore).toHaveBeenCalledTimes(1);
+                });
+              });
+
+              and("the panel is minimized, and listened to again", () => {
+                let heard: jasmine.Spy;
+                let onmaximize: jasmine.Spy;
+                beforeEach(() => {
+                  panel.minimize();
+                  heard = jasmine.createSpy("heard");
+                  onmaximize = jasmine.createSpy("onmaximize");
+                  panel.onrestore = heard;
+                  panel.onmaximize = onmaximize;
+                });
+                afterEach(() => {
+                  panel.onmaximize = null;
+                });
+
+                when("invoking `panel.restore`", () => {
+                  beforeEach(() => {
+                    panel.restore();
+                  });
+
+                  then("`panel.condition` is `Condition.MAXIMIZED`", () => {
+                    expect(panel.condition).toBe(Condition.MAXIMIZED);
+                  });
+
+                  then("`panel.onmaximize` is called once", () => {
+                    expect(onmaximize).toHaveBeenCalledTimes(1);
+                  });
+
+                  then("`panel.onrestore` is not called", () => {
+                    expect(heard).not.toHaveBeenCalled();
+                  });
+                });
+              });
+
+              and("the panel is restored, and listened to again", () => {
+                let heard: jasmine.Spy;
+                beforeEach(() => {
+                  panel.restore();
+                  heard = jasmine.createSpy("heard");
+                  panel.onrestore = heard;
+                });
+
+                when("invoking `panel.restore`", () => {
+                  beforeEach(() => {
+                    panel.restore();
+                  });
+
+                  then("`panel.condition` is `Condition.NORMAL`", () => {
+                    expect(panel.condition).toBe(Condition.NORMAL);
+                  });
+
+                  then("`panel.onrestore` is not called", () => {
+                    expect(heard).not.toHaveBeenCalled();
+                  });
                 });
               });
             });
