@@ -400,6 +400,12 @@ export class Panel extends Component implements Meta {
   };
 
   /**
+   * Close the panel: tell the host, then remove the panel from the page
+   * @category Operations
+   */
+  public close = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
