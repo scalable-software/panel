@@ -3345,6 +3345,20 @@ events(Event.ON_CLOSE, () => {
                 });
               });
             });
+
+            when("the end user clicks `close` in the taskbar", () => {
+              beforeEach(() => {
+                click(panel, Control.CLOSE);
+              });
+
+              then("`panel.onclose` is called once", () => {
+                expect(onclose).toHaveBeenCalledTimes(1);
+              });
+
+              then("the panel is removed from the page", () => {
+                expect(panel.isConnected).toBeFalse();
+              });
+            });
           });
         });
       });
