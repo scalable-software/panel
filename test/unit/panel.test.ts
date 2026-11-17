@@ -888,6 +888,16 @@ state(State.VISIBILITY, () => {
               const value = panel.getAttribute(Attributes.VISIBILITY);
               expect(value).toBe(Visibility.HIDDEN);
             });
+
+            when("`panel.visibility` is set to `Visibility.VISIBLE`", () => {
+              beforeEach(() => {
+                panel.visibility = Visibility.VISIBLE;
+              });
+
+              then("`visibility` attribute does not exist", () => {
+                expect(panel.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+              });
+            });
           });
 
           when("`panel.visibility` is set to `null`", () => {
@@ -907,6 +917,61 @@ state(State.VISIBILITY, () => {
 
             then("`panel.visibility` is `Visibility.HIDDEN`", () => {
               expect(panel.visibility).toBe(Visibility.HIDDEN);
+            });
+          });
+
+          when("`visibility` attribute is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
+                panel.setAttribute(Attributes.VISIBILITY, "invalid");
+                error = reported.calls.mostRecent()?.args[0];
+              });
+            });
+
+            then("`visibility` attribute does not exist", () => {
+              expect(panel.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+            });
+
+            then("`panel.visibility` is `Visibility.VISIBLE`", () => {
+              expect(panel.visibility).toBe(Visibility.VISIBLE);
+            });
+
+            then("an error is reported", () => {
+              expect(error).toBeDefined();
+            });
+
+            then("error message contains 'Invalid visibility value: invalid'", () => {
+              expect(error.message).toBe("Invalid visibility value: invalid");
+            });
+          });
+
+          when("`visibility` attribute is set to `Visibility.VISIBLE`", () => {
+            beforeEach(() => {
+              panel.setAttribute(Attributes.VISIBILITY, Visibility.VISIBLE);
+            });
+
+            then("`visibility` attribute does not exist", () => {
+              expect(panel.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+            });
+          });
+
+          and("`panel.visibility` is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              panel.visibility = Visibility.HIDDEN;
+            });
+
+            when("`visibility` attribute is set to `invalid`", () => {
+              beforeEach(async () => {
+                await jasmine.spyOnGlobalErrorsAsync(async () => {
+                  panel.setAttribute(Attributes.VISIBILITY, "invalid");
+                });
+              });
+
+              then("`visibility` attribute is `Visibility.HIDDEN`", () => {
+                const value = panel.getAttribute(Attributes.VISIBILITY);
+                expect(value).toBe(Visibility.HIDDEN);
+              });
             });
           });
 
