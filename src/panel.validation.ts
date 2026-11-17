@@ -4,6 +4,8 @@
 
 import { Condition, Status, Visibility } from "./panel.meta.js";
 
+import { type Position } from "./panel.meta.js";
+
 /**
  * @category Validation
  */
@@ -45,5 +47,13 @@ export class Validate {
       throw new Error(`Invalid visibility value: ${value}`);
     }
     return value as Visibility;
+  };
+
+  /**
+   * Validates that the value is a position: a plain object with a `left` and a `top`.
+   * @category Validation
+   */
+  public static position = (value: unknown) => {
+    return value as Position;
   };
 }
