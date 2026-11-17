@@ -591,3 +591,44 @@ validation(Datum.POSITION, () => {
     });
   });
 });
+
+validation(Datum.DIMENSIONS, () => {
+  given("Validate imported", () => {
+    then("Validate is defined", () => {
+      expect(Validate).toBeDefined();
+    });
+
+    and("Validate is defined", () => {
+      then("`Validate.dimensions` static method exists", () => {
+        expect(Validate.dimensions).toBeDefined();
+      });
+
+      and("`value` is `{ width: 120, height: 80 }`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { width: 120, height: 80 };
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          let result: any;
+          beforeEach(() => {
+            try {
+              result = Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("no error is thrown", () => {
+            expect(error).toBeUndefined();
+          });
+
+          then("result is `value`", () => {
+            expect(result).toBe(value);
+          });
+        });
+      });
+    });
+  });
+});
