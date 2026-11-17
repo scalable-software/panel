@@ -185,7 +185,9 @@ export class Panel extends Component implements Meta {
    * Hide the panel when it is visible
    * @category Operations
    */
-  public hide = () => {};
+  public hide = () => {
+    this.visibility = Visibility.HIDDEN;
+  };
 
   /**
    * List operations to perform for selected attributes being observed in the DOM.
