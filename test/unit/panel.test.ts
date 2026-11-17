@@ -1077,6 +1077,29 @@ operation(Operation.SHOW, () => {
         then("`panel.show` method exists", () => {
           expect(panel.show).toBeDefined();
         });
+
+        and("`panel.show` method exists", () => {
+          and("`panel.visibility` is `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              panel.visibility = Visibility.HIDDEN;
+            });
+
+            when("invoking `panel.show`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = panel.show();
+              });
+
+              then("`panel.visibility` is `Visibility.VISIBLE`", () => {
+                expect(panel.visibility).toBe(Visibility.VISIBLE);
+              });
+
+              then("`panel.show` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
+        });
       });
     });
   });
