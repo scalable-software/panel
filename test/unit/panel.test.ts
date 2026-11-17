@@ -1374,6 +1374,29 @@ operation(Operation.MINIMIZE, () => {
         then("`panel.minimize` method exists", () => {
           expect(panel.minimize).toBeDefined();
         });
+
+        and("`panel.minimize` method exists", () => {
+          and("`panel.condition` is `Condition.NORMAL`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.NORMAL;
+            });
+
+            when("invoking `panel.minimize`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = panel.minimize();
+              });
+
+              then("`panel.condition` is `Condition.MINIMIZED`", () => {
+                expect(panel.condition).toBe(Condition.MINIMIZED);
+              });
+
+              then("`panel.minimize` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
+        });
       });
     });
   });
