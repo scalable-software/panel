@@ -401,12 +401,13 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   protected _addEventListeners = () => {
-    const { pin, minimize } = this.elements.taskbar ?? {};
-    if (!pin || !minimize) return;
+    const { pin, minimize, maximize } = this.elements.taskbar ?? {};
+    if (!pin || !minimize || !maximize) return;
 
     pin.onpin = this._handlePin;
     pin.onunpin = this._handleUnpin;
     minimize.onminimize = this._handleMinimize;
+    maximize.onmaximize = this._handleMaximize;
   };
 
   /**
@@ -415,12 +416,13 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   protected _removeEventListeners = () => {
-    const { pin, minimize } = this.elements.taskbar ?? {};
-    if (!pin || !minimize) return;
+    const { pin, minimize, maximize } = this.elements.taskbar ?? {};
+    if (!pin || !minimize || !maximize) return;
 
     pin.onpin = null;
     pin.onunpin = null;
     minimize.onminimize = null;
+    maximize.onmaximize = null;
   };
 
   /**
@@ -443,6 +445,13 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handleMinimize = () => this.minimize();
+
+  /**
+   * Handles the maximize control in the taskbar asking to maximize: maximizes the panel
+   * @category Gesture
+   * @hidden
+   */
+  private _handleMaximize = () => this.maximize();
 
   /**
    * Shows the controls of the taskbar that fit the condition, and hides the others
