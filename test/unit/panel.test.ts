@@ -1526,6 +1526,23 @@ operation(Operation.RESTORE, () => {
               });
             });
           });
+
+          and("a maximized panel is minimized", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MAXIMIZED;
+              panel.minimize();
+            });
+
+            when("invoking `panel.restore`", () => {
+              beforeEach(() => {
+                panel.restore();
+              });
+
+              then("`panel.condition` is `Condition.MAXIMIZED`", () => {
+                expect(panel.condition).toBe(Condition.MAXIMIZED);
+              });
+            });
+          });
         });
       });
     });
