@@ -310,11 +310,11 @@ metadata(Metadata.EVENT, () => {
       });
 
       when("Event is an object", () => {
-        then("no event name is taken by the platform", () => {
+        then("only `onclose` is taken by the platform, deliberately", () => {
           const taken = Object.values(Event).filter(
             (name) => name in HTMLElement.prototype
           );
-          expect(taken).toEqual([]);
+          expect(taken).toEqual(["onclose"]);
         });
 
         then("`Event.ON_HIDE` exists", () => {
@@ -371,6 +371,14 @@ metadata(Metadata.EVENT, () => {
 
         then("`Event.ON_RESTORE` is `onrestore`", () => {
           expect(Event.ON_RESTORE).toBe("onrestore");
+        });
+
+        then("`Event.ON_CLOSE` exists", () => {
+          expect(Event.ON_CLOSE).toBeDefined();
+        });
+
+        then("`Event.ON_CLOSE` is `onclose`", () => {
+          expect(Event.ON_CLOSE).toBe("onclose");
         });
       });
     });
