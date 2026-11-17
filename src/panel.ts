@@ -545,6 +545,10 @@ export class Panel extends Component implements Meta {
       Gesture.POINTERMOVE,
       this._handleTaskbarPointermove
     );
+    taskbar?.addEventListener(
+      Gesture.POINTERUP,
+      this._handleTaskbarPointerup
+    );
   };
 
   /**
@@ -572,6 +576,10 @@ export class Panel extends Component implements Meta {
     taskbar?.removeEventListener(
       Gesture.POINTERMOVE,
       this._handleTaskbarPointermove
+    );
+    taskbar?.removeEventListener(
+      Gesture.POINTERUP,
+      this._handleTaskbarPointerup
     );
   };
 
@@ -636,6 +644,13 @@ export class Panel extends Component implements Meta {
     this._grabbed && this._drag({ left: event.clientX, top: event.clientY });
 
   /**
+   * Handles the pointer being lifted from the taskbar: releases the panel
+   * @category Gesture
+   * @hidden
+   */
+  private _handleTaskbarPointerup = () => this._release();
+
+  /**
    * Keeps the pointer's events coming to the taskbar until the press ends, also when the
    * pointer leaves it. A pointer that is not pressed cannot be kept.
    * @category Gesture
@@ -678,6 +693,15 @@ export class Panel extends Component implements Meta {
 
     const detail = { position: this.position };
     this._dispatch(Event.ON_MOVE, detail);
+  };
+
+  /**
+   * Releases the panel: the drag ends where the panel is
+   * @category Operations
+   * @hidden
+   */
+  private _release = () => {
+    this._grabbed = null;
   };
 
   /**
