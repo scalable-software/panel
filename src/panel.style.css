@@ -21,7 +21,7 @@
 ======================= */
 @media (prefers-color-scheme: dark) {
   :host {
-    --window-background-color: #1e1e1e;
+    --window-background-color: rgba(30, 30, 30, 0.45);
     --window-border-color: #3c3c3c;
     --window-text-color: #f0f0f0;
     --grip-color: #6a6a6a;
