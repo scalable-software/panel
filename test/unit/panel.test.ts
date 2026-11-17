@@ -13,7 +13,8 @@ import {
   Event,
   Datum,
   type Position,
-  Gesture
+  Gesture,
+  type Dimensions
 } from "@scalable.software/panel";
 import {
   Taskbar,
@@ -1412,6 +1413,27 @@ data(Datum.DIMENSIONS, () => {
 
           then("its `dimensions` is `null`", () => {
             expect(apart.dimensions).toBeNull();
+          });
+        });
+
+        then("`panel.dimensions` setter exists", () => {
+          expect(hasSetter(panel, "dimensions")).toBeTrue();
+        });
+
+        and("`panel.dimensions` setter exists, and `size` is `{ width: 120, height: 80 }`", () => {
+          let size: Dimensions;
+          beforeEach(() => {
+            size = { width: 120, height: 80 };
+          });
+
+          when("`panel.dimensions` is set to `size`", () => {
+            beforeEach(() => {
+              panel.dimensions = size;
+            });
+
+            then("`panel.dimensions` equals `size`", () => {
+              expect(panel.dimensions).toEqual({ width: 120, height: 80 });
+            });
           });
         });
       });
