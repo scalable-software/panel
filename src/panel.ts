@@ -283,11 +283,15 @@ export class Panel extends Component implements Meta {
   }
 
   /**
-   * Get the position of the panel: `null` until it is moved or given a position
+   * Get and set the position of the panel: `null` until it is moved or given a position
    * @category Data
    */
   public get position(): Position | null {
     return this._position;
+  }
+  public set position(position: Position) {
+    // Mutate
+    this._position = position;
   }
 
   /**
