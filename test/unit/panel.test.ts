@@ -66,6 +66,12 @@ const pinOf = (panel: Panel) =>
 const clickPin = (panel: Panel) =>
   (pinOf(panel).root.querySelector(".icon") as HTMLElement).click();
 
+// A click by the end user on a window control in the taskbar of a panel
+const click = (panel: Panel, control: Exclude<Control, typeof Control.PIN>) => {
+  const taskbar = panel.root.querySelector(Taskbar.Tag) as Taskbar;
+  (taskbar[control]?.root.querySelector(".icon") as HTMLElement).click();
+};
+
 // Configuration
 configuration(Configuration.TAG, () => {
   and("Panel imported", () => {
@@ -2263,6 +2269,20 @@ events(Event.ON_MINIMIZE, () => {
                 then("new `panel.onminimize` is called", () => {
                   expect(onminimize2).toHaveBeenCalled();
                 });
+              });
+            });
+
+            when("the end user clicks `minimize` in the taskbar", () => {
+              beforeEach(() => {
+                click(panel, Control.MINIMIZE);
+              });
+
+              then("`panel.condition` is `Condition.MINIMIZED`", () => {
+                expect(panel.condition).toBe(Condition.MINIMIZED);
+              });
+
+              then("`panel.onminimize` is called once", () => {
+                expect(onminimize).toHaveBeenCalledTimes(1);
               });
             });
           });
