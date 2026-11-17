@@ -4734,6 +4734,37 @@ gesture(Gesture.POINTERMOVE, () => {
                 expect([panel.offsetLeft, panel.offsetTop]).toEqual([40, 30]);
               });
             });
+
+            when("the pointer moves 1000 to the left and 1000 up", () => {
+              beforeEach(() => {
+                gripPointer(panel, Gesture.POINTERMOVE, start.x - 1000, start.y - 1000);
+              });
+
+              then("the panel is still as high as its taskbar, and as wide as it needs", () => {
+                const taskbar = (panel.root.querySelector(Taskbar.Tag) as Taskbar).getBoundingClientRect();
+                const box = panel.getBoundingClientRect();
+                expect(taskbar.height).toBeGreaterThan(0);
+                expect(box.bottom).toBeGreaterThanOrEqual(taskbar.bottom);
+                expect(box.width).toBeGreaterThanOrEqual(160);
+              });
+
+              then("`panel.dimensions` holds the size the panel is shown at", () => {
+                expect(panel.dimensions).toEqual({
+                  width: panel.offsetWidth,
+                  height: panel.offsetHeight
+                });
+              });
+
+              when("the pointer moves back to where the press started", () => {
+                beforeEach(() => {
+                  gripPointer(panel, Gesture.POINTERMOVE, start.x, start.y);
+                });
+
+                then("`panel.dimensions` is `{ width: 480, height: 320 }`", () => {
+                  expect(panel.dimensions).toEqual({ width: 480, height: 320 });
+                });
+              });
+            });
           });
         });
       });
