@@ -111,3 +111,8 @@ task-bar {
     transparent 80%
   );
 }
+
+:host([condition="minimized"]) .grip,
+:host([condition="maximized"]) .grip {
+  display: none;
+}
