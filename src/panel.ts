@@ -74,6 +74,14 @@ export class Panel extends Component implements Meta {
   private _condition: Condition = Condition.NORMAL;
 
   /**
+   * The condition the panel had when it was minimized: the one `restore` returns it to
+   * @category State
+   * @default Condition.NORMAL
+   * @hidden
+   */
+  private _former: Condition = Condition.NORMAL;
+
+  /**
    * Internal Status state of the component
    * @category State
    * @default Status.UNPINNED
@@ -164,6 +172,7 @@ export class Panel extends Component implements Meta {
       if (this._condition === condition) return;
 
       // Mutate
+      if (condition === Condition.MINIMIZED) this._former = this._condition;
       this._condition = condition;
 
       // Synchronize
@@ -365,7 +374,8 @@ export class Panel extends Component implements Meta {
    * @category Operations
    */
   public restore = () => {
-    this.condition = Condition.NORMAL;
+    this.condition =
+      this._condition === Condition.MINIMIZED ? this._former : Condition.NORMAL;
   };
 
   /**
