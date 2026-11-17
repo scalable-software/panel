@@ -1,6 +1,6 @@
 {
   "name": "@scalable.software/panel",
-  "version": "0.4.0",
+  "version": "0.1.0",
   "description": "A theme-aware web component that holds content in a window under a taskbar: the end user moves, resizes, pins, minimizes, maximizes, restores and closes it.",
   "keywords": [
     "web component"
