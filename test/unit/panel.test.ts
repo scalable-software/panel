@@ -2566,6 +2566,20 @@ events(Event.ON_MAXIMIZE, () => {
                 });
               });
             });
+
+            when("the end user clicks `maximize` in the taskbar", () => {
+              beforeEach(() => {
+                click(panel, Control.MAXIMIZE);
+              });
+
+              then("`panel.condition` is `Condition.MAXIMIZED`", () => {
+                expect(panel.condition).toBe(Condition.MAXIMIZED);
+              });
+
+              then("`panel.onmaximize` is called once", () => {
+                expect(onmaximize).toHaveBeenCalledTimes(1);
+              });
+            });
           });
         });
       });
