@@ -17,7 +17,7 @@
       "contains": ["task-bar", "div.content"]
     },
     "task-bar": {
-      "description": "The taskbar of the panel: the `task-bar` component, which brings the pin and the minimize, maximize, restore and close controls. The host defines the five controls, then `task-bar`, and loads their templates, before the panel. Cached as `elements.taskbar`: the panel listens to each control through it, with the control's own `on…` properties, so that connecting the panel again never subscribes twice, and hides the controls that do not fit its `condition`. The pin's `onpin` leads to the panel's `pin`, and its `onunpin` to `unpin`: the end user pins and unpins the panel by clicking the pin. The minimize control's `onminimize` leads to the panel's `minimize`, and the maximize control's `onmaximize` to `maximize`.",
+      "description": "The taskbar of the panel: the `task-bar` component, which brings the pin and the minimize, maximize, restore and close controls. The host defines the five controls, then `task-bar`, and loads their templates, before the panel. Cached as `elements.taskbar`: the panel listens to each control through it, with the control's own `on…` properties, so that connecting the panel again never subscribes twice, and hides the controls that do not fit its `condition`. The pin's `onpin` leads to the panel's `pin`, and its `onunpin` to `unpin`: the end user pins and unpins the panel by clicking the pin. The minimize control's `onminimize` leads to the panel's `minimize`, the maximize control's `onmaximize` to `maximize`, and the restore control's `onrestore` to `restore`.",
       "type": "task-bar",
       "cached": true,
       "contains": ["slot.title"]
@@ -101,6 +101,11 @@
     },
     "maximize": {
       "description": "Sets `condition` to `maximized`, and enlarges the panel to fill the space it has.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "restore": {
+      "description": "Returns the panel to how it was. A `maximized` panel becomes `normal`. A `minimized` panel returns to the `condition` it had when it was minimized, `normal` or `maximized`; a panel that was `minimized` from the start becomes `normal`. A `normal` panel stays as it is.",
       "parameters": [],
       "returns": "void"
     }
@@ -197,6 +202,22 @@
             "condition": {
               "type": "Condition",
               "values": ["maximized"]
+            }
+          }
+        }
+      ]
+    },
+    "onrestore": {
+      "description": "Dispatched when `condition` changes from `minimized` or `maximized` to `normal`.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new condition of the panel.",
+          "properties": {
+            "condition": {
+              "type": "Condition",
+              "values": ["normal"]
             }
           }
         }
