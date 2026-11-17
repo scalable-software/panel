@@ -300,6 +300,7 @@ export class Panel extends Component implements Meta {
     fits(this._condition !== Condition.MINIMIZED, taskbar?.minimize);
     fits(this._condition !== Condition.MAXIMIZED, taskbar?.maximize);
     fits(this._condition !== Condition.NORMAL, taskbar?.restore);
+    fits(this._condition !== Condition.MAXIMIZED, taskbar?.pin);
   };
 
   /**
