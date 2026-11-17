@@ -8,7 +8,8 @@ import {
   State,
   Condition,
   Status,
-  Visibility
+  Visibility,
+  Operation
 } from "@scalable.software/panel";
 import {
   Taskbar,
@@ -1001,6 +1002,37 @@ state(State.VISIBILITY, () => {
 });
 
 // Operation
+
+operation(Operation.HIDE, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(() => {
+          panel = place();
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("`panel.hide` method exists", () => {
+          expect(panel.hide).toBeDefined();
+        });
+      });
+    });
+  });
+});
 
 // Event
 
