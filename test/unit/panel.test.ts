@@ -883,6 +883,11 @@ state(State.VISIBILITY, () => {
             then("`panel.visibility` is `Visibility.HIDDEN`", () => {
               expect(panel.visibility).toBe(Visibility.HIDDEN);
             });
+
+            then("panel `visibility` attribute is `Visibility.HIDDEN`", () => {
+              const value = panel.getAttribute(Attributes.VISIBILITY);
+              expect(value).toBe(Visibility.HIDDEN);
+            });
           });
 
           when("`panel.visibility` is set to `null`", () => {
