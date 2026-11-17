@@ -58,6 +58,13 @@ export class Validate {
     if (typeof value !== "object" || value === null || Array.isArray(value))
       throw new Error(`Invalid position value: ${value}`);
 
+    const { left, top, ...rest } = value as Record<string, unknown>;
+
+    // Undeclared fields
+    const undeclared = Object.keys(rest)[0];
+    if (undeclared)
+      throw new Error(`Invalid position value: ${undeclared} is not declared`);
+
     return value as Position;
   };
 }
