@@ -88,3 +88,15 @@ task-bar {
   min-height: 0;
   overflow: auto;
 }
+/* =======================
+  Grip Styles
+======================= */
+.grip {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  touch-action: none;
+}
