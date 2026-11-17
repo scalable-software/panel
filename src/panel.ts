@@ -14,7 +14,8 @@ import {
   Condition,
   Status,
   Visibility,
-  Event
+  Event,
+  Gesture
 } from "./panel.meta.js";
 
 import { type Meta, type Position } from "./panel.meta.js";
@@ -104,6 +105,14 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _position: Position | null = null;
+
+  /**
+   * The drag under way: where the pointer was pressed, and where the panel was then.
+   * `null` while the panel is not being dragged
+   * @category Gesture
+   * @hidden
+   */
+  private _grabbed: { pointer: Position; origin: Position } | null = null;
 
   /**
    * onhide triggered when panel visibility changes to hidden
@@ -526,6 +535,16 @@ export class Panel extends Component implements Meta {
     maximize.onmaximize = this._handleMaximize;
     restore.onrestore = this._handleRestore;
     close.onclose = this._handleClose;
+
+    const taskbar = this.elements.taskbar;
+    taskbar?.addEventListener(
+      Gesture.POINTERDOWN,
+      this._handleTaskbarPointerdown
+    );
+    taskbar?.addEventListener(
+      Gesture.POINTERMOVE,
+      this._handleTaskbarPointermove
+    );
   };
 
   /**
@@ -544,6 +563,16 @@ export class Panel extends Component implements Meta {
     maximize.onmaximize = null;
     restore.onrestore = null;
     close.onclose = null;
+
+    const taskbar = this.elements.taskbar;
+    taskbar?.removeEventListener(
+      Gesture.POINTERDOWN,
+      this._handleTaskbarPointerdown
+    );
+    taskbar?.removeEventListener(
+      Gesture.POINTERMOVE,
+      this._handleTaskbarPointermove
+    );
   };
 
   /**
@@ -587,6 +616,69 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handleClose = () => this.close();
+
+  /**
+   * Handles a press on the taskbar: grabs the panel where the pointer is
+   * @category Gesture
+   * @hidden
+   */
+  private _handleTaskbarPointerdown = (event: PointerEvent) => {
+    this._capture(event);
+    this._grab({ left: event.clientX, top: event.clientY });
+  };
+
+  /**
+   * Handles the pointer moving over the taskbar: drags a grabbed panel along
+   * @category Gesture
+   * @hidden
+   */
+  private _handleTaskbarPointermove = (event: PointerEvent) =>
+    this._grabbed && this._drag({ left: event.clientX, top: event.clientY });
+
+  /**
+   * Keeps the pointer's events coming to the taskbar until the press ends, also when the
+   * pointer leaves it. A pointer that is not pressed cannot be kept.
+   * @category Gesture
+   * @hidden
+   */
+  private _capture = (event: PointerEvent) => {
+    try {
+      this.elements.taskbar?.setPointerCapture(event.pointerId);
+    } catch {
+      // the pointer is not pressed: its events come to the taskbar while it is over it
+    }
+  };
+
+  /**
+   * Grabs the panel: remembers where the pointer is, and where the panel is
+   * @category Operations
+   * @hidden
+   */
+  private _grab = (pointer: Position) => {
+    const origin = this._position ?? {
+      left: this.offsetLeft,
+      top: this.offsetTop
+    };
+    this._grabbed = { pointer, origin };
+  };
+
+  /**
+   * Drags the grabbed panel: moves it as far as the pointer has moved since it was grabbed
+   * @category Operations
+   * @hidden
+   */
+  private _drag = (pointer: Position) => {
+    if (!this._grabbed) return;
+
+    const { pointer: from, origin } = this._grabbed;
+    this.position = {
+      left: origin.left + pointer.left - from.left,
+      top: origin.top + pointer.top - from.top
+    };
+
+    const detail = { position: this.position };
+    this._dispatch(Event.ON_MOVE, detail);
+  };
 
   /**
    * Places the panel at its position, in the element it is positioned in.
