@@ -623,6 +623,7 @@ export class Panel extends Component implements Meta {
     grip?.addEventListener(Gesture.POINTERDOWN, this._handleGripPointerdown);
     grip?.addEventListener(Gesture.POINTERMOVE, this._handleGripPointermove);
     grip?.addEventListener(Gesture.POINTERUP, this._handleGripPointerup);
+    grip?.addEventListener(Gesture.POINTERCANCEL, this._handleGripPointercancel);
   };
 
   /**
@@ -664,6 +665,7 @@ export class Panel extends Component implements Meta {
     grip?.removeEventListener(Gesture.POINTERDOWN, this._handleGripPointerdown);
     grip?.removeEventListener(Gesture.POINTERMOVE, this._handleGripPointermove);
     grip?.removeEventListener(Gesture.POINTERUP, this._handleGripPointerup);
+    grip?.removeEventListener(Gesture.POINTERCANCEL, this._handleGripPointercancel);
   };
 
   /**
@@ -769,6 +771,13 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handleGripPointerup = () => this._release();
+
+  /**
+   * Handles the browser ending the press on the grip: releases the panel
+   * @category Gesture
+   * @hidden
+   */
+  private _handleGripPointercancel = () => this._release();
 
   /**
    * Whether a pointer event is on one of the controls of the taskbar. The taskbar hides
