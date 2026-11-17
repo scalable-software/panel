@@ -30,6 +30,8 @@ building the window, or placing and wiring its controls, itself.
   application, and reporting it to the host application.
 - Closing the window, by the end user or the host application: telling the host application,
   then removing the window from the page.
+- Moving the window by dragging its bar, unless it is pinned or enlarged, and reporting its
+  new position to the host application.
 - Consistency with the device colour theme.
 
 **Out of scope**
@@ -37,6 +39,7 @@ building the window, or placing and wiring its controls, itself.
 - Creating a window while the page runs, and bringing back a window that was closed — the
   window is part of the page when the page loads.
 - Stacking several windows, and deciding which one is in front.
+- Keeping a window within the visible area: the end user may drag it partly out of view.
 - Remembering where a window was between visits.
 - Application-level theme switching; the window follows the device colour scheme only.
 - The content itself: the window neither listens to it nor changes it.
@@ -100,3 +103,11 @@ takes room on my screen.
 
 As a **host application**, I want to be told when the window closes, so that I can clean up
 what belonged to it.
+
+### STORY: Move
+
+As an **end user**, I want to drag a window by its taskbar, so that I can place it where it
+suits my work.
+
+As a **host application**, I want to be told when the window has moved, so that I can act on
+its new position.
