@@ -339,6 +339,7 @@ export class Panel extends Component implements Meta {
     if (!pin) return;
 
     pin.onpin = this._handlePin;
+    pin.onunpin = this._handleUnpin;
   };
 
   /**
@@ -351,6 +352,7 @@ export class Panel extends Component implements Meta {
     if (!pin) return;
 
     pin.onpin = null;
+    pin.onunpin = null;
   };
 
   /**
@@ -359,6 +361,13 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handlePin = () => this.pin();
+
+  /**
+   * Handles the pin in the taskbar reporting that it is unpinned: unpins the panel
+   * @category Gesture
+   * @hidden
+   */
+  private _handleUnpin = () => this.unpin();
 
   /**
    * Shows the controls of the taskbar that fit the condition, and hides the others
