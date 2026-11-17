@@ -54,6 +54,10 @@ export class Validate {
    * @category Validation
    */
   public static position = (value: unknown) => {
+    // Structure
+    if (typeof value !== "object" || value === null || Array.isArray(value))
+      throw new Error(`Invalid position value: ${value}`);
+
     return value as Position;
   };
 }
