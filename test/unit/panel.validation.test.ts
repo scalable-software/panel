@@ -1,4 +1,4 @@
-import { State, Condition, Status } from "@scalable.software/panel";
+import { State, Condition, Status, Visibility } from "@scalable.software/panel";
 
 import { Validate } from "@scalable.software/panel";
 
@@ -214,6 +214,74 @@ validation(State.STATUS, () => {
             expect((error as Error).message).toEqual(
               "Invalid status value: invalid"
             );
+          });
+        });
+      });
+    });
+  });
+});
+
+validation(State.VISIBILITY, () => {
+  given("Validate imported", () => {
+    then("Validate is defined", () => {
+      expect(Validate).toBeDefined();
+    });
+
+    and("Validate is defined", () => {
+      then("`Validate.visibility` static method exists", () => {
+        expect(Validate.visibility).toBeDefined();
+      });
+
+      and("`value` is `Visibility.VISIBLE`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = Visibility.VISIBLE;
+        });
+
+        when("`Validate.visibility(value)` is called", () => {
+          let error: unknown | undefined;
+          let result: any;
+          beforeEach(() => {
+            try {
+              result = Validate.visibility(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("no error is thrown", () => {
+            expect(error).toBeUndefined();
+          });
+
+          then("result is `Visibility.VISIBLE`", () => {
+            expect(result).toBe(Visibility.VISIBLE);
+          });
+        });
+      });
+
+      and("`value` is `Visibility.HIDDEN`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = Visibility.HIDDEN;
+        });
+
+        when("`Validate.visibility(value)` is called", () => {
+          let error: unknown | undefined;
+          let result: any;
+          beforeEach(() => {
+            try {
+              result = Validate.visibility(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("no error is thrown", () => {
+            expect(error).toBeUndefined();
+          });
+
+          then("result is `Visibility.HIDDEN`", () => {
+            expect(result).toBe(Visibility.HIDDEN);
           });
         });
       });
