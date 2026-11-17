@@ -2199,6 +2199,17 @@ events(Event.ON_MINIMIZE, () => {
                 }
               );
             });
+
+            when("`panel.condition` is set to `Condition.MINIMIZED` twice", () => {
+              beforeEach(() => {
+                panel.condition = Condition.MINIMIZED;
+                panel.condition = Condition.MINIMIZED;
+              });
+
+              then("`panel.onminimize` is called once", () => {
+                expect(onminimize).toHaveBeenCalledTimes(1);
+              });
+            });
           });
         });
       });
