@@ -354,6 +354,84 @@ validation(Datum.POSITION, () => {
           });
         });
       });
+
+      and("`value` is `invalid`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = "invalid";
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid position value: invalid'", () => {
+            expect((error as Error).message).toEqual("Invalid position value: invalid");
+          });
+        });
+      });
+
+      and("`value` is `null`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = null;
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid position value: null'", () => {
+            expect((error as Error).message).toEqual("Invalid position value: null");
+          });
+        });
+      });
+
+      and("`value` is a list", () => {
+        let value: any;
+        beforeEach(() => {
+          value = [120, 80];
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid position value: 120,80'", () => {
+            expect((error as Error).message).toEqual("Invalid position value: 120,80");
+          });
+        });
+      });
     });
   });
 });
