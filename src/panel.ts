@@ -188,6 +188,7 @@ export class Panel extends Component implements Meta {
     // Dispatch
     const detail = { status };
     status === Status.PINNED && this._dispatch(Event.ON_PIN, detail);
+    status === Status.UNPINNED && this._dispatch(Event.ON_UNPIN, detail);
   }
 
   /**
