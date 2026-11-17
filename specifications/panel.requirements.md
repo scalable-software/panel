@@ -32,6 +32,8 @@ building the window, or placing and wiring its controls, itself.
   then removing the window from the page.
 - Moving the window by dragging its bar, unless it is pinned or enlarged, and reporting its
   new position to the host application.
+- Resizing the window with a grip at its lower right, while it is neither collapsed nor
+  enlarged, and reporting its new dimensions to the host application.
 - Consistency with the device colour theme.
 
 **Out of scope**
@@ -111,3 +113,11 @@ suits my work.
 
 As a **host application**, I want to be told when the window has moved, so that I can act on
 its new position.
+
+### STORY: Resize
+
+As an **end user**, I want to resize a window with a grip at its lower right, so that it
+shows as much of the content as I need.
+
+As a **host application**, I want to be told when the window has been resized, so that I can
+act on its new dimensions.
