@@ -1814,6 +1814,47 @@ events(Event.ON_UNPIN, () => {
         then("`panel.onunpin` setter exists", () => {
           expect(hasSetter(panel, Event.ON_UNPIN)).toBeTrue();
         });
+
+        and("`panel.onunpin` setter exists", () => {
+          and("`panel.status` is set to `Status.PINNED`", () => {
+            beforeEach(() => {
+              panel.status = Status.PINNED;
+            });
+
+            and("`panel.onunpin` is set to a listener", () => {
+              let onunpin: jasmine.Spy;
+              beforeEach(() => {
+                onunpin = jasmine.createSpy("onunpin");
+                panel.onunpin = onunpin;
+              });
+              afterEach(() => {
+                panel.onunpin = null;
+              });
+
+              when("`panel.status` is set to `Status.UNPINNED`", () => {
+                beforeEach(() => {
+                  panel.status = Status.UNPINNED;
+                });
+
+                then("`panel.onunpin` is called", () => {
+                  expect(onunpin).toHaveBeenCalled();
+                });
+
+                then(
+                  "`panel.onunpin` is called with `{ detail: { status: Status.UNPINNED } }`",
+                  () => {
+                    const message = {
+                      detail: { status: Status.UNPINNED }
+                    };
+                    expect(onunpin).toHaveBeenCalledWith(
+                      jasmine.objectContaining(message)
+                    );
+                  }
+                );
+              });
+            });
+          });
+        });
       });
     });
   });
