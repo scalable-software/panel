@@ -3018,6 +3018,20 @@ events(Event.ON_RESTORE, () => {
                   });
                 });
               });
+
+              when("the end user clicks `restore` in the taskbar", () => {
+                beforeEach(() => {
+                  click(panel, Control.RESTORE);
+                });
+
+                then("`panel.condition` is `Condition.NORMAL`", () => {
+                  expect(panel.condition).toBe(Condition.NORMAL);
+                });
+
+                then("`panel.onrestore` is called once", () => {
+                  expect(onrestore).toHaveBeenCalledTimes(1);
+                });
+              });
             });
           });
         });
