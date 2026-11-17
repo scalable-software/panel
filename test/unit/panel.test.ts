@@ -1228,6 +1228,37 @@ operation(Operation.SHOW, () => {
   });
 });
 
+operation(Operation.PIN, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(() => {
+          panel = place();
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("`panel.pin` method exists", () => {
+          expect(panel.pin).toBeDefined();
+        });
+      });
+    });
+  });
+});
+
 // Event
 
 events(Event.ON_HIDE, () => {
