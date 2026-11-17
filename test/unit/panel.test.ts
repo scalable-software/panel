@@ -4251,6 +4251,105 @@ events(Event.ON_RESIZE, () => {
                   };
                   expect(onresize).toHaveBeenCalledWith(jasmine.objectContaining(message));
                 });
+
+                then("the dimensions in `detail` is `panel.dimensions` itself, and frozen", () => {
+                  const { detail } = onresize.calls.mostRecent().args[0];
+                  expect(detail.dimensions).toBe(panel.dimensions);
+                  expect(Object.isFrozen(detail.dimensions)).toBeTrue();
+                });
+
+                when("the pointer moves 25 further to the right", () => {
+                  beforeEach(() => {
+                    gripPointer(panel, Gesture.POINTERMOVE, start.x + 50, start.y + 15);
+                  });
+
+                  then("`panel.onresize` is called a second time", () => {
+                    expect(onresize).toHaveBeenCalledTimes(2);
+                  });
+                });
+              });
+            });
+
+            when("`panel.dimensions` is set to `{ width: 120, height: 80 }`", () => {
+              beforeEach(() => {
+                panel.dimensions = { width: 120, height: 80 };
+              });
+
+              then("`panel.onresize` is not called", () => {
+                expect(onresize).not.toHaveBeenCalled();
+              });
+            });
+
+            when("`panel.onresize` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  panel.onresize = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid onresize value: invalid'", () => {
+                expect(error.message).toBe("Invalid onresize value: invalid");
+              });
+
+              when("the end user drags the grip", () => {
+                beforeEach(() => {
+                  stretch(panel, 25, 15);
+                });
+
+                then("`panel.onresize` is still called", () => {
+                  expect(onresize).toHaveBeenCalled();
+                });
+              });
+            });
+
+            and("`panel.onresize` is set to a new listener", () => {
+              let onresize2: jasmine.Spy;
+              beforeEach(() => {
+                onresize2 = jasmine.createSpy("onresize2");
+                panel.onresize = onresize2;
+              });
+              afterEach(() => {
+                panel.onresize = null;
+              });
+
+              when("the end user drags the grip", () => {
+                beforeEach(() => {
+                  stretch(panel, 25, 15);
+                });
+
+                then("old `panel.onresize` is not called", () => {
+                  expect(onresize).not.toHaveBeenCalled();
+                });
+
+                then("new `panel.onresize` is called", () => {
+                  expect(onresize2).toHaveBeenCalled();
+                });
+              });
+            });
+
+            and("the panel is removed from DOM and added again", () => {
+              beforeEach(async () => {
+                panel.remove();
+                document.body.appendChild(panel);
+                await styled(panel);
+              });
+
+              when("the end user drags the grip", () => {
+                beforeEach(() => {
+                  stretch(panel, 25, 15);
+                });
+
+                then("`panel.onresize` is called once", () => {
+                  expect(onresize).toHaveBeenCalledTimes(1);
+                });
               });
             });
           });
@@ -4548,6 +4647,26 @@ gesture(Gesture.POINTERDOWN, () => {
               });
             });
           });
+
+          and("`panel.status` is `Status.PINNED`", () => {
+            beforeEach(() => {
+              panel.status = Status.PINNED;
+            });
+
+            when("the end user drags the grip 25 to the right and 15 down", () => {
+              beforeEach(() => {
+                stretch(panel, 25, 15);
+              });
+
+              then("`panel.dimensions` is 25 wider and 15 higher", () => {
+                expect(panel.dimensions).toEqual({ width: 505, height: 335 });
+              });
+
+              then("`panel.onresize` is called once", () => {
+                expect(onresize).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
         });
       });
     });
@@ -4733,6 +4852,16 @@ gesture(Gesture.POINTERMOVE, () => {
               then("the panel is where it was", () => {
                 expect([panel.offsetLeft, panel.offsetTop]).toEqual([40, 30]);
               });
+
+              when("the pointer moves 40 to the left and 30 up from where the press started", () => {
+                beforeEach(() => {
+                  gripPointer(panel, Gesture.POINTERMOVE, start.x - 40, start.y - 30);
+                });
+
+                then("`panel.dimensions` is 40 narrower and 30 lower than it started", () => {
+                  expect(panel.dimensions).toEqual({ width: 440, height: 290 });
+                });
+              });
             });
 
             when("the pointer moves 1000 to the left and 1000 up", () => {
@@ -4763,6 +4892,52 @@ gesture(Gesture.POINTERMOVE, () => {
                 then("`panel.dimensions` is `{ width: 480, height: 320 }`", () => {
                   expect(panel.dimensions).toEqual({ width: 480, height: 320 });
                 });
+              });
+            });
+          });
+
+          and("`panel.dimensions` is set to `{ width: 400, height: 300 }`", () => {
+            beforeEach(() => {
+              panel.dimensions = { width: 400, height: 300 };
+            });
+
+            when("the end user drags the grip 25 to the right and 15 down", () => {
+              beforeEach(() => {
+                stretch(panel, 25, 15);
+              });
+
+              then("`panel.dimensions` is `{ width: 425, height: 315 }`", () => {
+                expect(panel.dimensions).toEqual({ width: 425, height: 315 });
+              });
+
+              when("the end user drags the grip 5 to the left and 5 up", () => {
+                beforeEach(() => {
+                  stretch(panel, -5, -5);
+                });
+
+                then("`panel.dimensions` is `{ width: 420, height: 310 }`", () => {
+                  expect(panel.dimensions).toEqual({ width: 420, height: 310 });
+                });
+              });
+            });
+          });
+
+          and("the end user has moved the panel by its taskbar", () => {
+            beforeEach(() => {
+              drag(panel, 25, 15);
+            });
+
+            when("the end user drags the grip 25 to the right and 15 down", () => {
+              beforeEach(() => {
+                stretch(panel, 25, 15);
+              });
+
+              then("`panel.position` is as the move left it", () => {
+                expect(panel.position).toEqual({ left: 65, top: 45 });
+              });
+
+              then("`panel.dimensions` is 25 wider and 15 higher", () => {
+                expect(panel.dimensions).toEqual({ width: 505, height: 335 });
               });
             });
           });
