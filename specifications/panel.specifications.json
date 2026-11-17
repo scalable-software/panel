@@ -17,7 +17,7 @@
       "contains": ["task-bar", "div.content"]
     },
     "task-bar": {
-      "description": "The taskbar of the panel: the `task-bar` component, which brings the pin and the minimize, maximize, restore and close controls. The host defines the five controls, then `task-bar`, and loads their templates, before the panel. Cached as `elements.taskbar`: the panel listens to each control through it, with the control's own `on…` properties, so that connecting the panel again never subscribes twice, and hides the controls that do not fit its `condition`. The pin's `onpin` leads to the panel's `pin`, and its `onunpin` to `unpin`: the end user pins and unpins the panel by clicking the pin.",
+      "description": "The taskbar of the panel: the `task-bar` component, which brings the pin and the minimize, maximize, restore and close controls. The host defines the five controls, then `task-bar`, and loads their templates, before the panel. Cached as `elements.taskbar`: the panel listens to each control through it, with the control's own `on…` properties, so that connecting the panel again never subscribes twice, and hides the controls that do not fit its `condition`. The pin's `onpin` leads to the panel's `pin`, and its `onunpin` to `unpin`: the end user pins and unpins the panel by clicking the pin. The minimize control's `onminimize` leads to the panel's `minimize`.",
       "type": "task-bar",
       "cached": true,
       "contains": ["slot.title"]
@@ -31,7 +31,7 @@
       }
     },
     "div.content": {
-      "description": "The region below the taskbar. It holds the slot for the host's content.",
+      "description": "The region below the taskbar. It holds the slot for the host's content. It is not shown while the panel is `minimized`.",
       "type": "div",
       "class": "content",
       "contains": ["slot"]
@@ -44,7 +44,7 @@
   "States": {
     "condition": {
       "type": "Condition",
-      "description": "Indicates whether the window is normal, collapsed to its taskbar, or enlarged to fill the space it has. It decides which controls the taskbar shows: minimize and maximize while `normal`; restore and maximize while `minimized`; minimize and restore while `maximized`. Close is always shown. The pin is hidden while `maximized`, and shown otherwise, with the `status` the panel holds.",
+      "description": "Indicates whether the window is normal, collapsed to its taskbar, or enlarged to fill the space it has. While `minimized`, only the taskbar is shown, where the panel sits; the panel keeps the position and the dimensions it had. It decides which controls the taskbar shows: minimize and maximize while `normal`; restore and maximize while `minimized`; minimize and restore while `maximized`. Close is always shown. The pin is hidden while `maximized`, and shown otherwise, with the `status` the panel holds.",
       "values": ["normal", "minimized", "maximized"],
       "default": "normal",
       "readonly": false,
@@ -91,6 +91,11 @@
     },
     "unpin": {
       "description": "Sets `status` to `unpinned`, and the pin in the taskbar shows unpinned.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "minimize": {
+      "description": "Sets `condition` to `minimized`, and collapses the panel to its taskbar.",
       "parameters": [],
       "returns": "void"
     }
@@ -155,6 +160,22 @@
             "status": {
               "type": "Status",
               "values": ["unpinned"]
+            }
+          }
+        }
+      ]
+    },
+    "onminimize": {
+      "description": "Dispatched when `condition` changes from `normal` or `maximized` to `minimized`.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new condition of the panel.",
+          "properties": {
+            "condition": {
+              "type": "Condition",
+              "values": ["minimized"]
             }
           }
         }
