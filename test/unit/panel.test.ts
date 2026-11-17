@@ -1435,6 +1435,43 @@ data(Datum.DIMENSIONS, () => {
               expect(panel.dimensions).toEqual({ width: 120, height: 80 });
             });
 
+            then("`panel.dimensions` is a copy, not `size` itself", () => {
+              expect(panel.dimensions).not.toBe(size);
+            });
+
+            then("`panel.dimensions` is frozen", () => {
+              expect(Object.isFrozen(panel.dimensions)).toBeTrue();
+            });
+
+            when("`size.width` is changed afterwards", () => {
+              beforeEach(() => {
+                size.width = 500;
+              });
+
+              then("`panel.dimensions.width` is still 120", () => {
+                expect(panel.dimensions?.width).toBe(120);
+              });
+            });
+
+            when("`panel.dimensions.width` is assigned", () => {
+              let error: unknown;
+              beforeEach(() => {
+                try {
+                  (panel.dimensions as Dimensions).width = 500;
+                } catch (err) {
+                  error = err;
+                }
+              });
+
+              then("a `TypeError` is thrown", () => {
+                expect(error).toEqual(jasmine.any(TypeError));
+              });
+
+              then("`panel.dimensions.width` is still 120", () => {
+                expect(panel.dimensions?.width).toBe(120);
+              });
+            });
+
             when("`panel.dimensions` is set to dimensions without `height`", () => {
               let error: Error;
               beforeEach(() => {
