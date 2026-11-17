@@ -293,8 +293,11 @@ export class Panel extends Component implements Meta {
     // Validate
     position = Validate.position(position);
 
+    // Clone
+    position = structuredClone(position);
+
     // Mutate
-    this._position = position;
+    this._position = this._freeze(position);
   }
 
   /**
@@ -564,6 +567,20 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handleClose = () => this.close();
+
+  /**
+   * Freeze a value and everything inside it.
+   * The base component is to provide this; until it does, the panel defines it.
+   * @category Configuration
+   * @hidden
+   */
+  protected _freeze = <T>(value: T): T => {
+    if (typeof value === "object" && value !== null && !Object.isFrozen(value)) {
+      Object.freeze(value);
+      Object.values(value).forEach(this._freeze);
+    }
+    return value;
+  };
 
   /**
    * Shows the controls of the taskbar that fit the condition, and hides the others
