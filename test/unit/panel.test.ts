@@ -2166,6 +2166,41 @@ events(Event.ON_MINIMIZE, () => {
         then("`panel.onminimize` setter exists", () => {
           expect(hasSetter(panel, Event.ON_MINIMIZE)).toBeTrue();
         });
+
+        and("`panel.onminimize` setter exists", () => {
+          and("`panel.onminimize` is set to a listener", () => {
+            let onminimize: jasmine.Spy;
+            beforeEach(() => {
+              onminimize = jasmine.createSpy("onminimize");
+              panel.onminimize = onminimize;
+            });
+            afterEach(() => {
+              panel.onminimize = null;
+            });
+
+            when("`panel.condition` is set to `Condition.MINIMIZED`", () => {
+              beforeEach(() => {
+                panel.condition = Condition.MINIMIZED;
+              });
+
+              then("`panel.onminimize` is called", () => {
+                expect(onminimize).toHaveBeenCalled();
+              });
+
+              then(
+                "`panel.onminimize` is called with `{ detail: { condition: Condition.MINIMIZED } }`",
+                () => {
+                  const message = {
+                    detail: { condition: Condition.MINIMIZED }
+                  };
+                  expect(onminimize).toHaveBeenCalledWith(
+                    jasmine.objectContaining(message)
+                  );
+                }
+              );
+            });
+          });
+        });
       });
     });
   });
