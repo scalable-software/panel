@@ -622,6 +622,7 @@ export class Panel extends Component implements Meta {
     const grip = this.elements.grip;
     grip?.addEventListener(Gesture.POINTERDOWN, this._handleGripPointerdown);
     grip?.addEventListener(Gesture.POINTERMOVE, this._handleGripPointermove);
+    grip?.addEventListener(Gesture.POINTERUP, this._handleGripPointerup);
   };
 
   /**
@@ -662,6 +663,7 @@ export class Panel extends Component implements Meta {
     const grip = this.elements.grip;
     grip?.removeEventListener(Gesture.POINTERDOWN, this._handleGripPointerdown);
     grip?.removeEventListener(Gesture.POINTERMOVE, this._handleGripPointermove);
+    grip?.removeEventListener(Gesture.POINTERUP, this._handleGripPointerup);
   };
 
   /**
@@ -760,6 +762,13 @@ export class Panel extends Component implements Meta {
    */
   private _handleGripPointermove = (event: PointerEvent) =>
     this._gripped && this._stretch({ left: event.clientX, top: event.clientY });
+
+  /**
+   * Handles the pointer being lifted from the grip: releases the panel
+   * @category Gesture
+   * @hidden
+   */
+  private _handleGripPointerup = () => this._release();
 
   /**
    * Whether a pointer event is on one of the controls of the taskbar. The taskbar hides
@@ -863,12 +872,13 @@ export class Panel extends Component implements Meta {
   };
 
   /**
-   * Releases the panel: the drag ends where the panel is
+   * Releases the panel: the drag or the resizing ends where the panel is
    * @category Operations
    * @hidden
    */
   private _release = () => {
     this._grabbed = null;
+    this._gripped = null;
   };
 
   /**
