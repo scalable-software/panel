@@ -34,6 +34,11 @@
 /* =======================
   State Condition: Minimized
 ======================= */
+:host([condition="minimized"]) {
+  height: auto !important;
+  min-height: 0 !important;
+}
+
 :host([condition="minimized"]) .content {
   display: none;
 }
