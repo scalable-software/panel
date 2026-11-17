@@ -334,14 +334,31 @@ export class Panel extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _addEventListeners = () => {};
+  protected _addEventListeners = () => {
+    const pin = this.elements.taskbar?.pin;
+    if (!pin) return;
+
+    pin.onpin = this._handlePin;
+  };
 
   /**
    * Called by the disconnectedCallback prototypical method
    * @category Configuration
    * @hidden
    */
-  protected _removeEventListeners = () => {};
+  protected _removeEventListeners = () => {
+    const pin = this.elements.taskbar?.pin;
+    if (!pin) return;
+
+    pin.onpin = null;
+  };
+
+  /**
+   * Handles the pin in the taskbar reporting that it is pinned: pins the panel
+   * @category Gesture
+   * @hidden
+   */
+  private _handlePin = () => this.pin();
 
   /**
    * Shows the controls of the taskbar that fit the condition, and hides the others
