@@ -7,7 +7,14 @@ import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
 // Panel Metadata
-import { Tag, CSS, Attributes, Condition, Status } from "./panel.meta.js";
+import {
+  Tag,
+  CSS,
+  Attributes,
+  Condition,
+  Status,
+  Visibility
+} from "./panel.meta.js";
 
 import { type Meta } from "./panel.meta.js";
 
@@ -74,6 +81,14 @@ export class Panel extends Component implements Meta {
   private _status: Status = Status.UNPINNED;
 
   /**
+   * Internal Visibility state of the component
+   * @category State
+   * @default Visibility.VISIBLE
+   * @hidden
+   */
+  private _visibility: Visibility = Visibility.VISIBLE;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -137,6 +152,14 @@ export class Panel extends Component implements Meta {
       // Reflect
       this._reflect(Attributes.STATUS, this._status, Status.UNPINNED);
     }
+  }
+
+  /**
+   * Get the visibility of the panel
+   * @category State
+   */
+  public get visibility(): Visibility {
+    return this._visibility;
   }
 
   /**

@@ -19,7 +19,8 @@ export const CSS = "panel.style.css" as const;
  */
 export const Attributes = {
   CONDITION: "condition",
-  STATUS: "status"
+  STATUS: "status",
+  VISIBILITY: "visibility"
 } as const;
 /**
  * HTML Attributes available to set
@@ -74,6 +75,21 @@ export const Status = {
  * @category Metadata
  */
 export type Status = (typeof Status)[keyof typeof Status];
+
+/**
+ * Indicates whether the window is visible or hidden
+ * @category Metadata
+ * @enum
+ */
+export const Visibility = {
+  VISIBLE: "visible",
+  HIDDEN: "hidden"
+} as const;
+/**
+ * Indicates whether the window is visible or hidden
+ * @category Metadata
+ */
+export type Visibility = (typeof Visibility)[keyof typeof Visibility];
 
 /**
  * @category Metadata
