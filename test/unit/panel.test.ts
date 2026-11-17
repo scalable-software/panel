@@ -1029,6 +1029,23 @@ operation(Operation.HIDE, () => {
         then("`panel.hide` method exists", () => {
           expect(panel.hide).toBeDefined();
         });
+
+        and("`panel.hide` method exists", () => {
+          when("invoking `panel.hide`", () => {
+            let result: unknown;
+            beforeEach(() => {
+              result = panel.hide();
+            });
+
+            then("`panel.visibility` is `Visibility.HIDDEN`", () => {
+              expect(panel.visibility).toBe(Visibility.HIDDEN);
+            });
+
+            then("`panel.hide` returns nothing", () => {
+              expect(result).toBeUndefined();
+            });
+          });
+        });
       });
     });
   });
