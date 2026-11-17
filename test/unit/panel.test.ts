@@ -1134,6 +1134,41 @@ events(Event.ON_HIDE, () => {
         then("`panel.onhide` setter exists", () => {
           expect(hasSetter(panel, Event.ON_HIDE)).toBeTrue();
         });
+
+        and("`panel.onhide` setter exists", () => {
+          and("`panel.onhide` is set to a listener", () => {
+            let onhide: jasmine.Spy;
+            beforeEach(() => {
+              onhide = jasmine.createSpy("onhide");
+              panel.onhide = onhide;
+            });
+            afterEach(() => {
+              panel.onhide = null;
+            });
+
+            when("`panel.visibility` is set to `Visibility.HIDDEN`", () => {
+              beforeEach(() => {
+                panel.visibility = Visibility.HIDDEN;
+              });
+
+              then("`panel.onhide` is called", () => {
+                expect(onhide).toHaveBeenCalled();
+              });
+
+              then(
+                "`panel.onhide` is called with `{ detail: { visibility: Visibility.HIDDEN } }`",
+                () => {
+                  const message = {
+                    detail: { visibility: Visibility.HIDDEN }
+                  };
+                  expect(onhide).toHaveBeenCalledWith(
+                    jasmine.objectContaining(message)
+                  );
+                }
+              );
+            });
+          });
+        });
       });
     });
   });
