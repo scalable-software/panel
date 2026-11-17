@@ -335,11 +335,16 @@ export class Panel extends Component implements Meta {
   }
 
   /**
-   * Get the dimensions of the panel: `null` until it is resized or given dimensions
+   * Get and set the dimensions of the panel: `null` until it is resized or given
+   * dimensions
    * @category Data
    */
   public get dimensions(): Dimensions | null {
     return this._dimensions;
+  }
+  public set dimensions(dimensions: Dimensions) {
+    // Mutate
+    this._dimensions = dimensions;
   }
 
   /**
