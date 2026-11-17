@@ -1852,6 +1852,72 @@ events(Event.ON_UNPIN, () => {
                   }
                 );
               });
+
+              when("`panel.status` is set to `Status.UNPINNED` twice", () => {
+                beforeEach(() => {
+                  panel.status = Status.UNPINNED;
+                  panel.status = Status.UNPINNED;
+                });
+
+                then("`panel.onunpin` is called once", () => {
+                  expect(onunpin).toHaveBeenCalledTimes(1);
+                });
+              });
+
+              when("`panel.onunpin` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    panel.onunpin = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then("error message contains 'Invalid onunpin value: invalid'", () => {
+                  expect(error.message).toBe("Invalid onunpin value: invalid");
+                });
+
+                when("`panel.status` is set to `Status.UNPINNED`", () => {
+                  beforeEach(() => {
+                    panel.status = Status.UNPINNED;
+                  });
+
+                  then("`panel.onunpin` is still called", () => {
+                    expect(onunpin).toHaveBeenCalled();
+                  });
+                });
+              });
+
+              and("`panel.onunpin` is set to a new listener", () => {
+                let onunpin2: jasmine.Spy;
+                beforeEach(() => {
+                  onunpin2 = jasmine.createSpy("onunpin2");
+                  panel.onunpin = onunpin2;
+                });
+                afterEach(() => {
+                  panel.onunpin = null;
+                });
+
+                when("`panel.status` is set to `Status.UNPINNED`", () => {
+                  beforeEach(() => {
+                    panel.status = Status.UNPINNED;
+                  });
+
+                  then("old `panel.onunpin` is not called", () => {
+                    expect(onunpin).not.toHaveBeenCalled();
+                  });
+
+                  then("new `panel.onunpin` is called", () => {
+                    expect(onunpin2).toHaveBeenCalled();
+                  });
+                });
+              });
             });
           });
         });
