@@ -1,4 +1,4 @@
-import { State, Condition, Status, Visibility } from "@scalable.software/panel";
+import { State, Datum, Condition, Status, Visibility } from "@scalable.software/panel";
 
 import { Validate } from "@scalable.software/panel";
 
@@ -310,6 +310,47 @@ validation(State.VISIBILITY, () => {
             expect((error as Error).message).toEqual(
               "Invalid visibility value: invalid"
             );
+          });
+        });
+      });
+    });
+  });
+});
+
+validation(Datum.POSITION, () => {
+  given("Validate imported", () => {
+    then("Validate is defined", () => {
+      expect(Validate).toBeDefined();
+    });
+
+    and("Validate is defined", () => {
+      then("`Validate.position` static method exists", () => {
+        expect(Validate.position).toBeDefined();
+      });
+
+      and("`value` is `{ left: 120, top: 80 }`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { left: 120, top: 80 };
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          let result: any;
+          beforeEach(() => {
+            try {
+              result = Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("no error is thrown", () => {
+            expect(error).toBeUndefined();
+          });
+
+          then("result is `value`", () => {
+            expect(result).toBe(value);
           });
         });
       });
