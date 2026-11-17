@@ -125,6 +125,13 @@ export class Panel extends Component implements Meta {
   private _onminimize: EventListener | null = null;
 
   /**
+   * onmaximize triggered when panel condition changes to maximized
+   * @category Events
+   * @hidden
+   */
+  private _onmaximize: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -286,6 +293,19 @@ export class Panel extends Component implements Meta {
     this._onminimize = this._subscribe(
       Event.ON_MINIMIZE,
       this._onminimize,
+      handler
+    );
+  }
+
+  /**
+   * Triggered via `.maximize()`
+   * @event
+   * @category Events
+   */
+  public set onmaximize(handler: EventListener | null) {
+    this._onmaximize = this._subscribe(
+      Event.ON_MAXIMIZE,
+      this._onmaximize,
       handler
     );
   }
