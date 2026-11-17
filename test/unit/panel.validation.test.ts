@@ -458,6 +458,136 @@ validation(Datum.POSITION, () => {
           });
         });
       });
+
+      and("`value` is a position without `left`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { top: 80 };
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid position value: left is required'", () => {
+            expect((error as Error).message).toEqual("Invalid position value: left is required");
+          });
+        });
+      });
+
+      and("`value` is a position whose `left` is not a number", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { left: "120", top: 80 };
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid position value: left is invalid'", () => {
+            expect((error as Error).message).toEqual("Invalid position value: left is invalid");
+          });
+        });
+      });
+
+      and("`value` is a position whose `left` is not finite", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { left: Infinity, top: 80 };
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid position value: left is invalid'", () => {
+            expect((error as Error).message).toEqual("Invalid position value: left is invalid");
+          });
+        });
+      });
+
+      and("`value` is a position without `top`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { left: 120 };
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid position value: top is required'", () => {
+            expect((error as Error).message).toEqual("Invalid position value: top is required");
+          });
+        });
+      });
+
+      and("`value` is a position whose `top` is not a number", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { left: 120, top: NaN };
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid position value: top is invalid'", () => {
+            expect((error as Error).message).toEqual("Invalid position value: top is invalid");
+          });
+        });
+      });
     });
   });
 });
