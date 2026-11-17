@@ -1100,6 +1100,40 @@ operation(Operation.SHOW, () => {
               });
             });
           });
+
+          and("the panel is minimized and pinned", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MINIMIZED;
+              panel.status = Status.PINNED;
+            });
+
+            when("invoking `panel.hide`, then `panel.show`", () => {
+              beforeEach(() => {
+                panel.hide();
+                panel.show();
+              });
+
+              then("`panel.condition` is `Condition.MINIMIZED`", () => {
+                expect(panel.condition).toBe(Condition.MINIMIZED);
+              });
+
+              then("`panel.status` is `Status.PINNED`", () => {
+                expect(panel.status).toBe(Status.PINNED);
+              });
+
+              then("the taskbar shows `maximize`, `restore` and `close`", () => {
+                expect(shown(panel)).toEqual([
+                  Control.MAXIMIZE,
+                  Control.RESTORE,
+                  Control.CLOSE
+                ]);
+              });
+
+              then("the pin in the taskbar is pinned", () => {
+                expect(pinOf(panel).status).toBe(PinStatus.PINNED);
+              });
+            });
+          });
         });
       });
     });
@@ -1231,6 +1265,30 @@ events(Event.ON_HIDE, () => {
                 then("new `panel.onhide` is called", () => {
                   expect(onhide2).toHaveBeenCalled();
                 });
+              });
+            });
+
+            when("invoking `panel.hide`", () => {
+              beforeEach(() => {
+                panel.hide();
+              });
+
+              then("`panel.onhide` is called once", () => {
+                expect(onhide).toHaveBeenCalledTimes(1);
+              });
+            });
+
+            when("`visibility` attribute is set to `Visibility.HIDDEN`", () => {
+              beforeEach(() => {
+                panel.setAttribute(Attributes.VISIBILITY, Visibility.HIDDEN);
+              });
+
+              then("`panel.visibility` is `Visibility.HIDDEN`", () => {
+                expect(panel.visibility).toBe(Visibility.HIDDEN);
+              });
+
+              then("`panel.onhide` is called once", () => {
+                expect(onhide).toHaveBeenCalledTimes(1);
               });
             });
           });
@@ -1368,6 +1426,30 @@ events(Event.ON_SHOW, () => {
                   then("new `panel.onshow` is called", () => {
                     expect(onshow2).toHaveBeenCalled();
                   });
+                });
+              });
+
+              when("invoking `panel.show`", () => {
+                beforeEach(() => {
+                  panel.show();
+                });
+
+                then("`panel.onshow` is called once", () => {
+                  expect(onshow).toHaveBeenCalledTimes(1);
+                });
+              });
+
+              when("`visibility` attribute is removed", () => {
+                beforeEach(() => {
+                  panel.removeAttribute(Attributes.VISIBILITY);
+                });
+
+                then("`panel.visibility` is `Visibility.VISIBLE`", () => {
+                  expect(panel.visibility).toBe(Visibility.VISIBLE);
+                });
+
+                then("`panel.onshow` is called once", () => {
+                  expect(onshow).toHaveBeenCalledTimes(1);
                 });
               });
             });
