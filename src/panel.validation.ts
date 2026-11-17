@@ -85,6 +85,10 @@ export class Validate {
    * @category Validation
    */
   public static dimensions = (value: unknown) => {
+    // Structure
+    if (typeof value !== "object" || value === null || Array.isArray(value))
+      throw new Error(`Invalid dimensions value: ${value}`);
+
     return value as Dimensions;
   };
 }
