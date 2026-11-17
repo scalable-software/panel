@@ -13,7 +13,8 @@ import {
   Attributes,
   Condition,
   Status,
-  Visibility
+  Visibility,
+  Event
 } from "./panel.meta.js";
 
 import { type Meta } from "./panel.meta.js";
@@ -87,6 +88,13 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _visibility: Visibility = Visibility.VISIBLE;
+
+  /**
+   * onhide triggered when panel visibility changes to hidden
+   * @category Events
+   * @hidden
+   */
+  private _onhide: EventListener | null = null;
 
   /**
    * Cache element references to improve performance
@@ -179,6 +187,15 @@ export class Panel extends Component implements Meta {
         Visibility.VISIBLE
       );
     }
+  }
+
+  /**
+   * Triggered via `.hide()`
+   * @event
+   * @category Events
+   */
+  public set onhide(handler: EventListener | null) {
+    this._onhide = this._subscribe(Event.ON_HIDE, this._onhide, handler);
   }
 
   /**
