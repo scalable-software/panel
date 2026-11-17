@@ -869,6 +869,22 @@ state(State.VISIBILITY, () => {
         then("`visibility` attribute does not exist", () => {
           expect(panel.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
         });
+
+        then("`panel.visibility` setter exists", () => {
+          expect(hasSetter(panel, "visibility")).toBeTrue();
+        });
+
+        and("`panel.visibility` setter exists", () => {
+          when("`panel.visibility` is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              panel.visibility = Visibility.HIDDEN;
+            });
+
+            then("`panel.visibility` is `Visibility.HIDDEN`", () => {
+              expect(panel.visibility).toBe(Visibility.HIDDEN);
+            });
+          });
+        });
       });
     });
   });
