@@ -117,6 +117,13 @@ const drag = (panel: Panel, right: number, down: number) => {
   pointer(panel, Gesture.POINTERUP, start.x + right, start.y + down);
 };
 
+// The centre of a control in the taskbar of a panel
+const onControl = (panel: Panel, control: Control) => {
+  const taskbar = panel.root.querySelector(Taskbar.Tag) as Taskbar;
+  const box = (taskbar[control] as HTMLElement).getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+};
+
 // Configuration
 configuration(Configuration.TAG, () => {
   and("Panel imported", () => {
@@ -3928,6 +3935,23 @@ gesture(Gesture.POINTERDOWN, () => {
               then("`panel.onmove` is not called", () => {
                 expect(onmove).not.toHaveBeenCalled();
               });
+            });
+          });
+
+          when("the end user presses on `minimize` in the taskbar, and moves the pointer", () => {
+            beforeEach(() => {
+              const start = onControl(panel, Control.MINIMIZE);
+              pointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+              pointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+              pointer(panel, Gesture.POINTERUP, start.x + 25, start.y + 15);
+            });
+
+            then("`panel.position` is `null`", () => {
+              expect(panel.position).toBeNull();
+            });
+
+            then("`panel.onmove` is not called", () => {
+              expect(onmove).not.toHaveBeenCalled();
             });
           });
         });
