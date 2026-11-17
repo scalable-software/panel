@@ -18,7 +18,11 @@ import {
   Gesture
 } from "./panel.meta.js";
 
-import { type Meta, type Position } from "./panel.meta.js";
+import {
+  type Meta,
+  type Position,
+  type Dimensions
+} from "./panel.meta.js";
 
 // Validation
 import { Validate } from "./panel.validation.js";
@@ -105,6 +109,14 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _position: Position | null = null;
+
+  /**
+   * Internal Dimensions data of the component
+   * @category Data
+   * @default null
+   * @hidden
+   */
+  private _dimensions: Dimensions | null = null;
 
   /**
    * The drag under way: where the pointer was pressed, and where the panel was then.
@@ -320,6 +332,14 @@ export class Panel extends Component implements Meta {
 
     // Synchronize
     this._place();
+  }
+
+  /**
+   * Get the dimensions of the panel: `null` until it is resized or given dimensions
+   * @category Data
+   */
+  public get dimensions(): Dimensions | null {
+    return this._dimensions;
   }
 
   /**

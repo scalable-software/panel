@@ -97,7 +97,8 @@ export type Visibility = (typeof Visibility)[keyof typeof Visibility];
  * @enum
  */
 export const Datum = {
-  POSITION: "position"
+  POSITION: "position",
+  DIMENSIONS: "dimensions"
 } as const;
 /**
  * The data the panel holds
@@ -113,6 +114,15 @@ export type Datum = (typeof Datum)[keyof typeof Datum];
 export type Position = {
   left: number;
   top: number;
+};
+
+/**
+ * How large the panel is, in pixels
+ * @category Metadata
+ */
+export type Dimensions = {
+  width: number;
+  height: number;
 };
 
 /**

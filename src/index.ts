@@ -12,7 +12,7 @@ export {
   Gesture
 } from "./panel.meta.js";
 
-export type { Position } from "./panel.meta.js";
+export type { Position, Dimensions } from "./panel.meta.js";
 
 export { Validate } from "./panel.validation.js";
 
