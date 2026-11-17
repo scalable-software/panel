@@ -2,7 +2,7 @@
  * @module Panel
  */
 
-import { Condition, Status } from "./panel.meta.js";
+import { Condition, Status, Visibility } from "./panel.meta.js";
 
 /**
  * @category Validation
@@ -32,5 +32,13 @@ export class Validate {
       throw new Error(`Invalid status value: ${value}`);
     }
     return value as Status;
+  };
+
+  /**
+   * Validates that the value is a member of the `Visibility` enum.
+   * @category Validation
+   */
+  public static visibility = (value: unknown) => {
+    return value as Visibility;
   };
 }
