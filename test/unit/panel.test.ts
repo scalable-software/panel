@@ -109,6 +109,14 @@ const onBar = (panel: Panel) => {
   return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
 };
 
+// A drag by the end user: a press on the taskbar, one move, and the release
+const drag = (panel: Panel, right: number, down: number) => {
+  const start = onBar(panel);
+  pointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+  pointer(panel, Gesture.POINTERMOVE, start.x + right, start.y + down);
+  pointer(panel, Gesture.POINTERUP, start.x + right, start.y + down);
+};
+
 // Configuration
 configuration(Configuration.TAG, () => {
   and("Panel imported", () => {
@@ -3829,6 +3837,84 @@ events(Event.ON_MOVE, () => {
 });
 
 // Gesture
+
+gesture(Gesture.POINTERDOWN, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel, 480 wide and 320 high, is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(async () => {
+          panel = place(SIZED);
+          await styled(panel);
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        and("`panel.onmove` is set to a listener", () => {
+          let onmove: jasmine.Spy;
+          beforeEach(() => {
+            onmove = jasmine.createSpy("onmove");
+            panel.onmove = onmove;
+          });
+          afterEach(() => {
+            panel.onmove = null;
+          });
+
+          when("the end user presses on the taskbar", () => {
+            let start: { x: number; y: number };
+            beforeEach(() => {
+              start = onBar(panel);
+              pointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+            });
+            afterEach(() => {
+              pointer(panel, Gesture.POINTERUP, start.x, start.y);
+            });
+
+            then("`panel.position` is `null`", () => {
+              expect(panel.position).toBeNull();
+            });
+
+            then("`panel.onmove` is not called", () => {
+              expect(onmove).not.toHaveBeenCalled();
+            });
+          });
+
+          and("`panel.status` is `Status.PINNED`", () => {
+            beforeEach(() => {
+              panel.status = Status.PINNED;
+            });
+
+            when("the end user drags the taskbar", () => {
+              beforeEach(() => {
+                drag(panel, 25, 15);
+              });
+
+              then("`panel.position` is `null`", () => {
+                expect(panel.position).toBeNull();
+              });
+
+              then("`panel.onmove` is not called", () => {
+                expect(onmove).not.toHaveBeenCalled();
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
 
 gesture(Gesture.POINTERMOVE, () => {
   and("Panel is defined in custom element registry", () => {
