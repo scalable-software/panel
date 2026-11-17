@@ -137,6 +137,14 @@ const onGrip = (panel: Panel) => {
   return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
 };
 
+// A drag of the grip by the end user: a press on the grip, one move, and the release
+const stretch = (panel: Panel, right: number, down: number) => {
+  const start = onGrip(panel);
+  gripPointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+  gripPointer(panel, Gesture.POINTERMOVE, start.x + right, start.y + down);
+  gripPointer(panel, Gesture.POINTERUP, start.x + right, start.y + down);
+};
+
 // Configuration
 configuration(Configuration.TAG, () => {
   and("Panel imported", () => {
@@ -4467,6 +4475,56 @@ gesture(Gesture.POINTERDOWN, () => {
                     origin.top + 15
                   ]);
                 });
+              });
+            });
+          });
+        });
+
+        and("`panel.onresize` is set to a listener", () => {
+          let onresize: jasmine.Spy;
+          beforeEach(() => {
+            onresize = jasmine.createSpy("onresize");
+            panel.onresize = onresize;
+          });
+          afterEach(() => {
+            panel.onresize = null;
+          });
+
+          when("the end user presses on the grip", () => {
+            let start: { x: number; y: number };
+            beforeEach(() => {
+              start = onGrip(panel);
+              gripPointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+            });
+            afterEach(() => {
+              gripPointer(panel, Gesture.POINTERUP, start.x, start.y);
+            });
+
+            then("`panel.dimensions` is `null`", () => {
+              expect(panel.dimensions).toBeNull();
+            });
+
+            then("`panel.onresize` is not called", () => {
+              expect(onresize).not.toHaveBeenCalled();
+            });
+          });
+
+          and("`panel.condition` is `Condition.MINIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MINIMIZED;
+            });
+
+            when("the end user drags the grip", () => {
+              beforeEach(() => {
+                stretch(panel, 25, 15);
+              });
+
+              then("`panel.dimensions` is `null`", () => {
+                expect(panel.dimensions).toBeNull();
+              });
+
+              then("`panel.onresize` is not called", () => {
+                expect(onresize).not.toHaveBeenCalled();
               });
             });
           });
