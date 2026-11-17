@@ -1704,6 +1704,27 @@ operation(Operation.CLOSE, () => {
         then("`panel.close` method exists", () => {
           expect(panel.close).toBeDefined();
         });
+
+        and("`panel.close` method exists", () => {
+          then("the panel is in the page", () => {
+            expect(panel.isConnected).toBeTrue();
+          });
+
+          when("invoking `panel.close`", () => {
+            let result: unknown;
+            beforeEach(() => {
+              result = panel.close();
+            });
+
+            then("the panel is removed from the page", () => {
+              expect(panel.isConnected).toBeFalse();
+            });
+
+            then("`panel.close` returns nothing", () => {
+              expect(result).toBeUndefined();
+            });
+          });
+        });
       });
     });
   });
