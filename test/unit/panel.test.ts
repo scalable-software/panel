@@ -1187,6 +1187,30 @@ data(Datum.POSITION, () => {
             then("`panel.position` equals `place`", () => {
               expect(panel.position).toEqual({ left: 120, top: 80 });
             });
+
+            when("`panel.position` is set to a position without `top`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error: `top` is required
+                  panel.position = { left: 5 };
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid position value: top is required'", () => {
+                expect(error.message).toBe("Invalid position value: top is required");
+              });
+
+              then("`panel.position` equals `place` still", () => {
+                expect(panel.position).toEqual({ left: 120, top: 80 });
+              });
+            });
           });
         });
       });
