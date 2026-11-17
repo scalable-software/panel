@@ -239,6 +239,12 @@ export class Panel extends Component implements Meta {
   };
 
   /**
+   * Pin the panel when it is unpinned
+   * @category Operations
+   */
+  public pin = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
