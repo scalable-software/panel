@@ -1504,6 +1504,29 @@ operation(Operation.RESTORE, () => {
         then("`panel.restore` method exists", () => {
           expect(panel.restore).toBeDefined();
         });
+
+        and("`panel.restore` method exists", () => {
+          and("`panel.condition` is `Condition.MAXIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MAXIMIZED;
+            });
+
+            when("invoking `panel.restore`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = panel.restore();
+              });
+
+              then("`panel.condition` is `Condition.NORMAL`", () => {
+                expect(panel.condition).toBe(Condition.NORMAL);
+              });
+
+              then("`panel.restore` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
+        });
       });
     });
   });
