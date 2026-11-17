@@ -104,6 +104,13 @@ export class Panel extends Component implements Meta {
   private _onshow: EventListener | null = null;
 
   /**
+   * onpin triggered when panel status changes to pinned
+   * @category Events
+   * @hidden
+   */
+  private _onpin: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -220,6 +227,15 @@ export class Panel extends Component implements Meta {
    */
   public set onshow(handler: EventListener | null) {
     this._onshow = this._subscribe(Event.ON_SHOW, this._onshow, handler);
+  }
+
+  /**
+   * Triggered via `.pin()`
+   * @event
+   * @category Events
+   */
+  public set onpin(handler: EventListener | null) {
+    this._onpin = this._subscribe(Event.ON_PIN, this._onpin, handler);
   }
 
   /**
