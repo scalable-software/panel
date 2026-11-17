@@ -17,7 +17,7 @@
       "contains": ["task-bar", "div.content"]
     },
     "task-bar": {
-      "description": "The taskbar of the panel: the `task-bar` component, which brings the pin and the minimize, maximize, restore and close controls. The host defines the five controls, then `task-bar`, and loads their templates, before the panel. Cached as `elements.taskbar`: the panel listens to each control through it, with the control's own `on…` properties, so that connecting the panel again never subscribes twice, and hides the controls that do not fit its `condition`. The pin's `onpin` leads to the panel's `pin`, and its `onunpin` to `unpin`: the end user pins and unpins the panel by clicking the pin. The minimize control's `onminimize` leads to the panel's `minimize`, the maximize control's `onmaximize` to `maximize`, and the restore control's `onrestore` to `restore`.",
+      "description": "The taskbar of the panel: the `task-bar` component, which brings the pin and the minimize, maximize, restore and close controls. The host defines the five controls, then `task-bar`, and loads their templates, before the panel. Cached as `elements.taskbar`: the panel listens to each control through it, with the control's own `on…` properties, so that connecting the panel again never subscribes twice, and hides the controls that do not fit its `condition`. The pin's `onpin` leads to the panel's `pin`, and its `onunpin` to `unpin`: the end user pins and unpins the panel by clicking the pin. The minimize control's `onminimize` leads to the panel's `minimize`, the maximize control's `onmaximize` to `maximize`, the restore control's `onrestore` to `restore`, and the close control's `onclose` to `close`. The taskbar removes nothing itself: closing is the panel's.",
       "type": "task-bar",
       "cached": true,
       "contains": ["slot.title"]
@@ -106,6 +106,11 @@
     },
     "restore": {
       "description": "Returns the panel to how it was. A `maximized` panel becomes `normal`. A `minimized` panel returns to the `condition` it had when it was minimized, `normal` or `maximized`; a panel that was `minimized` from the start becomes `normal`. A `normal` panel stays as it is.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "close": {
+      "description": "Closes the panel: dispatches `onclose`, then removes the panel from the page. A panel that is not in the page stays as it is, and nothing is dispatched.",
       "parameters": [],
       "returns": "void"
     }
@@ -222,6 +227,9 @@
           }
         }
       ]
+    },
+    "onclose": {
+      "description": "Dispatched each time the panel closes, before it is removed from the page. It replaces the `onclose` property every HTML element has."
     }
   },
   "Gestures": {}
