@@ -884,6 +884,26 @@ state(State.VISIBILITY, () => {
               expect(panel.visibility).toBe(Visibility.HIDDEN);
             });
           });
+
+          when("`panel.visibility` is set to `invalid`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                // @ts-expect-error
+                panel.visibility = "invalid";
+              } catch (err) {
+                error = err as Error;
+              }
+            });
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
+            });
+
+            then("error message contains 'Invalid visibility value: invalid'", () => {
+              expect(error.message).toBe("Invalid visibility value: invalid");
+            });
+          });
         });
       });
     });
