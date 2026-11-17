@@ -31,7 +31,9 @@ panel.restore();
 
 The panel neither listens to the content and the title nor changes them.
 
-The panel depends on `@scalable.software/taskbar`, and through it on `@scalable.software/pin`, `@scalable.software/minimize`, `@scalable.software/maximize`, `@scalable.software/restore` and `@scalable.software/close`. The host application defines the five controls, then the taskbar, then the panel, each after loading its template (see 5.3).
+The title is shown centred between the pin and the window controls.
+
+The panel depends on `@scalable.software/taskbar` 0.2.1 or later, and through it on `@scalable.software/pin`, `@scalable.software/minimize`, `@scalable.software/maximize`, `@scalable.software/restore` and `@scalable.software/close`. The host application defines the five controls, then the taskbar, then the panel, each after loading its template (see 5.3).
 
 ### 1.1 Installation & Setup
 
@@ -120,8 +122,8 @@ For more details on **States**, **Data**, **Operations**, **Events** and **Gestu
 
 ### 3.1 Composition
 
-- **Template** (`panel.template.html`): Defines DOM structure — a `.window` surface holding the `<task-bar>`, with a slot named `title` in its centre, a `.content` region with the default slot, and the `.grip`.
-- **Style** (`panel.style.css`): Encapsulates the surface of the window, the layout of its parts, the grip, what a minimized, maximized or hidden panel looks like, and light/dark theme adaptation.
+- **Template** (`panel.template.html`): Defines DOM structure — a `.window` surface holding the `<task-bar>`, with a slot named `title` in its centre, a `.content` region with the default slot, and the `.grip`. A small `style` hides the window until the stylesheet has loaded.
+- **Style** (`panel.style.css`): Encapsulates the surface of the window, the layout of its parts, the grip, what a minimized, maximized or hidden panel looks like, and light/dark theme adaptation. The window is glass: translucent, with what lies behind it blurred. The taskbar is opaque and fits inside the edge of the window.
 - **Class** (`panel.ts`): Extends the base component class to handle lifecycle hooks, attribute reflection, the states, the data, the operations, the dispatch of its events, and the gestures on the taskbar and the grip.
 
 ### 3.2 Class Lifecycle
@@ -144,6 +146,14 @@ The panel is positioned (`position: absolute`) in the nearest positioned element
 - Once it has them, the panel writes `left`, `top`, `width` and `height` on its own element.
 - While `maximized` it fills the element it is positioned in, and while `minimized` it is as high as its taskbar, whatever place and size it was given. It keeps its `position` and `dimensions` meanwhile.
 - The panel is never shown narrower than its taskbar needs.
+
+### 3.4 Appearing
+
+A stylesheet loads a moment after a component is added to the page, and again each time it is added. Until then a component has its structure but not its layout.
+
+- The window of the panel stays hidden until the panel's stylesheet has loaded, so the panel is never shown before it is laid out.
+- It then waits a further 0.2 seconds, while the controls of the taskbar settle. This is a stopgap: it is to be removed once the controls no longer fade their borders when their own stylesheets load.
+- For that moment the panel still takes room in the page, without showing anything.
 
 ---
 

@@ -234,6 +234,28 @@ composition(Composition.TEMPLATE, () => {
           expect(panel.root.innerHTML).toContain(template.innerHTML);
         });
 
+        then("`panel.root` contains a `style`, before `div.window`", () => {
+          const parts = [...panel.root.children].map((part) => part.localName);
+          expect(parts).toEqual(["link", "style", "div"]);
+        });
+
+        then("`div.window` is hidden before the stylesheet of the panel has loaded", () => {
+          const div = panel.root.querySelector("div.window") as HTMLDivElement;
+          expect(getComputedStyle(div).visibility).toBe("hidden");
+        });
+
+        when("the stylesheets have loaded, and the controls have settled", () => {
+          beforeEach(async () => {
+            await styled(panel);
+            await new Promise((resolve) => setTimeout(resolve, 300));
+          });
+
+          then("`div.window` is visible", () => {
+            const div = panel.root.querySelector("div.window") as HTMLDivElement;
+            expect(getComputedStyle(div).visibility).toBe("visible");
+          });
+        });
+
         then("`panel.root` contains `div.window`", () => {
           const div = panel.root.querySelector("div.window");
           expect(div).not.toBeNull();

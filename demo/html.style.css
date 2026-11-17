@@ -37,9 +37,12 @@ body {
 /* The stage: the area the panel is positioned in. A maximized panel fills it. */
 .stage {
   position: relative;
-  height: 420px;
+  height: 600px;
   overflow: hidden;
   border-bottom: 1px solid var(--line-color);
+
+  /* Something to see through the glass of the window */
+  background: linear-gradient(120deg, #6fa3ff, #ffd27a 50%, #ff8fb1);
 }
 
 /* Where the page places the panel, and how large, until it is moved or resized */

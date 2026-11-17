@@ -6,7 +6,8 @@
   position: absolute;
   min-width: min-content;
 
-  --window-background-color: #ffffff;
+  --window-background-color: rgba(255, 255, 255, 0.45);
+  --window-blur: blur(14px) saturate(1.4);
   --window-border-color: #d1d1d1;
   --window-text-color: #000000;
   --window-radius: 8px;
@@ -20,7 +21,7 @@
 ======================= */
 @media (prefers-color-scheme: dark) {
   :host {
-    --window-background-color: #1e1e1e;
+    --window-background-color: rgba(30, 30, 30, 0.45);
     --window-border-color: #3c3c3c;
     --window-text-color: #f0f0f0;
     --grip-color: #6a6a6a;
@@ -42,6 +43,11 @@
 :host([condition="minimized"]) {
   height: auto !important;
   min-height: 0 !important;
+}
+
+/* A minimized window ends at its own edge: the taskbar needs no line beneath it */
+:host([condition="minimized"]) task-bar {
+  border-bottom: none;
 }
 
 :host([condition="minimized"]) .content {
@@ -70,6 +76,8 @@
   height: 100%;
   overflow: hidden;
   background-color: var(--window-background-color);
+  -webkit-backdrop-filter: var(--window-blur);
+  backdrop-filter: var(--window-blur);
   color: var(--window-text-color);
   border: 1px solid var(--window-border-color);
   border-radius: var(--window-radius);
@@ -83,6 +91,13 @@ task-bar {
   flex-shrink: 0;
   user-select: none;
   touch-action: none;
+
+  /* The taskbar sits inside the edge of the window: it follows the inner curve of the
+     top corners, draws no edge of its own, and has a line beneath it */
+  --bar-radius: calc(var(--window-radius) - 1px) calc(var(--window-radius) - 1px)
+    0 0;
+  --bar-border-color: transparent;
+  border-bottom: 1px solid var(--window-border-color);
 }
 /* =======================
   Content Styles
@@ -116,4 +131,16 @@ task-bar {
 :host([condition="minimized"]) .grip,
 :host([condition="maximized"]) .grip {
   display: none;
+}
+
+/* =======================
+  Settled
+======================= */
+/* The template hides the window until this stylesheet has loaded: here it is shown.
+   It waits as long as the controls of the taskbar take to settle: when their own
+   stylesheets load, their borders fade from the default colour for 0.2s. A stopgap,
+   to be removed once the controls no longer do that. */
+div.window {
+  visibility: visible;
+  transition: visibility 0s linear 0.2s;
 }
