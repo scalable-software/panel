@@ -162,6 +162,9 @@ export class Panel extends Component implements Meta {
     return this._visibility;
   }
   public set visibility(visibility: Visibility) {
+    // Validate
+    visibility = Validate.visibility(visibility);
+
     // Mutate
     this._visibility = visibility;
   }
