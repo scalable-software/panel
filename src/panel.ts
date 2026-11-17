@@ -364,7 +364,9 @@ export class Panel extends Component implements Meta {
    * Return the panel to how it was before it was minimized or maximized
    * @category Operations
    */
-  public restore = () => {};
+  public restore = () => {
+    this.condition = Condition.NORMAL;
+  };
 
   /**
    * List operations to perform for selected attributes being observed in the DOM.
