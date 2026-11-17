@@ -22,6 +22,8 @@ building the window, or placing and wiring its controls, itself.
   window as it was.
 - Pinning the window in place and unpinning it, by the end user or the host application,
   and reporting each change to the host application.
+- Collapsing the window to its bar, where it sits, by the end user or the host application,
+  and reporting it to the host application.
 - Consistency with the device colour theme.
 
 **Out of scope**
@@ -60,3 +62,11 @@ later, so that I do not move it by accident.
 
 As a **host application**, I want to be told whenever the window is pinned or unpinned, so
 that I can act on it.
+
+### STORY: Minimize
+
+As an **end user**, when I do not need a window for a while, I want to collapse it to its
+taskbar, so that it takes little room and stays within reach.
+
+As a **host application**, I want to be told when the window is minimized, so that I can act
+on it.
