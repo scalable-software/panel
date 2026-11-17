@@ -147,6 +147,13 @@ export class Panel extends Component implements Meta {
   private _onrestore: EventListener | null = null;
 
   /**
+   * onclose triggered each time the panel closes
+   * @category Events
+   * @hidden
+   */
+  private _onclose: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -340,6 +347,17 @@ export class Panel extends Component implements Meta {
       this._onrestore,
       handler
     );
+  }
+
+  /**
+   * Triggered via `.close()`, before the panel is removed from the page.
+   * Deliberately replaces the `onclose` property every HTML element has:
+   * on the panel it subscribes to the component's own `onclose` event.
+   * @event
+   * @category Events
+   */
+  public set onclose(handler: EventListener | null) {
+    this._onclose = this._subscribe(Event.ON_CLOSE, this._onclose, handler);
   }
 
   /**
