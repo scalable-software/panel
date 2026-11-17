@@ -54,6 +54,16 @@ globalThis.state = (state, spec) => {
     spec();
   });
 };
+globalThis.data = (datum, spec) => {
+  describe(`Data.${datum} test`, () => {
+    beforeEach(() => {
+      setSpecProperty("type", "Data");
+      setSpecProperty("spec", datum);
+    });
+
+    spec();
+  });
+};
 globalThis.operation = (operation, spec) => {
   describe(`Operation.${operation} test`, () => {
     beforeEach(() => {
@@ -111,6 +121,7 @@ globalThis.Metadata = {
   CSS: "css",
   ATTRIBUTES: "attributes",
   STATE: "state",
+  DATUM: "datum",
   OPERATION: "operation",
   EVENT: "event",
   GESTURE: "gesture"
