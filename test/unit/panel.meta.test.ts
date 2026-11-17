@@ -2,6 +2,7 @@ import {
   Tag,
   Attributes,
   State,
+  Visibility,
   Status,
   Condition,
   Operation,
@@ -50,6 +51,14 @@ metadata(Metadata.ATTRIBUTES, () => {
         then("`Attributes.STATUS` is `status`", () => {
           expect(Attributes.STATUS).toBe("status");
         });
+
+        then("`Attributes.VISIBILITY` exists", () => {
+          expect(Attributes.VISIBILITY).toBeDefined();
+        });
+
+        then("`Attributes.VISIBILITY` is `visibility`", () => {
+          expect(Attributes.VISIBILITY).toBe("visibility");
+        });
       });
     });
   });
@@ -82,6 +91,14 @@ metadata(Metadata.STATE, () => {
 
         then("`State.STATUS` is `status`", () => {
           expect(State.STATUS).toBe("status");
+        });
+
+        then("`State.VISIBILITY` exists", () => {
+          expect(State.VISIBILITY).toBeDefined();
+        });
+
+        then("`State.VISIBILITY` is `visibility`", () => {
+          expect(State.VISIBILITY).toBe("visibility");
         });
       });
     });
@@ -154,6 +171,38 @@ metadata(State.STATUS, () => {
 
         then("`Status.PINNED` is `pinned`", () => {
           expect(Status.PINNED).toBe("pinned");
+        });
+      });
+    });
+  });
+});
+
+metadata(State.VISIBILITY, () => {
+  and("Visibility imported", () => {
+    then("Visibility is defined", () => {
+      expect(Visibility).toBeDefined();
+    });
+
+    and("Visibility is defined", () => {
+      then("Visibility is an object", () => {
+        expect(typeof Visibility).toBe("object");
+      });
+
+      when("Visibility is an object", () => {
+        then("`Visibility.VISIBLE` exists", () => {
+          expect(Visibility.VISIBLE).toBeDefined();
+        });
+
+        then("`Visibility.VISIBLE` is `visible`", () => {
+          expect(Visibility.VISIBLE).toBe("visible");
+        });
+
+        then("`Visibility.HIDDEN` exists", () => {
+          expect(Visibility.HIDDEN).toBeDefined();
+        });
+
+        then("`Visibility.HIDDEN` is `hidden`", () => {
+          expect(Visibility.HIDDEN).toBe("hidden");
         });
       });
     });

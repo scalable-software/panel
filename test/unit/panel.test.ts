@@ -7,7 +7,8 @@ import {
   Attributes,
   State,
   Condition,
-  Status
+  Status,
+  Visibility
 } from "@scalable.software/panel";
 import {
   Taskbar,
@@ -826,6 +827,47 @@ state(State.STATUS, () => {
               expect(pinOf(panel).status).toBe(PinStatus.PINNED);
             });
           });
+        });
+      });
+    });
+  });
+});
+
+state(State.VISIBILITY, () => {
+  given("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(() => {
+          panel = place();
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("`panel.visibility` getter exists", () => {
+          expect(panel.visibility).toBeDefined();
+        });
+
+        when("`panel.visibility` getter exists", () => {
+          then("`panel.visibility` is `Visibility.VISIBLE`", () => {
+            expect(panel.visibility).toBe(Visibility.VISIBLE);
+          });
+        });
+
+        then("`visibility` attribute does not exist", () => {
+          expect(panel.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
         });
       });
     });
