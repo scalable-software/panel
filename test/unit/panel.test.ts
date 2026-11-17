@@ -3910,6 +3910,26 @@ gesture(Gesture.POINTERDOWN, () => {
               });
             });
           });
+
+          and("`panel.condition` is `Condition.MAXIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MAXIMIZED;
+            });
+
+            when("the end user drags the taskbar", () => {
+              beforeEach(() => {
+                drag(panel, 25, 15);
+              });
+
+              then("`panel.position` is `null`", () => {
+                expect(panel.position).toBeNull();
+              });
+
+              then("`panel.onmove` is not called", () => {
+                expect(onmove).not.toHaveBeenCalled();
+              });
+            });
+          });
         });
       });
     });
