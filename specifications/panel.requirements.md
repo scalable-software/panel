@@ -18,6 +18,8 @@ building the window, or placing and wiring its controls, itself.
 - Bringing the bar with the window's controls — pin, minimize, maximize, restore and close —
   and showing only the controls that fit the window as it is now.
 - Showing a title the host application places in the window, in the bar.
+- Hiding the window and showing it again, when the host application decides, with the
+  window as it was.
 
 **Out of scope**
 
@@ -36,3 +38,8 @@ the top and the content below it, so that I always find the controls in the same
 
 As a **host application**, I want to place my own content and a title in the window, so that
 the window frames what I show.
+
+### STORY: Visibility Control
+
+As a **host application**, when a window is not relevant to the current context, I want to
+hide it and show it again later, so that the end user only sees windows that apply.
