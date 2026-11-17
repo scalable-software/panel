@@ -10,7 +10,8 @@ import {
   Status,
   Visibility,
   Operation,
-  Event
+  Event,
+  Datum
 } from "@scalable.software/panel";
 import {
   Taskbar,
@@ -70,6 +71,28 @@ const clickPin = (panel: Panel) =>
 const click = (panel: Panel, control: Exclude<Control, typeof Control.PIN>) => {
   const taskbar = panel.root.querySelector(Taskbar.Tag) as Taskbar;
   (taskbar[control]?.root.querySelector(".icon") as HTMLElement).click();
+};
+
+// A panel with a size, so that its taskbar has room beside its controls
+const SIZED = `<${Tag} style="left: 40px; top: 30px; width: 480px; height: 320px"></${Tag}>`;
+
+// Waits until the stylesheets of a panel, its taskbar and its controls are loaded: a
+// stylesheet is loaded after the element is added, and the layout depends on it
+const styled = async (panel: Panel) => {
+  const taskbar = panel.root.querySelector(Taskbar.Tag) as Taskbar;
+  const controls = [taskbar.pin, taskbar.minimize, taskbar.maximize, taskbar.restore, taskbar.close];
+  const roots = [panel.root, taskbar.root, ...controls.map((control) => control?.root)];
+  const links = roots.flatMap((root) => [...(root?.querySelectorAll("link") ?? [])]);
+  await Promise.all(
+    links.map(
+      (link) =>
+        link.sheet ??
+        new Promise((resolve) => {
+          link.addEventListener("load", resolve, { once: true });
+          link.addEventListener("error", resolve, { once: true });
+        })
+    )
+  );
 };
 
 // Configuration
@@ -1093,6 +1116,55 @@ state(State.VISIBILITY, () => {
             then("error message contains 'Invalid visibility value: invalid'", () => {
               expect(error.message).toBe("Invalid visibility value: invalid");
             });
+          });
+        });
+      });
+    });
+  });
+});
+
+// Data
+
+data(Datum.POSITION, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel, 480 wide and 320 high, is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(async () => {
+          panel = place(SIZED);
+          await styled(panel);
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("`panel.position` getter exists", () => {
+          expect("position" in panel).toBeTrue();
+        });
+
+        then("`panel.position` is `null`", () => {
+          expect(panel.position).toBeNull();
+        });
+
+        and("a panel that is never added to DOM", () => {
+          let apart: Panel;
+          beforeEach(() => {
+            apart = document.createElement(Panel.Tag) as Panel;
+          });
+
+          then("its `position` is `null`", () => {
+            expect(apart.position).toBeNull();
           });
         });
       });

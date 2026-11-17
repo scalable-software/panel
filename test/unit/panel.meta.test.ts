@@ -2,6 +2,7 @@ import {
   Tag,
   Attributes,
   State,
+  Datum,
   Visibility,
   Status,
   Condition,
@@ -203,6 +204,38 @@ metadata(State.VISIBILITY, () => {
 
         then("`Visibility.HIDDEN` is `hidden`", () => {
           expect(Visibility.HIDDEN).toBe("hidden");
+        });
+      });
+    });
+  });
+});
+
+// Datum
+metadata(Metadata.DATUM, () => {
+  and("Datum imported", () => {
+    then("Datum is defined", () => {
+      expect(Datum).toBeDefined();
+    });
+
+    and("Datum is defined", () => {
+      then("Datum is an object", () => {
+        expect(typeof Datum).toBe("object");
+      });
+
+      when("Datum is an object", () => {
+        then("no data name is taken by the platform", () => {
+          const taken = Object.values(Datum).filter(
+            (name) => name in HTMLElement.prototype
+          );
+          expect(taken).toEqual([]);
+        });
+
+        then("`Datum.POSITION` exists", () => {
+          expect(Datum.POSITION).toBeDefined();
+        });
+
+        then("`Datum.POSITION` is `position`", () => {
+          expect(Datum.POSITION).toBe("position");
         });
       });
     });
