@@ -177,6 +177,8 @@ export class Panel extends Component implements Meta {
     const detail = { condition };
     condition === Condition.MINIMIZED &&
       this._dispatch(Event.ON_MINIMIZE, detail);
+    condition === Condition.MAXIMIZED &&
+      this._dispatch(Event.ON_MAXIMIZE, detail);
   }
 
   /**
