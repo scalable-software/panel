@@ -3917,3 +3917,68 @@ gesture(Gesture.POINTERMOVE, () => {
     });
   });
 });
+
+gesture(Gesture.POINTERUP, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel, 480 wide and 320 high, is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(async () => {
+          panel = place(SIZED);
+          await styled(panel);
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        and("`panel.onmove` is set to a listener", () => {
+          let onmove: jasmine.Spy;
+          beforeEach(() => {
+            onmove = jasmine.createSpy("onmove");
+            panel.onmove = onmove;
+          });
+          afterEach(() => {
+            panel.onmove = null;
+          });
+
+          and("the end user presses on the taskbar", () => {
+            let start: { x: number; y: number };
+            beforeEach(() => {
+              start = onBar(panel);
+              pointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+            });
+            afterEach(() => {
+              pointer(panel, Gesture.POINTERUP, start.x, start.y);
+            });
+
+            when("the end user lifts the pointer, and the pointer moves", () => {
+              beforeEach(() => {
+                pointer(panel, Gesture.POINTERUP, start.x, start.y);
+                pointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+              });
+
+              then("`panel.position` is `null`", () => {
+                expect(panel.position).toBeNull();
+              });
+
+              then("`panel.onmove` is not called", () => {
+                expect(onmove).not.toHaveBeenCalled();
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
