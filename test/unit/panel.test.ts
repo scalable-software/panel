@@ -1434,6 +1434,30 @@ data(Datum.DIMENSIONS, () => {
             then("`panel.dimensions` equals `size`", () => {
               expect(panel.dimensions).toEqual({ width: 120, height: 80 });
             });
+
+            when("`panel.dimensions` is set to dimensions without `height`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error: `height` is required
+                  panel.dimensions = { width: 5 };
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid dimensions value: height is required'", () => {
+                expect(error.message).toBe("Invalid dimensions value: height is required");
+              });
+
+              then("`panel.dimensions` equals `size` still", () => {
+                expect(panel.dimensions).toEqual({ width: 120, height: 80 });
+              });
+            });
           });
         });
       });
