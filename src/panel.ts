@@ -343,6 +343,9 @@ export class Panel extends Component implements Meta {
     return this._dimensions;
   }
   public set dimensions(dimensions: Dimensions) {
+    // Validate
+    dimensions = Validate.dimensions(dimensions);
+
     // Mutate
     this._dimensions = dimensions;
   }
