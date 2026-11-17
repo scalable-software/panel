@@ -12,6 +12,19 @@
 }
 
 /* =======================
+  Dark Mode Variables
+======================= */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --window-background-color: #1e1e1e;
+    --window-border-color: #3c3c3c;
+    --window-text-color: #f0f0f0;
+    --window-shadow:
+      0 1px 3px rgba(255, 255, 255, 0.12), 0 3px 8px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* =======================
   State Visibility
 ======================= */
 :host([visibility="hidden"]) {
