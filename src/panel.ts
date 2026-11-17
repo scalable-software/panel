@@ -346,8 +346,11 @@ export class Panel extends Component implements Meta {
     // Validate
     dimensions = Validate.dimensions(dimensions);
 
+    // Clone
+    dimensions = structuredClone(dimensions);
+
     // Mutate
-    this._dimensions = dimensions;
+    this._dimensions = this._freeze(dimensions);
   }
 
   /**
