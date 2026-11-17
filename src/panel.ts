@@ -190,6 +190,12 @@ export class Panel extends Component implements Meta {
   };
 
   /**
+   * Show the panel when it is hidden
+   * @category Operations
+   */
+  public show = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
