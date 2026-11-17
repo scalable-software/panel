@@ -1167,6 +1167,17 @@ events(Event.ON_HIDE, () => {
                 }
               );
             });
+
+            when("`panel.visibility` is set to `Visibility.HIDDEN` twice", () => {
+              beforeEach(() => {
+                panel.visibility = Visibility.HIDDEN;
+                panel.visibility = Visibility.HIDDEN;
+              });
+
+              then("`panel.onhide` is called once", () => {
+                expect(onhide).toHaveBeenCalledTimes(1);
+              });
+            });
           });
         });
       });
