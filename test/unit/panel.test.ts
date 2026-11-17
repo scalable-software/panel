@@ -609,6 +609,84 @@ state(State.CONDITION, () => {
             expect(pinOf(panel).visibility).toBe(ControlVisibility.HIDDEN);
           });
         });
+
+        then("the pin in the taskbar is shown", () => {
+          expect(pinOf(panel).visibility).toBe(ControlVisibility.VISIBLE);
+        });
+
+        when("`panel.condition` is set to `Condition.MINIMIZED`", () => {
+          beforeEach(() => {
+            panel.condition = Condition.MINIMIZED;
+          });
+
+          then("the pin in the taskbar is shown", () => {
+            expect(pinOf(panel).visibility).toBe(ControlVisibility.VISIBLE);
+          });
+        });
+
+        and("a pinned panel is maximized", () => {
+          beforeEach(() => {
+            panel.status = Status.PINNED;
+            panel.condition = Condition.MAXIMIZED;
+          });
+
+          then("`panel.status` is `Status.PINNED`", () => {
+            expect(panel.status).toBe(Status.PINNED);
+          });
+
+          when("`panel.condition` is set to `Condition.NORMAL`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.NORMAL;
+            });
+
+            then("the pin in the taskbar is shown", () => {
+              expect(pinOf(panel).visibility).toBe(ControlVisibility.VISIBLE);
+            });
+
+            then("the pin in the taskbar is pinned", () => {
+              expect(pinOf(panel).status).toBe(PinStatus.PINNED);
+            });
+          });
+
+          and("`panel.status` is set to `Status.UNPINNED` while it is maximized", () => {
+            beforeEach(() => {
+              panel.status = Status.UNPINNED;
+            });
+
+            then("the pin in the taskbar is hidden", () => {
+              expect(pinOf(panel).visibility).toBe(ControlVisibility.HIDDEN);
+            });
+
+            when("`panel.condition` is set to `Condition.NORMAL`", () => {
+              beforeEach(() => {
+                panel.condition = Condition.NORMAL;
+              });
+
+              then("the pin in the taskbar is unpinned", () => {
+                expect(pinOf(panel).status).toBe(PinStatus.UNPINNED);
+              });
+            });
+          });
+        });
+
+        and(
+          "a panel with `condition` `Condition.MAXIMIZED` in its markup is added to DOM",
+          () => {
+            let maximized: Panel;
+            beforeEach(() => {
+              maximized = place(
+                `<${Tag} ${Attributes.CONDITION}="${Condition.MAXIMIZED}"></${Tag}>`
+              );
+            });
+            afterEach(() => {
+              maximized.remove();
+            });
+
+            then("the pin in its taskbar is hidden", () => {
+              expect(pinOf(maximized).visibility).toBe(ControlVisibility.HIDDEN);
+            });
+          }
+        );
       });
     });
   });
