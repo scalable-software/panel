@@ -2467,6 +2467,41 @@ events(Event.ON_MAXIMIZE, () => {
         then("`panel.onmaximize` setter exists", () => {
           expect(hasSetter(panel, Event.ON_MAXIMIZE)).toBeTrue();
         });
+
+        and("`panel.onmaximize` setter exists", () => {
+          and("`panel.onmaximize` is set to a listener", () => {
+            let onmaximize: jasmine.Spy;
+            beforeEach(() => {
+              onmaximize = jasmine.createSpy("onmaximize");
+              panel.onmaximize = onmaximize;
+            });
+            afterEach(() => {
+              panel.onmaximize = null;
+            });
+
+            when("`panel.condition` is set to `Condition.MAXIMIZED`", () => {
+              beforeEach(() => {
+                panel.condition = Condition.MAXIMIZED;
+              });
+
+              then("`panel.onmaximize` is called", () => {
+                expect(onmaximize).toHaveBeenCalled();
+              });
+
+              then(
+                "`panel.onmaximize` is called with `{ detail: { condition: Condition.MAXIMIZED } }`",
+                () => {
+                  const message = {
+                    detail: { condition: Condition.MAXIMIZED }
+                  };
+                  expect(onmaximize).toHaveBeenCalledWith(
+                    jasmine.objectContaining(message)
+                  );
+                }
+              );
+            });
+          });
+        });
       });
     });
   });
