@@ -140,6 +140,13 @@ export class Panel extends Component implements Meta {
   private _onmaximize: EventListener | null = null;
 
   /**
+   * onrestore triggered when panel condition changes to normal
+   * @category Events
+   * @hidden
+   */
+  private _onrestore: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -317,6 +324,19 @@ export class Panel extends Component implements Meta {
     this._onmaximize = this._subscribe(
       Event.ON_MAXIMIZE,
       this._onmaximize,
+      handler
+    );
+  }
+
+  /**
+   * Triggered via `.restore()`
+   * @event
+   * @category Events
+   */
+  public set onrestore(handler: EventListener | null) {
+    this._onrestore = this._subscribe(
+      Event.ON_RESTORE,
+      this._onrestore,
       handler
     );
   }
