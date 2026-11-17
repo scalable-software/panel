@@ -6,6 +6,13 @@
 }
 
 /* =======================
+  State Visibility
+======================= */
+:host([visibility="hidden"]) {
+  display: none;
+}
+
+/* =======================
   Window Styles
 ======================= */
 .window {
