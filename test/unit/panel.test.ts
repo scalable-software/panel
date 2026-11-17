@@ -1715,6 +1715,17 @@ events(Event.ON_PIN, () => {
                 }
               );
             });
+
+            when("`panel.status` is set to `Status.PINNED` twice", () => {
+              beforeEach(() => {
+                panel.status = Status.PINNED;
+                panel.status = Status.PINNED;
+              });
+
+              then("`panel.onpin` is called once", () => {
+                expect(onpin).toHaveBeenCalledTimes(1);
+              });
+            });
           });
         });
       });
