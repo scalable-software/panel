@@ -17,7 +17,7 @@ import {
   Event
 } from "./panel.meta.js";
 
-import { type Meta } from "./panel.meta.js";
+import { type Meta, type Position } from "./panel.meta.js";
 
 // Validation
 import { Validate } from "./panel.validation.js";
@@ -96,6 +96,14 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _visibility: Visibility = Visibility.VISIBLE;
+
+  /**
+   * Internal Position data of the component
+   * @category Data
+   * @default null
+   * @hidden
+   */
+  private _position: Position | null = null;
 
   /**
    * onhide triggered when panel visibility changes to hidden
@@ -272,6 +280,14 @@ export class Panel extends Component implements Meta {
     const detail = { visibility };
     visibility === Visibility.HIDDEN && this._dispatch(Event.ON_HIDE, detail);
     visibility === Visibility.VISIBLE && this._dispatch(Event.ON_SHOW, detail);
+  }
+
+  /**
+   * Get the position of the panel: `null` until it is moved or given a position
+   * @category Data
+   */
+  public get position(): Position | null {
+    return this._position;
   }
 
   /**

@@ -92,6 +92,30 @@ export const Visibility = {
 export type Visibility = (typeof Visibility)[keyof typeof Visibility];
 
 /**
+ * The data the panel holds
+ * @category Metadata
+ * @enum
+ */
+export const Datum = {
+  POSITION: "position"
+} as const;
+/**
+ * The data the panel holds
+ * @category Metadata
+ */
+export type Datum = (typeof Datum)[keyof typeof Datum];
+
+/**
+ * Where the panel is: the place of its upper left corner in the element it is positioned
+ * in, in pixels
+ * @category Metadata
+ */
+export type Position = {
+  left: number;
+  top: number;
+};
+
+/**
  * @category Metadata
  * @enum
  */
@@ -147,6 +171,12 @@ export type Gesture = (typeof Gesture)[keyof typeof Gesture];
 export type States = Record<State, unknown>;
 
 /**
+ * Every data item the component must have
+ * @category Metadata
+ */
+export type Data = Record<Datum, unknown>;
+
+/**
  * Every operation the component must have
  * @category Metadata
  */
@@ -162,4 +192,4 @@ export type Events = Record<Event, EventListener | null>;
  * Everything the metadata says the component has: implemented by the component
  * @category Metadata
  */
-export type Meta = States & Operations & Events;
+export type Meta = States & Data & Operations & Events;
