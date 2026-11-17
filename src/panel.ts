@@ -153,6 +153,9 @@ export class Panel extends Component implements Meta {
       // Validate
       condition = Validate.condition(condition);
 
+      // Guard
+      if (this._condition === condition) return;
+
       // Mutate
       this._condition = condition;
 
