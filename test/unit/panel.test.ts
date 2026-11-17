@@ -1178,6 +1178,61 @@ events(Event.ON_HIDE, () => {
                 expect(onhide).toHaveBeenCalledTimes(1);
               });
             });
+
+            when("`panel.onhide` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  panel.onhide = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid onhide value: invalid'", () => {
+                expect(error.message).toBe("Invalid onhide value: invalid");
+              });
+
+              when("`panel.visibility` is set to `Visibility.HIDDEN`", () => {
+                beforeEach(() => {
+                  panel.visibility = Visibility.HIDDEN;
+                });
+
+                then("`panel.onhide` is still called", () => {
+                  expect(onhide).toHaveBeenCalled();
+                });
+              });
+            });
+
+            and("`panel.onhide` is set to a new listener", () => {
+              let onhide2: jasmine.Spy;
+              beforeEach(() => {
+                onhide2 = jasmine.createSpy("onhide2");
+                panel.onhide = onhide2;
+              });
+              afterEach(() => {
+                panel.onhide = null;
+              });
+
+              when("`panel.visibility` is set to `Visibility.HIDDEN`", () => {
+                beforeEach(() => {
+                  panel.visibility = Visibility.HIDDEN;
+                });
+
+                then("old `panel.onhide` is not called", () => {
+                  expect(onhide).not.toHaveBeenCalled();
+                });
+
+                then("new `panel.onhide` is called", () => {
+                  expect(onhide2).toHaveBeenCalled();
+                });
+              });
+            });
           });
         });
       });
