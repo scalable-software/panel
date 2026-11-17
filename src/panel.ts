@@ -111,6 +111,13 @@ export class Panel extends Component implements Meta {
   private _onpin: EventListener | null = null;
 
   /**
+   * onunpin triggered when panel status changes to unpinned
+   * @category Events
+   * @hidden
+   */
+  private _onunpin: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -243,6 +250,15 @@ export class Panel extends Component implements Meta {
    */
   public set onpin(handler: EventListener | null) {
     this._onpin = this._subscribe(Event.ON_PIN, this._onpin, handler);
+  }
+
+  /**
+   * Triggered via `.unpin()`
+   * @event
+   * @category Events
+   */
+  public set onunpin(handler: EventListener | null) {
+    this._onunpin = this._subscribe(Event.ON_UNPIN, this._onunpin, handler);
   }
 
   /**
