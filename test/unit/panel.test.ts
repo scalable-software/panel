@@ -3736,4 +3736,36 @@ events(Event.ON_CLOSE, () => {
   });
 });
 
+events(Event.ON_MOVE, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel, 480 wide and 320 high, is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(async () => {
+          panel = place(SIZED);
+          await styled(panel);
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("`panel.onmove` setter exists", () => {
+          expect(hasSetter(panel, Event.ON_MOVE)).toBeTrue();
+        });
+      });
+    });
+  });
+});
+
 // Gesture

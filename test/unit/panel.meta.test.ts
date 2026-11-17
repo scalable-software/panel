@@ -413,6 +413,14 @@ metadata(Metadata.EVENT, () => {
         then("`Event.ON_CLOSE` is `onclose`", () => {
           expect(Event.ON_CLOSE).toBe("onclose");
         });
+
+        then("`Event.ON_MOVE` exists", () => {
+          expect(Event.ON_MOVE).toBeDefined();
+        });
+
+        then("`Event.ON_MOVE` is `onmove`", () => {
+          expect(Event.ON_MOVE).toBe("onmove");
+        });
       });
     });
   });
