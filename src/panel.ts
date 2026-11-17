@@ -753,6 +753,8 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handleGripPointerdown = (event: PointerEvent) => {
+    if (this._condition === Condition.MINIMIZED) return;
+
     this._capture(event);
     this._grip({ left: event.clientX, top: event.clientY });
   };
