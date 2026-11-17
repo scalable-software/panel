@@ -334,7 +334,9 @@ export class Panel extends Component implements Meta {
    * Maximize the panel when it is normal or minimized
    * @category Operations
    */
-  public maximize = () => {};
+  public maximize = () => {
+    this.condition = Condition.MAXIMIZED;
+  };
 
   /**
    * List operations to perform for selected attributes being observed in the DOM.
