@@ -432,6 +432,32 @@ validation(Datum.POSITION, () => {
           });
         });
       });
+
+      and("`value` is a position with an undeclared `right`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { left: 120, top: 80, right: 4 };
+        });
+
+        when("`Validate.position(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.position(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid position value: right is not declared'", () => {
+            expect((error as Error).message).toEqual("Invalid position value: right is not declared");
+          });
+        });
+      });
     });
   });
 });
