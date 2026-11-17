@@ -549,6 +549,10 @@ export class Panel extends Component implements Meta {
       Gesture.POINTERUP,
       this._handleTaskbarPointerup
     );
+    taskbar?.addEventListener(
+      Gesture.POINTERCANCEL,
+      this._handleTaskbarPointercancel
+    );
   };
 
   /**
@@ -580,6 +584,10 @@ export class Panel extends Component implements Meta {
     taskbar?.removeEventListener(
       Gesture.POINTERUP,
       this._handleTaskbarPointerup
+    );
+    taskbar?.removeEventListener(
+      Gesture.POINTERCANCEL,
+      this._handleTaskbarPointercancel
     );
   };
 
@@ -649,6 +657,13 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handleTaskbarPointerup = () => this._release();
+
+  /**
+   * Handles the browser ending the press on the taskbar: releases the panel
+   * @category Gesture
+   * @hidden
+   */
+  private _handleTaskbarPointercancel = () => this._release();
 
   /**
    * Keeps the pointer's events coming to the taskbar until the press ends, also when the
