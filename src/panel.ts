@@ -298,6 +298,9 @@ export class Panel extends Component implements Meta {
 
     // Mutate
     this._position = this._freeze(position);
+
+    // Synchronize
+    this._place();
   }
 
   /**
@@ -488,6 +491,7 @@ export class Panel extends Component implements Meta {
   protected _initialize = () => {
     this._showControls();
     this._showStatus();
+    this._place();
   };
 
   /**
@@ -567,6 +571,19 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handleClose = () => this.close();
+
+  /**
+   * Places the panel at its position, in the element it is positioned in.
+   * A panel without a position stays where the host placed it.
+   * @category Configuration
+   * @hidden
+   */
+  private _place = () => {
+    if (!this._position) return;
+
+    this.style.left = `${this._position.left}px`;
+    this.style.top = `${this._position.top}px`;
+  };
 
   /**
    * Freeze a value and everything inside it.
