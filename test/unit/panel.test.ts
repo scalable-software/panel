@@ -599,6 +599,16 @@ state(State.CONDITION, () => {
             }
           );
         });
+
+        when("`panel.condition` is set to `Condition.MAXIMIZED`", () => {
+          beforeEach(() => {
+            panel.condition = Condition.MAXIMIZED;
+          });
+
+          then("the pin in the taskbar is hidden", () => {
+            expect(pinOf(panel).visibility).toBe(ControlVisibility.HIDDEN);
+          });
+        });
       });
     });
   });
