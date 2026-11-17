@@ -1472,6 +1472,14 @@ data(Datum.DIMENSIONS, () => {
               });
             });
 
+            then("the panel is 120 wide", () => {
+              expect(panel.style.width).toBe("120px");
+            });
+
+            then("the panel is 80 high", () => {
+              expect(panel.style.height).toBe("80px");
+            });
+
             when("`panel.dimensions` is set to dimensions without `height`", () => {
               let error: Error;
               beforeEach(() => {
