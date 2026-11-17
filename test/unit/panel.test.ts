@@ -1225,6 +1225,14 @@ data(Datum.POSITION, () => {
               });
             });
 
+            then("the panel is placed 120 from the left", () => {
+              expect(panel.style.left).toBe("120px");
+            });
+
+            then("the panel is placed 80 from the top", () => {
+              expect(panel.style.top).toBe("80px");
+            });
+
             when("`panel.position` is set to a position without `top`", () => {
               let error: Error;
               beforeEach(() => {
