@@ -1462,6 +1462,14 @@ operation(Operation.MAXIMIZE, () => {
               then("`panel.maximize` returns nothing", () => {
                 expect(result).toBeUndefined();
               });
+
+              then("the taskbar shows `minimize`, `restore`, `close`", () => {
+                expect(shown(panel)).toEqual([
+                  Control.MINIMIZE,
+                  Control.RESTORE,
+                  Control.CLOSE
+                ]);
+              });
             });
           });
         });
@@ -2567,6 +2575,30 @@ events(Event.ON_MAXIMIZE, () => {
               });
             });
 
+            when("invoking `panel.maximize`", () => {
+              beforeEach(() => {
+                panel.maximize();
+              });
+
+              then("`panel.onmaximize` is called once", () => {
+                expect(onmaximize).toHaveBeenCalledTimes(1);
+              });
+            });
+
+            when("`condition` attribute is set to `Condition.MAXIMIZED`", () => {
+              beforeEach(() => {
+                panel.setAttribute(Attributes.CONDITION, Condition.MAXIMIZED);
+              });
+
+              then("`panel.condition` is `Condition.MAXIMIZED`", () => {
+                expect(panel.condition).toBe(Condition.MAXIMIZED);
+              });
+
+              then("`panel.onmaximize` is called once", () => {
+                expect(onmaximize).toHaveBeenCalledTimes(1);
+              });
+            });
+
             when("the end user clicks `maximize` in the taskbar", () => {
               beforeEach(() => {
                 click(panel, Control.MAXIMIZE);
@@ -2578,6 +2610,83 @@ events(Event.ON_MAXIMIZE, () => {
 
               then("`panel.onmaximize` is called once", () => {
                 expect(onmaximize).toHaveBeenCalledTimes(1);
+              });
+
+              then("the taskbar shows `minimize`, `restore`, `close`", () => {
+                expect(shown(panel)).toEqual([
+                  Control.MINIMIZE,
+                  Control.RESTORE,
+                  Control.CLOSE
+                ]);
+              });
+            });
+
+            and("the panel is removed from DOM and added again", () => {
+              beforeEach(() => {
+                panel.remove();
+                document.body.appendChild(panel);
+              });
+
+              when("the end user clicks `maximize` in the taskbar", () => {
+                beforeEach(() => {
+                  click(panel, Control.MAXIMIZE);
+                });
+
+                then("`panel.onmaximize` is called once", () => {
+                  expect(onmaximize).toHaveBeenCalledTimes(1);
+                });
+              });
+            });
+
+            when("invoking `panel.maximize` twice", () => {
+              beforeEach(() => {
+                panel.maximize();
+                panel.maximize();
+              });
+
+              then("`panel.condition` is `Condition.MAXIMIZED`", () => {
+                expect(panel.condition).toBe(Condition.MAXIMIZED);
+              });
+
+              then("`panel.onmaximize` is called once", () => {
+                expect(onmaximize).toHaveBeenCalledTimes(1);
+              });
+            });
+
+            and("`panel.condition` is set to `Condition.MINIMIZED`", () => {
+              let heard: jasmine.Spy;
+              beforeEach(() => {
+                panel.condition = Condition.MINIMIZED;
+                heard = jasmine.createSpy("heard");
+                panel.onmaximize = heard;
+              });
+
+              when("invoking `panel.maximize`", () => {
+                beforeEach(() => {
+                  panel.maximize();
+                });
+
+                then("`panel.condition` is `Condition.MAXIMIZED`", () => {
+                  expect(panel.condition).toBe(Condition.MAXIMIZED);
+                });
+
+                then("`panel.onmaximize` is called once", () => {
+                  expect(heard).toHaveBeenCalledTimes(1);
+                });
+              });
+
+              when("the end user clicks `maximize` in the taskbar", () => {
+                beforeEach(() => {
+                  click(panel, Control.MAXIMIZE);
+                });
+
+                then("`panel.condition` is `Condition.MAXIMIZED`", () => {
+                  expect(panel.condition).toBe(Condition.MAXIMIZED);
+                });
+
+                then("`panel.onmaximize` is called once", () => {
+                  expect(heard).toHaveBeenCalledTimes(1);
+                });
               });
             });
           });
