@@ -250,7 +250,9 @@ export class Panel extends Component implements Meta {
    * Unpin the panel when it is pinned
    * @category Operations
    */
-  public unpin = () => {};
+  public unpin = () => {
+    this.status = Status.UNPINNED;
+  };
 
   /**
    * List operations to perform for selected attributes being observed in the DOM.
