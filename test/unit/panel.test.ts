@@ -2210,6 +2210,61 @@ events(Event.ON_MINIMIZE, () => {
                 expect(onminimize).toHaveBeenCalledTimes(1);
               });
             });
+
+            when("`panel.onminimize` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  panel.onminimize = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid onminimize value: invalid'", () => {
+                expect(error.message).toBe("Invalid onminimize value: invalid");
+              });
+
+              when("`panel.condition` is set to `Condition.MINIMIZED`", () => {
+                beforeEach(() => {
+                  panel.condition = Condition.MINIMIZED;
+                });
+
+                then("`panel.onminimize` is still called", () => {
+                  expect(onminimize).toHaveBeenCalled();
+                });
+              });
+            });
+
+            and("`panel.onminimize` is set to a new listener", () => {
+              let onminimize2: jasmine.Spy;
+              beforeEach(() => {
+                onminimize2 = jasmine.createSpy("onminimize2");
+                panel.onminimize = onminimize2;
+              });
+              afterEach(() => {
+                panel.onminimize = null;
+              });
+
+              when("`panel.condition` is set to `Condition.MINIMIZED`", () => {
+                beforeEach(() => {
+                  panel.condition = Condition.MINIMIZED;
+                });
+
+                then("old `panel.onminimize` is not called", () => {
+                  expect(onminimize).not.toHaveBeenCalled();
+                });
+
+                then("new `panel.onminimize` is called", () => {
+                  expect(onminimize2).toHaveBeenCalled();
+                });
+              });
+            });
           });
         });
       });
