@@ -98,7 +98,8 @@ export type Visibility = (typeof Visibility)[keyof typeof Visibility];
 export const Operation = {
   HIDE: "hide",
   SHOW: "show",
-  PIN: "pin"
+  PIN: "pin",
+  UNPIN: "unpin"
 } as const;
 
 /**
