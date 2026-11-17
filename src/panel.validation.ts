@@ -50,7 +50,8 @@ export class Validate {
   };
 
   /**
-   * Validates that the value is a position: a plain object with a `left` and a `top`.
+   * Validates that the value is a position: a plain object with a `left` and a `top`,
+   * each a finite number, and nothing else. Throws and names the field that fails.
    * @category Validation
    */
   public static position = (value: unknown) => {
@@ -64,6 +65,17 @@ export class Validate {
     const undeclared = Object.keys(rest)[0];
     if (undeclared)
       throw new Error(`Invalid position value: ${undeclared} is not declared`);
+
+    // Declared fields
+    if (left === undefined)
+      throw new Error("Invalid position value: left is required");
+    if (typeof left !== "number" || !Number.isFinite(left))
+      throw new Error("Invalid position value: left is invalid");
+
+    if (top === undefined)
+      throw new Error("Invalid position value: top is required");
+    if (typeof top !== "number" || !Number.isFinite(top))
+      throw new Error("Invalid position value: top is invalid");
 
     return value as Position;
   };
