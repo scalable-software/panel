@@ -635,13 +635,14 @@ export class Panel extends Component implements Meta {
 
   /**
    * Handles a press on the taskbar: grabs the panel where the pointer is, unless the
-   * panel is pinned or maximized
+   * panel is pinned or maximized, or the press is on a control
    * @category Gesture
    * @hidden
    */
   private _handleTaskbarPointerdown = (event: PointerEvent) => {
     if (this._status === Status.PINNED) return;
     if (this._condition === Condition.MAXIMIZED) return;
+    if (this._onControl(event)) return;
 
     this._capture(event);
     this._grab({ left: event.clientX, top: event.clientY });
@@ -668,6 +669,30 @@ export class Panel extends Component implements Meta {
    * @hidden
    */
   private _handleTaskbarPointercancel = () => this._release();
+
+  /**
+   * Whether a pointer event is on one of the controls of the taskbar. The taskbar hides
+   * which of its parts was pressed, so the place of the pointer is compared with the box
+   * of each control that is shown.
+   * @category Gesture
+   * @hidden
+   */
+  private _onControl = ({ clientX, clientY }: PointerEvent) => {
+    const { pin, minimize, maximize, restore, close } =
+      this.elements.taskbar ?? {};
+
+    return [pin, minimize, maximize, restore, close].some((control) => {
+      const box = control?.getBoundingClientRect();
+      return (
+        !!box &&
+        box.width > 0 &&
+        clientX >= box.left &&
+        clientX <= box.right &&
+        clientY >= box.top &&
+        clientY <= box.bottom
+      );
+    });
+  };
 
   /**
    * Keeps the pointer's events coming to the taskbar until the press ends, also when the
