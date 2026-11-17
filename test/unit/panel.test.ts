@@ -3834,6 +3834,105 @@ events(Event.ON_MOVE, () => {
                   };
                   expect(onmove).toHaveBeenCalledWith(jasmine.objectContaining(message));
                 });
+
+                then("the position in `detail` is `panel.position` itself, and frozen", () => {
+                  const { detail } = onmove.calls.mostRecent().args[0];
+                  expect(detail.position).toBe(panel.position);
+                  expect(Object.isFrozen(detail.position)).toBeTrue();
+                });
+
+                when("the pointer moves 25 further to the right", () => {
+                  beforeEach(() => {
+                    pointer(panel, Gesture.POINTERMOVE, start.x + 50, start.y + 15);
+                  });
+
+                  then("`panel.onmove` is called a second time", () => {
+                    expect(onmove).toHaveBeenCalledTimes(2);
+                  });
+                });
+              });
+            });
+
+            when("`panel.position` is set to `{ left: 120, top: 80 }`", () => {
+              beforeEach(() => {
+                panel.position = { left: 120, top: 80 };
+              });
+
+              then("`panel.onmove` is not called", () => {
+                expect(onmove).not.toHaveBeenCalled();
+              });
+            });
+
+            when("`panel.onmove` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  panel.onmove = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid onmove value: invalid'", () => {
+                expect(error.message).toBe("Invalid onmove value: invalid");
+              });
+
+              when("the end user drags the taskbar", () => {
+                beforeEach(() => {
+                  drag(panel, 25, 15);
+                });
+
+                then("`panel.onmove` is still called", () => {
+                  expect(onmove).toHaveBeenCalled();
+                });
+              });
+            });
+
+            and("`panel.onmove` is set to a new listener", () => {
+              let onmove2: jasmine.Spy;
+              beforeEach(() => {
+                onmove2 = jasmine.createSpy("onmove2");
+                panel.onmove = onmove2;
+              });
+              afterEach(() => {
+                panel.onmove = null;
+              });
+
+              when("the end user drags the taskbar", () => {
+                beforeEach(() => {
+                  drag(panel, 25, 15);
+                });
+
+                then("old `panel.onmove` is not called", () => {
+                  expect(onmove).not.toHaveBeenCalled();
+                });
+
+                then("new `panel.onmove` is called", () => {
+                  expect(onmove2).toHaveBeenCalled();
+                });
+              });
+            });
+
+            and("the panel is removed from DOM and added again", () => {
+              beforeEach(async () => {
+                panel.remove();
+                document.body.appendChild(panel);
+                await styled(panel);
+              });
+
+              when("the end user drags the taskbar", () => {
+                beforeEach(() => {
+                  drag(panel, 25, 15);
+                });
+
+                then("`panel.onmove` is called once", () => {
+                  expect(onmove).toHaveBeenCalledTimes(1);
+                });
               });
             });
           });
@@ -3916,6 +4015,22 @@ gesture(Gesture.POINTERDOWN, () => {
                 expect(onmove).not.toHaveBeenCalled();
               });
             });
+
+            and("`panel.status` is set to `Status.UNPINNED` again", () => {
+              beforeEach(() => {
+                panel.status = Status.UNPINNED;
+              });
+
+              when("the end user drags the taskbar", () => {
+                beforeEach(() => {
+                  drag(panel, 25, 15);
+                });
+
+                then("`panel.onmove` is called once", () => {
+                  expect(onmove).toHaveBeenCalledTimes(1);
+                });
+              });
+            });
           });
 
           and("`panel.condition` is `Condition.MAXIMIZED`", () => {
@@ -3952,6 +4067,97 @@ gesture(Gesture.POINTERDOWN, () => {
 
             then("`panel.onmove` is not called", () => {
               expect(onmove).not.toHaveBeenCalled();
+            });
+          });
+
+          when("the end user presses on `pin` in the taskbar, and moves the pointer", () => {
+            beforeEach(() => {
+              const start = onControl(panel, Control.PIN);
+              pointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+              pointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+              pointer(panel, Gesture.POINTERUP, start.x + 25, start.y + 15);
+            });
+
+            then("`panel.position` is `null`", () => {
+              expect(panel.position).toBeNull();
+            });
+
+            then("`panel.onmove` is not called", () => {
+              expect(onmove).not.toHaveBeenCalled();
+            });
+          });
+
+          when("the end user presses on `maximize` in the taskbar, and moves the pointer", () => {
+            beforeEach(() => {
+              const start = onControl(panel, Control.MAXIMIZE);
+              pointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+              pointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+              pointer(panel, Gesture.POINTERUP, start.x + 25, start.y + 15);
+            });
+
+            then("`panel.position` is `null`", () => {
+              expect(panel.position).toBeNull();
+            });
+
+            then("`panel.onmove` is not called", () => {
+              expect(onmove).not.toHaveBeenCalled();
+            });
+          });
+
+          when("the end user presses on `close` in the taskbar, and moves the pointer", () => {
+            beforeEach(() => {
+              const start = onControl(panel, Control.CLOSE);
+              pointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+              pointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+              pointer(panel, Gesture.POINTERUP, start.x + 25, start.y + 15);
+            });
+
+            then("`panel.position` is `null`", () => {
+              expect(panel.position).toBeNull();
+            });
+
+            then("`panel.onmove` is not called", () => {
+              expect(onmove).not.toHaveBeenCalled();
+            });
+          });
+
+          and("`panel.condition` is `Condition.MINIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MINIMIZED;
+            });
+
+            when("the end user drags the taskbar 25 to the right and 15 down", () => {
+              let origin: Position;
+              beforeEach(() => {
+                origin = { left: panel.offsetLeft, top: panel.offsetTop };
+                drag(panel, 25, 15);
+              });
+
+              then("`panel.position` is 25 further to the right and 15 further down", () => {
+                expect(panel.position).toEqual({ left: origin.left + 25, top: origin.top + 15 });
+              });
+
+              then("`panel.onmove` is called once", () => {
+                expect(onmove).toHaveBeenCalledTimes(1);
+              });
+
+              when("invoking `panel.restore`", () => {
+                beforeEach(() => {
+                  panel.restore();
+                });
+
+                then("`panel.condition` is `Condition.NORMAL`", () => {
+                  expect(panel.condition).toBe(Condition.NORMAL);
+                });
+
+                then("the panel is where it was moved to", () => {
+                  expect(panel.position).toEqual({ left: origin.left + 25, top: origin.top + 15 });
+                  expect([panel.offsetLeft, panel.offsetTop]).toEqual([
+                    origin.left + 25,
+                    origin.top + 15
+                  ]);
+                });
+              });
             });
           });
         });
@@ -4039,6 +4245,42 @@ gesture(Gesture.POINTERMOVE, () => {
 
               then("`panel.onmove` is called once", () => {
                 expect(onmove).toHaveBeenCalledTimes(1);
+              });
+
+              when("the pointer moves 40 to the left and 30 up from where the press started", () => {
+                beforeEach(() => {
+                  pointer(panel, Gesture.POINTERMOVE, start.x - 40, start.y - 30);
+                });
+
+                then("`panel.position` is 40 to the left and 30 up from where it started", () => {
+                  expect(panel.position).toEqual({ left: origin.left - 40, top: origin.top - 30 });
+                });
+              });
+            });
+          });
+
+          and("`panel.position` is set to `{ left: 120, top: 80 }`", () => {
+            beforeEach(() => {
+              panel.position = { left: 120, top: 80 };
+            });
+
+            when("the end user drags the taskbar 25 to the right and 15 down", () => {
+              beforeEach(() => {
+                drag(panel, 25, 15);
+              });
+
+              then("`panel.position` is `{ left: 145, top: 95 }`", () => {
+                expect(panel.position).toEqual({ left: 145, top: 95 });
+              });
+
+              when("the end user drags the taskbar 5 to the left and 5 up", () => {
+                beforeEach(() => {
+                  drag(panel, -5, -5);
+                });
+
+                then("`panel.position` is `{ left: 140, top: 90 }`", () => {
+                  expect(panel.position).toEqual({ left: 140, top: 90 });
+                });
               });
             });
           });
