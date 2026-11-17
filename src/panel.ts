@@ -162,6 +162,11 @@ export class Panel extends Component implements Meta {
       // Reflect
       this._reflect(Attributes.CONDITION, this._condition, Condition.NORMAL);
     }
+
+    // Dispatch
+    const detail = { condition };
+    condition === Condition.MINIMIZED &&
+      this._dispatch(Event.ON_MINIMIZE, detail);
   }
 
   /**
