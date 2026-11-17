@@ -26,6 +26,8 @@ building the window, or placing and wiring its controls, itself.
   and reporting it to the host application.
 - Enlarging the window to fill the space it has, by the end user or the host application,
   and reporting it to the host application.
+- Returning a collapsed or enlarged window to how it was, by the end user or the host
+  application, and reporting it to the host application.
 - Consistency with the device colour theme.
 
 **Out of scope**
@@ -79,4 +81,12 @@ As an **end user**, when I want to focus on a window's content, I want to enlarg
 to fill the space it has, so that I see as much as possible.
 
 As a **host application**, I want to be told when the window is maximized, so that I can act
+on it.
+
+### STORY: Restore
+
+As an **end user**, when a window is minimized or maximized, I want to return it to how it
+was, so that I continue where I left off.
+
+As a **host application**, I want to be told when the window is restored, so that I can act
 on it.
