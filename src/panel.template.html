@@ -1,4 +1,9 @@
 <template id="window-panel">
+  <style>
+    .window {
+      visibility: hidden;
+    }
+  </style>
   <div class="window">
     <task-bar><slot class="title" name="title"></slot></task-bar>
     <div class="content"><slot></slot></div>

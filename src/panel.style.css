@@ -132,3 +132,15 @@ task-bar {
 :host([condition="maximized"]) .grip {
   display: none;
 }
+
+/* =======================
+  Settled
+======================= */
+/* The template hides the window until this stylesheet has loaded: here it is shown.
+   It waits as long as the controls of the taskbar take to settle: when their own
+   stylesheets load, their borders fade from the default colour for 0.2s. A stopgap,
+   to be removed once the controls no longer do that. */
+div.window {
+  visibility: visible;
+  transition: visibility 0s linear 0.2s;
+}
