@@ -1308,6 +1308,29 @@ operation(Operation.UNPIN, () => {
         then("`panel.unpin` method exists", () => {
           expect(panel.unpin).toBeDefined();
         });
+
+        and("`panel.unpin` method exists", () => {
+          and("`panel.status` is `Status.PINNED`", () => {
+            beforeEach(() => {
+              panel.status = Status.PINNED;
+            });
+
+            when("invoking `panel.unpin`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = panel.unpin();
+              });
+
+              then("`panel.status` is `Status.UNPINNED`", () => {
+                expect(panel.status).toBe(Status.UNPINNED);
+              });
+
+              then("`panel.unpin` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
+        });
       });
     });
   });
