@@ -1442,6 +1442,29 @@ operation(Operation.MAXIMIZE, () => {
         then("`panel.maximize` method exists", () => {
           expect(panel.maximize).toBeDefined();
         });
+
+        and("`panel.maximize` method exists", () => {
+          and("`panel.condition` is `Condition.NORMAL`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.NORMAL;
+            });
+
+            when("invoking `panel.maximize`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = panel.maximize();
+              });
+
+              then("`panel.condition` is `Condition.MAXIMIZED`", () => {
+                expect(panel.condition).toBe(Condition.MAXIMIZED);
+              });
+
+              then("`panel.maximize` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
+        });
       });
     });
   });
