@@ -351,6 +351,9 @@ export class Panel extends Component implements Meta {
 
     // Mutate
     this._dimensions = this._freeze(dimensions);
+
+    // Synchronize
+    this._size();
   }
 
   /**
@@ -552,6 +555,7 @@ export class Panel extends Component implements Meta {
     this._showControls();
     this._showStatus();
     this._place();
+    this._size();
   };
 
   /**
@@ -794,6 +798,19 @@ export class Panel extends Component implements Meta {
 
     this.style.left = `${this._position.left}px`;
     this.style.top = `${this._position.top}px`;
+  };
+
+  /**
+   * Gives the panel its dimensions.
+   * A panel without dimensions keeps the size the host gave it.
+   * @category Configuration
+   * @hidden
+   */
+  private _size = () => {
+    if (!this._dimensions) return;
+
+    this.style.width = `${this._dimensions.width}px`;
+    this.style.height = `${this._dimensions.height}px`;
   };
 
   /**
