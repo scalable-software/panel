@@ -635,12 +635,13 @@ export class Panel extends Component implements Meta {
 
   /**
    * Handles a press on the taskbar: grabs the panel where the pointer is, unless the
-   * panel is pinned
+   * panel is pinned or maximized
    * @category Gesture
    * @hidden
    */
   private _handleTaskbarPointerdown = (event: PointerEvent) => {
     if (this._status === Status.PINNED) return;
+    if (this._condition === Condition.MAXIMIZED) return;
 
     this._capture(event);
     this._grab({ left: event.clientX, top: event.clientY });
