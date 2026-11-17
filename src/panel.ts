@@ -866,7 +866,7 @@ export class Panel extends Component implements Meta {
 
   /**
    * Stretches the gripped panel: its lower right moves as far as the pointer has moved
-   * since it was gripped
+   * since it was gripped, and never further in than its taskbar needs
    * @category Operations
    * @hidden
    */
@@ -874,13 +874,33 @@ export class Panel extends Component implements Meta {
     if (!this._gripped) return;
 
     const { pointer: from, origin } = this._gripped;
-    this.dimensions = {
-      width: origin.width + pointer.left - from.left,
-      height: origin.height + pointer.top - from.top
-    };
+    const width = Math.max(0, origin.width + pointer.left - from.left);
+    const height = Math.max(
+      this._least(),
+      origin.height + pointer.top - from.top
+    );
+    this.dimensions = { width, height };
+
+    // The stylesheet keeps the panel as wide as its taskbar needs: hold the width shown
+    if (this.offsetWidth > width)
+      this.dimensions = { width: this.offsetWidth, height };
 
     const detail = { dimensions: this.dimensions };
     this._dispatch(Event.ON_RESIZE, detail);
+  };
+
+  /**
+   * The least height of the panel: that of its taskbar, with the edge of the window
+   * above and below it
+   * @category Configuration
+   * @hidden
+   */
+  private _least = () => {
+    const taskbar = this.elements.taskbar?.getBoundingClientRect();
+    if (!taskbar) return 0;
+
+    const edge = taskbar.top - this.getBoundingClientRect().top;
+    return Math.ceil(taskbar.height + 2 * edge);
   };
 
   /**
