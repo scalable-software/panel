@@ -24,6 +24,8 @@ building the window, or placing and wiring its controls, itself.
   and reporting each change to the host application.
 - Collapsing the window to its bar, where it sits, by the end user or the host application,
   and reporting it to the host application.
+- Enlarging the window to fill the space it has, by the end user or the host application,
+  and reporting it to the host application.
 - Consistency with the device colour theme.
 
 **Out of scope**
@@ -69,4 +71,12 @@ As an **end user**, when I do not need a window for a while, I want to collapse 
 taskbar, so that it takes little room and stays within reach.
 
 As a **host application**, I want to be told when the window is minimized, so that I can act
+on it.
+
+### STORY: Maximize
+
+As an **end user**, when I want to focus on a window's content, I want to enlarge the window
+to fill the space it has, so that I see as much as possible.
+
+As a **host application**, I want to be told when the window is maximized, so that I can act
 on it.
