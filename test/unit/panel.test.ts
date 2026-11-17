@@ -3290,6 +3290,61 @@ events(Event.ON_CLOSE, () => {
                 expect(onclose).toHaveBeenCalledTimes(1);
               });
             });
+
+            when("`panel.onclose` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  panel.onclose = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid onclose value: invalid'", () => {
+                expect(error.message).toBe("Invalid onclose value: invalid");
+              });
+
+              when("invoking `panel.close`", () => {
+                beforeEach(() => {
+                  panel.close();
+                });
+
+                then("`panel.onclose` is still called", () => {
+                  expect(onclose).toHaveBeenCalled();
+                });
+              });
+            });
+
+            and("`panel.onclose` is set to a new listener", () => {
+              let onclose2: jasmine.Spy;
+              beforeEach(() => {
+                onclose2 = jasmine.createSpy("onclose2");
+                panel.onclose = onclose2;
+              });
+              afterEach(() => {
+                panel.onclose = null;
+              });
+
+              when("invoking `panel.close`", () => {
+                beforeEach(() => {
+                  panel.close();
+                });
+
+                then("old `panel.onclose` is not called", () => {
+                  expect(onclose).not.toHaveBeenCalled();
+                });
+
+                then("new `panel.onclose` is called", () => {
+                  expect(onclose2).toHaveBeenCalled();
+                });
+              });
+            });
           });
         });
       });
