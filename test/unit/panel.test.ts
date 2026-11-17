@@ -1682,6 +1682,41 @@ events(Event.ON_PIN, () => {
         then("`panel.onpin` setter exists", () => {
           expect(hasSetter(panel, Event.ON_PIN)).toBeTrue();
         });
+
+        and("`panel.onpin` setter exists", () => {
+          and("`panel.onpin` is set to a listener", () => {
+            let onpin: jasmine.Spy;
+            beforeEach(() => {
+              onpin = jasmine.createSpy("onpin");
+              panel.onpin = onpin;
+            });
+            afterEach(() => {
+              panel.onpin = null;
+            });
+
+            when("`panel.status` is set to `Status.PINNED`", () => {
+              beforeEach(() => {
+                panel.status = Status.PINNED;
+              });
+
+              then("`panel.onpin` is called", () => {
+                expect(onpin).toHaveBeenCalled();
+              });
+
+              then(
+                "`panel.onpin` is called with `{ detail: { status: Status.PINNED } }`",
+                () => {
+                  const message = {
+                    detail: { status: Status.PINNED }
+                  };
+                  expect(onpin).toHaveBeenCalledWith(
+                    jasmine.objectContaining(message)
+                  );
+                }
+              );
+            });
+          });
+        });
       });
     });
   });
