@@ -9,7 +9,8 @@ import {
   Condition,
   Status,
   Visibility,
-  Operation
+  Operation,
+  Event
 } from "@scalable.software/panel";
 import {
   Taskbar,
@@ -1106,5 +1107,36 @@ operation(Operation.SHOW, () => {
 });
 
 // Event
+
+events(Event.ON_HIDE, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(() => {
+          panel = place();
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("`panel.onhide` setter exists", () => {
+          expect(hasSetter(panel, Event.ON_HIDE)).toBeTrue();
+        });
+      });
+    });
+  });
+});
 
 // Gesture
