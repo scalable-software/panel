@@ -237,6 +237,14 @@ metadata(Metadata.DATUM, () => {
         then("`Datum.POSITION` is `position`", () => {
           expect(Datum.POSITION).toBe("position");
         });
+
+        then("`Datum.DIMENSIONS` exists", () => {
+          expect(Datum.DIMENSIONS).toBeDefined();
+        });
+
+        then("`Datum.DIMENSIONS` is `dimensions`", () => {
+          expect(Datum.DIMENSIONS).toBe("dimensions");
+        });
       });
     });
   });

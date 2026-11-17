@@ -1372,6 +1372,53 @@ data(Datum.POSITION, () => {
   });
 });
 
+data(Datum.DIMENSIONS, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel, 480 wide and 320 high, is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(async () => {
+          panel = place(SIZED);
+          await styled(panel);
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        then("`panel.dimensions` getter exists", () => {
+          expect("dimensions" in panel).toBeTrue();
+        });
+
+        then("`panel.dimensions` is `null`", () => {
+          expect(panel.dimensions).toBeNull();
+        });
+
+        and("a panel that is never added to DOM", () => {
+          let apart: Panel;
+          beforeEach(() => {
+            apart = document.createElement(Panel.Tag) as Panel;
+          });
+
+          then("its `dimensions` is `null`", () => {
+            expect(apart.dimensions).toBeNull();
+          });
+        });
+      });
+    });
+  });
+});
+
 // Operation
 
 operation(Operation.HIDE, () => {
