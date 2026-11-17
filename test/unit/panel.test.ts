@@ -9,7 +9,11 @@ import {
   Condition,
   Status
 } from "@scalable.software/panel";
-import { Taskbar, Control, Visibility } from "@scalable.software/taskbar";
+import {
+  Taskbar,
+  Control,
+  Visibility as ControlVisibility
+} from "@scalable.software/taskbar";
 import { Pin, Status as PinStatus } from "@scalable.software/pin";
 import { Minimize } from "@scalable.software/minimize";
 import { Maximize } from "@scalable.software/maximize";
@@ -48,7 +52,7 @@ const shown = (panel: Panel) => {
     Control.MAXIMIZE,
     Control.RESTORE,
     Control.CLOSE
-  ].filter((control) => taskbar[control]?.visibility === Visibility.VISIBLE);
+  ].filter((control) => taskbar[control]?.visibility === ControlVisibility.VISIBLE);
 };
 
 // The pin in the taskbar of a panel
