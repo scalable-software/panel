@@ -71,6 +71,8 @@
   height: 100%;
   overflow: hidden;
   background-color: var(--window-background-color);
+  -webkit-backdrop-filter: var(--window-blur);
+  backdrop-filter: var(--window-blur);
   color: var(--window-text-color);
   border: 1px solid var(--window-border-color);
   border-radius: var(--window-radius);
