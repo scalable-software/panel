@@ -102,4 +102,12 @@ task-bar {
   height: 16px;
   cursor: nwse-resize;
   touch-action: none;
+  background: linear-gradient(
+    135deg,
+    transparent 0 50%,
+    var(--grip-color) 50% 60%,
+    transparent 60% 70%,
+    var(--grip-color) 70% 80%,
+    transparent 80%
+  );
 }
