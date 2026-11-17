@@ -748,12 +748,13 @@ export class Panel extends Component implements Meta {
   private _handleTaskbarPointercancel = () => this._release();
 
   /**
-   * Handles a press on the grip: grips the panel where the pointer is
+   * Handles a press on the grip: grips the panel where the pointer is, while the panel
+   * is normal
    * @category Gesture
    * @hidden
    */
   private _handleGripPointerdown = (event: PointerEvent) => {
-    if (this._condition === Condition.MINIMIZED) return;
+    if (this._condition !== Condition.NORMAL) return;
 
     this._capture(event);
     this._grip({ left: event.clientX, top: event.clientY });
