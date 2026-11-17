@@ -331,6 +331,12 @@ export class Panel extends Component implements Meta {
   };
 
   /**
+   * Maximize the panel when it is normal or minimized
+   * @category Operations
+   */
+  public maximize = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
