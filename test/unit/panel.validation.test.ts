@@ -629,6 +629,84 @@ validation(Datum.DIMENSIONS, () => {
           });
         });
       });
+
+      and("`value` is `invalid`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = "invalid";
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid dimensions value: invalid'", () => {
+            expect((error as Error).message).toEqual("Invalid dimensions value: invalid");
+          });
+        });
+      });
+
+      and("`value` is `null`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = null;
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid dimensions value: null'", () => {
+            expect((error as Error).message).toEqual("Invalid dimensions value: null");
+          });
+        });
+      });
+
+      and("`value` is a list", () => {
+        let value: any;
+        beforeEach(() => {
+          value = [120, 80];
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid dimensions value: 120,80'", () => {
+            expect((error as Error).message).toEqual("Invalid dimensions value: 120,80");
+          });
+        });
+      });
     });
   });
 });
