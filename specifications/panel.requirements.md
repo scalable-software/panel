@@ -28,12 +28,14 @@ building the window, or placing and wiring its controls, itself.
   and reporting it to the host application.
 - Returning a collapsed or enlarged window to how it was, by the end user or the host
   application, and reporting it to the host application.
+- Closing the window, by the end user or the host application: telling the host application,
+  then removing the window from the page.
 - Consistency with the device colour theme.
 
 **Out of scope**
 
-- Creating a window, removing it and adding it again while the page runs — the window is
-  part of the page when the page loads.
+- Creating a window while the page runs, and bringing back a window that was closed — the
+  window is part of the page when the page loads.
 - Stacking several windows, and deciding which one is in front.
 - Remembering where a window was between visits.
 - Application-level theme switching; the window follows the device colour scheme only.
@@ -90,3 +92,11 @@ was, so that I continue where I left off.
 
 As a **host application**, I want to be told when the window is restored, so that I can act
 on it.
+
+### STORY: Close
+
+As an **end user**, when I am done with a window, I want to close it, so that it no longer
+takes room on my screen.
+
+As a **host application**, I want to be told when the window closes, so that I can clean up
+what belonged to it.
