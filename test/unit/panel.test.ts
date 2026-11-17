@@ -97,6 +97,18 @@ const styled = async (panel: Panel) => {
   );
 };
 
+// A pointer event of the end user on the taskbar of a panel, at a place in the viewport
+const pointer = (panel: Panel, type: string, x: number, y: number) =>
+  (panel.root.querySelector(Taskbar.Tag) as Taskbar).dispatchEvent(
+    new PointerEvent(type, { clientX: x, clientY: y, pointerId: 1, bubbles: true })
+  );
+
+// A place on the taskbar of a panel that no control covers: its centre
+const onBar = (panel: Panel) => {
+  const box = (panel.root.querySelector(Taskbar.Tag) as Taskbar).getBoundingClientRect();
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+};
+
 // Configuration
 configuration(Configuration.TAG, () => {
   and("Panel imported", () => {
@@ -3764,9 +3776,144 @@ events(Event.ON_MOVE, () => {
         then("`panel.onmove` setter exists", () => {
           expect(hasSetter(panel, Event.ON_MOVE)).toBeTrue();
         });
+
+        and("`panel.onmove` setter exists", () => {
+          and("`panel.onmove` is set to a listener", () => {
+            let onmove: jasmine.Spy;
+            beforeEach(() => {
+              onmove = jasmine.createSpy("onmove");
+              panel.onmove = onmove;
+            });
+            afterEach(() => {
+              panel.onmove = null;
+            });
+
+            and("the end user presses on the taskbar", () => {
+              let origin: Position;
+              let start: { x: number; y: number };
+              beforeEach(() => {
+                origin = { left: panel.offsetLeft, top: panel.offsetTop };
+                start = onBar(panel);
+                pointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+              });
+              afterEach(() => {
+                pointer(panel, Gesture.POINTERUP, start.x, start.y);
+              });
+
+              then("`panel.onmove` is not called", () => {
+                expect(onmove).not.toHaveBeenCalled();
+              });
+
+              when("the pointer moves 25 to the right and 15 down", () => {
+                beforeEach(() => {
+                  pointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+                });
+
+                then("`panel.onmove` is called once", () => {
+                  expect(onmove).toHaveBeenCalledTimes(1);
+                });
+
+                then("`panel.onmove` is called with the new position in `detail`", () => {
+                  const message = {
+                    detail: { position: { left: origin.left + 25, top: origin.top + 15 } }
+                  };
+                  expect(onmove).toHaveBeenCalledWith(jasmine.objectContaining(message));
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
 });
 
 // Gesture
+
+gesture(Gesture.POINTERMOVE, () => {
+  and("Panel is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Panel.Tag, Panel);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Panel.Template.load("panel.template.html");
+      });
+      afterEach(() => {
+        remove(Panel.Tag);
+      });
+
+      and("a new panel, 480 wide and 320 high, is added to DOM", () => {
+        let panel: Panel;
+        beforeEach(async () => {
+          panel = place(SIZED);
+          await styled(panel);
+        });
+        afterEach(() => {
+          panel.remove();
+        });
+
+        and("`panel.onmove` is set to a listener", () => {
+          let onmove: jasmine.Spy;
+          beforeEach(() => {
+            onmove = jasmine.createSpy("onmove");
+            panel.onmove = onmove;
+          });
+          afterEach(() => {
+            panel.onmove = null;
+          });
+
+          when("the pointer moves over the taskbar without a press", () => {
+            beforeEach(() => {
+              const start = onBar(panel);
+              pointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+            });
+
+            then("`panel.position` is `null`", () => {
+              expect(panel.position).toBeNull();
+            });
+
+            then("`panel.onmove` is not called", () => {
+              expect(onmove).not.toHaveBeenCalled();
+            });
+          });
+
+          and("the end user presses on the taskbar", () => {
+            let origin: Position;
+            let start: { x: number; y: number };
+            beforeEach(() => {
+              origin = { left: panel.offsetLeft, top: panel.offsetTop };
+              start = onBar(panel);
+              pointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+            });
+            afterEach(() => {
+              pointer(panel, Gesture.POINTERUP, start.x, start.y);
+            });
+
+            when("the pointer moves 25 to the right and 15 down", () => {
+              beforeEach(() => {
+                pointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+              });
+
+              then("`panel.position` is 25 further to the right and 15 further down", () => {
+                expect(panel.position).toEqual({ left: origin.left + 25, top: origin.top + 15 });
+              });
+
+              then("the panel has followed the pointer", () => {
+                expect([panel.offsetLeft, panel.offsetTop]).toEqual([
+                  origin.left + 25,
+                  origin.top + 15
+                ]);
+              });
+
+              then("`panel.onmove` is called once", () => {
+                expect(onmove).toHaveBeenCalledTimes(1);
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
