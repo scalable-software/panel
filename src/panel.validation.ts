@@ -81,7 +81,9 @@ export class Validate {
   };
 
   /**
-   * Validates that the value is dimensions: a plain object with a `width` and a `height`.
+   * Validates that the value is dimensions: a plain object with a `width` and a `height`,
+   * each a finite number that is not negative, and nothing else. Throws and names the
+   * field that fails.
    * @category Validation
    */
   public static dimensions = (value: unknown) => {
@@ -95,6 +97,20 @@ export class Validate {
     const undeclared = Object.keys(rest)[0];
     if (undeclared)
       throw new Error(`Invalid dimensions value: ${undeclared} is not declared`);
+
+    // Declared fields
+    const size = (field: unknown) =>
+      typeof field === "number" && Number.isFinite(field) && field >= 0;
+
+    if (width === undefined)
+      throw new Error("Invalid dimensions value: width is required");
+    if (!size(width))
+      throw new Error("Invalid dimensions value: width is invalid");
+
+    if (height === undefined)
+      throw new Error("Invalid dimensions value: height is required");
+    if (!size(height))
+      throw new Error("Invalid dimensions value: height is invalid");
 
     return value as Dimensions;
   };
