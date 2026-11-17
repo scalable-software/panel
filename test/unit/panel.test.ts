@@ -1278,6 +1278,10 @@ operation(Operation.PIN, () => {
               then("`panel.pin` returns nothing", () => {
                 expect(result).toBeUndefined();
               });
+
+              then("the pin in the taskbar is pinned", () => {
+                expect(pinOf(panel).status).toBe(PinStatus.PINNED);
+              });
             });
           });
         });
@@ -1331,6 +1335,10 @@ operation(Operation.UNPIN, () => {
 
               then("`panel.unpin` returns nothing", () => {
                 expect(result).toBeUndefined();
+              });
+
+              then("the pin in the taskbar is unpinned", () => {
+                expect(pinOf(panel).status).toBe(PinStatus.UNPINNED);
               });
             });
           });
@@ -1786,9 +1794,69 @@ events(Event.ON_PIN, () => {
               });
             });
 
+            when("invoking `panel.pin`", () => {
+              beforeEach(() => {
+                panel.pin();
+              });
+
+              then("`panel.onpin` is called once", () => {
+                expect(onpin).toHaveBeenCalledTimes(1);
+              });
+            });
+
+            when("`status` attribute is set to `Status.PINNED`", () => {
+              beforeEach(() => {
+                panel.setAttribute(Attributes.STATUS, Status.PINNED);
+              });
+
+              then("`panel.status` is `Status.PINNED`", () => {
+                expect(panel.status).toBe(Status.PINNED);
+              });
+
+              then("`panel.onpin` is called once", () => {
+                expect(onpin).toHaveBeenCalledTimes(1);
+              });
+            });
+
             when("the end user clicks the pin in the taskbar", () => {
               beforeEach(() => {
                 clickPin(panel);
+              });
+
+              then("`panel.status` is `Status.PINNED`", () => {
+                expect(panel.status).toBe(Status.PINNED);
+              });
+
+              then("`panel.onpin` is called once", () => {
+                expect(onpin).toHaveBeenCalledTimes(1);
+              });
+
+              then("the pin in the taskbar is pinned", () => {
+                expect(pinOf(panel).status).toBe(PinStatus.PINNED);
+              });
+            });
+
+            and("the panel is removed from DOM and added again", () => {
+              beforeEach(() => {
+                panel.remove();
+                document.body.appendChild(panel);
+              });
+
+              when("the end user clicks the pin in the taskbar", () => {
+                beforeEach(() => {
+                  clickPin(panel);
+                });
+
+                then("`panel.onpin` is called once", () => {
+                  expect(onpin).toHaveBeenCalledTimes(1);
+                });
+              });
+            });
+
+            when("invoking `panel.pin` twice", () => {
+              beforeEach(() => {
+                panel.pin();
+                panel.pin();
               });
 
               then("`panel.status` is `Status.PINNED`", () => {
@@ -1937,9 +2005,69 @@ events(Event.ON_UNPIN, () => {
                 });
               });
 
+              when("invoking `panel.unpin`", () => {
+                beforeEach(() => {
+                  panel.unpin();
+                });
+
+                then("`panel.onunpin` is called once", () => {
+                  expect(onunpin).toHaveBeenCalledTimes(1);
+                });
+              });
+
+              when("`status` attribute is removed", () => {
+                beforeEach(() => {
+                  panel.removeAttribute(Attributes.STATUS);
+                });
+
+                then("`panel.status` is `Status.UNPINNED`", () => {
+                  expect(panel.status).toBe(Status.UNPINNED);
+                });
+
+                then("`panel.onunpin` is called once", () => {
+                  expect(onunpin).toHaveBeenCalledTimes(1);
+                });
+              });
+
               when("the end user clicks the pin in the taskbar", () => {
                 beforeEach(() => {
                   clickPin(panel);
+                });
+
+                then("`panel.status` is `Status.UNPINNED`", () => {
+                  expect(panel.status).toBe(Status.UNPINNED);
+                });
+
+                then("`panel.onunpin` is called once", () => {
+                  expect(onunpin).toHaveBeenCalledTimes(1);
+                });
+
+                then("the pin in the taskbar is unpinned", () => {
+                  expect(pinOf(panel).status).toBe(PinStatus.UNPINNED);
+                });
+              });
+
+              and("the panel is removed from DOM and added again", () => {
+                beforeEach(() => {
+                  panel.remove();
+                  document.body.appendChild(panel);
+                });
+
+                when("the end user clicks the pin in the taskbar", () => {
+                  beforeEach(() => {
+                    clickPin(panel);
+                  });
+
+                  then("`panel.onunpin` is called once", () => {
+                    expect(onunpin).toHaveBeenCalledTimes(1);
+                  });
+                });
+              });
+
+              when("invoking `panel.unpin` twice", () => {
+                beforeEach(() => {
+                  panel.unpin();
+                  panel.unpin();
                 });
 
                 then("`panel.status` is `Status.UNPINNED`", () => {
