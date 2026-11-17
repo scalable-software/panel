@@ -20,6 +20,8 @@ building the window, or placing and wiring its controls, itself.
 - Showing a title the host application places in the window, in the bar.
 - Hiding the window and showing it again, when the host application decides, with the
   window as it was.
+- Pinning the window in place and unpinning it, by the end user or the host application,
+  and reporting each change to the host application.
 - Consistency with the device colour theme.
 
 **Out of scope**
@@ -50,3 +52,11 @@ hide it and show it again later, so that the end user only sees windows that app
 
 As an **end user**, I want the window to match my device's light or dark colour scheme, so
 that it looks consistent with the rest of my interface.
+
+### STORY: Pin and Unpin
+
+As an **end user**, when a window is where I want it, I want to pin it in place and unpin it
+later, so that I do not move it by accident.
+
+As a **host application**, I want to be told whenever the window is pinned or unpinned, so
+that I can act on it.
