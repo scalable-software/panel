@@ -1,69 +1,430 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>component.template</title><meta name="description" content="Documentation for component.template"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">component.template</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h2>component.template</h2></div><div class="tsd-panel tsd-typography"><p><img src="https://flat.badgen.net/static/license/CC-BY-NC-SA-4.0/green" alt="License: CC BY-NC-SA 4.0"></p>
-<a id="md:component-template" class="tsd-anchor"></a><h1><a href="#md:component-template">Component Template</a></h1><p>This is a template for creating a new component. It includes a basic structure for the component, as well as a set of scripts for building, testing, and documenting the component.</p>
-<a id="md:getting-started" class="tsd-anchor"></a><h2><a href="#md:getting-started">Getting Started</a></h2><p>To create a new component, you can use this template as a starting point. To do so, click the &quot;Use this template&quot; button at the top of the repository page. This will create a new repository with the same structure as this one.</p>
-<p>Once you have created a new repository, you can clone it to your local machine and start working on your component.</p>
-<pre><code class="language-bash"><span class="hl-0">git</span><span class="hl-1"> </span><span class="hl-2">clone</span>
-</code><button>Copy</button></pre>
-<a id="md:install-dependencies" class="tsd-anchor"></a><h2><a href="#md:install-dependencies">Install Dependencies</a></h2><ol>
-<li>Before creating a new component, first install the dependencies:</li>
-</ol>
-<pre><code class="language-bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span>
-</code><button>Copy</button></pre>
-<ol start="2">
-<li>Then run the <code>test</code> to ensure everything is in working order:</li>
-</ol>
-<pre><code class="language-bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">test</span>
-</code><button>Copy</button></pre>
-<blockquote>
-<p>note: a coverage and test report will be generated in the <code>coverage</code> directory and <code>report</code> directory, respectively.</p>
-</blockquote>
-<ol start="3">
-<li>Finally, run the <code>document</code> script to generate the component API documentation:</li>
-</ol>
-<pre><code class="language-bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-2">document</span>
-</code><button>Copy</button></pre>
-<blockquote>
-<p>note: The API documentation will be generated in the <code>docs</code> directory. You can review this by opening the <code>index.html</code> file in the <code>docs</code> directory in a web browser.</p>
-</blockquote>
-<a id="md:creating-a-new-component" class="tsd-anchor"></a><h2><a href="#md:creating-a-new-component">Creating a New Component</a></h2><p>To create a new component, you should first update the package metadata:</p>
-<a id="md:update-the-component-metadata" class="tsd-anchor"></a><h2><a href="#md:update-the-component-metadata">Update the Component Metadata</a></h2><p>Update the package name across all relevant files in this project:</p>
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Panel</title><meta name="description" content="Documentation for Panel"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="index.html" class="title">Panel</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<h1>Panel</h1></div>
+<div class="tsd-panel tsd-typography"><p><img src="https://flat.badgen.net/static/license/CC-BY-NC-SA-4.0/green" alt="License: CC BY-NC-SA 4.0"></p>
+<h1 id="panel" class="tsd-anchor-link">Panel<a href="#panel" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p>A lightweight, self-contained web component that holds a host application's content in a window: a taskbar along its top with the window's controls, the content below it, and a grip at its lower right. The end user moves the window by dragging the taskbar, resizes it with the grip, and pins, minimizes, maximizes, restores and closes it with the controls. The host application can do the same from code, and is told about every change. The panel can be shown or hidden on demand, and adapts automatically to light and dark themes.</p>
+<p>The panel owns the condition of the window. The taskbar and its controls only report what the end user asks for and show what the panel tells them.</p>
+<hr>
+<h2 id="1-introduction" class="tsd-anchor-link">1. Introduction<a href="#1-introduction" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The <strong>Panel</strong> component gives a host application a window with one element. The host places its content in it, and a title with <code>slot=&quot;title&quot;</code>.</p>
+<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">window-panel</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">span</span><span class="hl-2"> </span><span class="hl-3">slot</span><span class="hl-2">=</span><span class="hl-4">&quot;title&quot;</span><span class="hl-0">&gt;</span><span class="hl-2">Window title</span><span class="hl-0">&lt;/</span><span class="hl-1">span</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">p</span><span class="hl-0">&gt;</span><span class="hl-2">The content of the window.</span><span class="hl-0">&lt;/</span><span class="hl-1">p</span><span class="hl-0">&gt;</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">window-panel</span><span class="hl-0">&gt;</span>
+</code><button type="button">Copy</button></pre>
+
+<pre><code class="js"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">panel</span><span class="hl-2"> = </span><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-9">&quot;window-panel&quot;</span><span class="hl-2">);</span><br/><br/><span class="hl-7">panel</span><span class="hl-2">.</span><span class="hl-8">onclose</span><span class="hl-2"> = () </span><span class="hl-5">=&gt;</span><span class="hl-2"> </span><span class="hl-7">console</span><span class="hl-2">.</span><span class="hl-8">log</span><span class="hl-2">(</span><span class="hl-9">&quot;The window is closing&quot;</span><span class="hl-2">);</span><br/><span class="hl-7">panel</span><span class="hl-2">.</span><span class="hl-8">onmove</span><span class="hl-2"> = (</span><span class="hl-7">event</span><span class="hl-2">) </span><span class="hl-5">=&gt;</span><span class="hl-2"> </span><span class="hl-7">console</span><span class="hl-2">.</span><span class="hl-8">log</span><span class="hl-2">(</span><span class="hl-7">event</span><span class="hl-2">.</span><span class="hl-7">detail</span><span class="hl-2">.</span><span class="hl-7">position</span><span class="hl-2">);</span><br/><br/><span class="hl-7">panel</span><span class="hl-2">.</span><span class="hl-8">maximize</span><span class="hl-2">();</span><br/><span class="hl-7">panel</span><span class="hl-2">.</span><span class="hl-8">restore</span><span class="hl-2">();</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The panel neither listens to the content and the title nor changes them.</p>
+<p>The panel depends on <code>@scalable.software/taskbar</code>, and through it on <code>@scalable.software/pin</code>, <code>@scalable.software/minimize</code>, <code>@scalable.software/maximize</code>, <code>@scalable.software/restore</code> and <code>@scalable.software/close</code>. The host application defines the five controls, then the taskbar, then the panel, each after loading its template (see 5.3).</p>
+<h3 id="11-installation-setup" class="tsd-anchor-link">1.1 Installation &amp; Setup<a href="#11-installation-setup" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ol>
-<li><p>Package: <code>package.json</code> in the <code>root</code> directory.</p>
+<li>
+<p><strong>Clone the Repository</strong></p>
+<pre><code class="bash"><span class="hl-8">git</span><span class="hl-2"> </span><span class="hl-9">clone</span><span class="hl-2"> </span><span class="hl-9">https://github.com/scalable-software/panel.git</span><br/><span class="hl-8">cd</span><span class="hl-2"> </span><span class="hl-9">panel</span>
+</code><button type="button">Copy</button></pre>
+
 </li>
-<li><p>Typescript Config: both <code>tsconfig.json</code> files are in the <code>root</code> directory.</p>
+<li>
+<p><strong>Install Dependencies</strong></p>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">install</span>
+</code><button type="button">Copy</button></pre>
+
 </li>
-<li><p>ES Module: <code>importmap.js</code> files in the <code>importmap</code> directory.</p>
+<li>
+<p><strong>Run Tests (Optional)</strong></p>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">test</span>
+</code><button type="button">Copy</button></pre>
+
+<ul>
+<li>Ensures everything is working as expected before you start.</li>
+</ul>
 </li>
-<li><p>Unit Testing: The <code>wallaby.js</code> and <code>karma.conf.js</code> files are in the <code>root</code> directory.</p>
-</li>
-<li><p>Demo: The <code>index.js</code> file in the <code>demo</code> directory.</p>
-</li>
-<li><p>Confirm that the component name has been updated in all relevant files by running the <code>test</code> script:</p>
+<li>
+<p><strong>Start Local Server</strong></p>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">run</span><span class="hl-2"> </span><span class="hl-9">serve</span>
+</code><button type="button">Copy</button></pre>
+
+<ul>
+<li>This builds the component and opens the demo page, with a <code>&lt;window-panel&gt;</code> on a stage at the top and its controls below it.</li>
+</ul>
 </li>
 </ol>
-<pre><code class="language-bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">test</span>
-</code><button>Copy</button></pre>
-<a id="md:creating-a-new-component-1" class="tsd-anchor"></a><h2><a href="#md:creating-a-new-component-1">Creating a New Component</a></h2><p>To create a new component:</p>
+<hr>
+<h2 id="2-quick-start-usage-walkthrough" class="tsd-anchor-link">2. Quick Start Usage Walkthrough<a href="#2-quick-start-usage-walkthrough" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>This walkthrough uses the demo page to show how <code>&lt;window-panel&gt;</code> behaves. The page has the panel on a stage across the top, and four groups below it: <strong>States</strong>, <strong>Data</strong>, <strong>Operations</strong> and <strong>Events</strong>.</p>
 <ol>
-<li>Review the directory and file structure of the fake <code>component</code> implementation.</li>
-<li>Study this software architecture implementation policies (available from repository owner).</li>
-<li>Define the component specifications using the <code>component.specifications.json</code> template file provided.</li>
-<li>Stickly follow a TDD development approach in feature branches.</li>
-<li>After complete implementation of a feature, <code>test</code>, <code>build</code>, and generate the <code>documentation</code> (see below)</li>
-<li>Update the demo scaffold in the <code>demo</code> directory to reflect the new component&#39;s API and functionality.</li>
-<li>Lastly do a pull request to the <code>main</code> branch and merge it if everything checks out.</li>
+<li>
+<p><strong>Drag</strong> the taskbar of the panel, by its title or by the empty part of the bar.</p>
+<ul>
+<li>The panel follows the pointer. The <strong>Events</strong> log shows <code>onmove</code> for every step, and the <strong>Data</strong> group shows the new <code>position</code>.</li>
+<li>Press on a control and move: nothing is dragged.</li>
+</ul>
+</li>
+<li>
+<p><strong>Drag</strong> the grip at the lower right of the panel.</p>
+<ul>
+<li>The lower right corner follows the pointer. The log shows <code>onresize</code> for every step, and <strong>Data</strong> shows the new <code>dimensions</code>.</li>
+<li>Drag it up and to the left as far as it goes: the panel stops at the size of its taskbar.</li>
+</ul>
+</li>
+<li>
+<p><strong>Click</strong> the pin in the taskbar.</p>
+<ul>
+<li>The pin shows pinned, <code>status</code> in the <strong>States</strong> group becomes <code>pinned</code>, and the log shows <code>onpin</code>.</li>
+<li>Drag the taskbar: the panel does not move. Drag the grip: it still resizes.</li>
+<li>Click the pin again: the log shows <code>onunpin</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Click</strong> the minimize control.</p>
+<ul>
+<li>The panel collapses to its taskbar, where it sits, and the log shows <code>onminimize</code>. The taskbar now shows restore and maximize, and hides minimize.</li>
+<li>Drag the collapsed panel: it can still be moved.</li>
+<li>Click restore: the panel returns to how it was, at the place you moved it to, and the log shows <code>onrestore</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Click</strong> the maximize control.</p>
+<ul>
+<li>The panel fills the stage, the element it is positioned in, and the log shows <code>onmaximize</code>. The pin and the grip are hidden.</li>
+<li>Click minimize, then restore: the panel returns to maximized, because that is what it was when it was minimized.</li>
+<li>Click restore again: the panel returns to its own place and size.</li>
+</ul>
+</li>
+<li>
+<p><strong>Click</strong> <code>hide</code>, then <code>show</code>, in the <strong>Operations</strong> group.</p>
+<ul>
+<li>The panel disappears and comes back as it was. The log shows <code>onhide</code> and <code>onshow</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Click</strong> the buttons in the <strong>Data</strong> group.</p>
+<ul>
+<li>The host application places and sizes the panel from code: <code>panel.position = { left: 24, top: 24 }</code>. Setting data sends no event.</li>
+</ul>
+</li>
+<li>
+<p><strong>Click</strong> the close control.</p>
+<ul>
+<li>The log shows <code>onclose</code>, and then the panel is removed from the page. Click <strong>Place the panel again</strong> to put it back; that button belongs to the page, not to the panel.</li>
+</ul>
+</li>
+<li>
+<p><strong>Open the Developer Tools</strong>, select the <strong>Console</strong>, and try:</p>
+<pre><code class="js"><span class="hl-5">const</span><span class="hl-2"> </span><span class="hl-6">panel</span><span class="hl-2"> = </span><span class="hl-7">document</span><span class="hl-2">.</span><span class="hl-8">querySelector</span><span class="hl-2">(</span><span class="hl-9">&quot;window-panel&quot;</span><span class="hl-2">);</span><br/><br/><span class="hl-7">panel</span><span class="hl-2">.</span><span class="hl-7">condition</span><span class="hl-2">;</span><br/><span class="hl-7">panel</span><span class="hl-2">.</span><span class="hl-7">dimensions</span><span class="hl-2"> = { </span><span class="hl-7">width:</span><span class="hl-2"> </span><span class="hl-10">400</span><span class="hl-2">, </span><span class="hl-7">height:</span><span class="hl-2"> </span><span class="hl-10">240</span><span class="hl-2"> };</span><br/><span class="hl-7">panel</span><span class="hl-2">.</span><span class="hl-8">onresize</span><span class="hl-2"> = (</span><span class="hl-7">event</span><span class="hl-2">) </span><span class="hl-5">=&gt;</span><span class="hl-2"> </span><span class="hl-7">console</span><span class="hl-2">.</span><span class="hl-8">log</span><span class="hl-2">(</span><span class="hl-7">event</span><span class="hl-2">.</span><span class="hl-7">detail</span><span class="hl-2">.</span><span class="hl-7">dimensions</span><span class="hl-2">);</span>
+</code><button type="button">Copy</button></pre>
+
+</li>
 </ol>
-<a id="md:testing-the-component" class="tsd-anchor"></a><h3><a href="#md:testing-the-component">Testing the Component</a></h3><p>To test the component, you can use the <code>test</code> script. This script will run the component&#39;s test suite and generate both a test and coverage report.</p>
-<pre><code class="language-bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">test</span>
-</code><button>Copy</button></pre>
-<a id="md:document-the-component-api" class="tsd-anchor"></a><h3><a href="#md:document-the-component-api">Document the Component API</a></h3><p>To document the component API, you can use the <code>docs</code> script. This script will generate a set of documentation files for the component.</p>
-<pre><code class="language-bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-2">document</span>
-</code><button>Copy</button></pre>
-<a id="md:license" class="tsd-anchor"></a><h2><a href="#md:license">License</a></h2><blockquote>
-<p>his software and its documentation are released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License (CC BY-NC-SA 4.0). This means you are free to share, copy, distribute, and transmit the work, and to adapt it, but only under the following conditions:</p>
+<p>For more details on <strong>States</strong>, <strong>Data</strong>, <strong>Operations</strong>, <strong>Events</strong> and <strong>Gestures</strong>, consult the sections below or check the generated <strong>API documentation</strong> (see <code>npm run document</code>).</p>
+<hr>
+<h2 id="3-architectural-overview" class="tsd-anchor-link">3. Architectural Overview<a href="#3-architectural-overview" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="31-composition" class="tsd-anchor-link">3.1 Composition<a href="#31-composition" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><strong>Template</strong> (<code>panel.template.html</code>): Defines DOM structure — a <code>.window</code> surface holding the <code>&lt;task-bar&gt;</code>, with a slot named <code>title</code> in its centre, a <code>.content</code> region with the default slot, and the <code>.grip</code>.</li>
+<li><strong>Style</strong> (<code>panel.style.css</code>): Encapsulates the surface of the window, the layout of its parts, the grip, what a minimized, maximized or hidden panel looks like, and light/dark theme adaptation.</li>
+<li><strong>Class</strong> (<code>panel.ts</code>): Extends the base component class to handle lifecycle hooks, attribute reflection, the states, the data, the operations, the dispatch of its events, and the gestures on the taskbar and the grip.</li>
+</ul>
+<h3 id="32-class-lifecycle" class="tsd-anchor-link">3.2 Class Lifecycle<a href="#32-class-lifecycle" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li>
+<p><strong><code>connectedCallback()</code></strong></p>
+<ul>
+<li>Upgrades the taskbar and its controls, and caches the taskbar and the grip.</li>
+<li>Shows the controls that fit the <code>condition</code>, makes the pin show the <code>status</code>, and places and sizes the panel when it has a <code>position</code> or <code>dimensions</code>.</li>
+<li>Starts listening: to the five controls through their own <code>on…</code> properties, and to the pointer on the taskbar and on the grip.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>disconnectedCallback()</code></strong></p>
+<ul>
+<li>Stops listening. A panel that is added again listens once.</li>
+</ul>
+</li>
+</ul>
+<p>The panel takes the <code>on…</code> properties of the controls in its taskbar. A host application listens to the panel, such as <code>panel.onpin</code>, not to a control.</p>
+<h3 id="33-placement" class="tsd-anchor-link">3.3 Placement<a href="#33-placement" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>The panel is positioned (<code>position: absolute</code>) in the nearest positioned element around it.</p>
+<ul>
+<li>Until it has a <code>position</code>, it is where the host's own styles place it; until it has <code>dimensions</code>, it has the size the host's styles give it.</li>
+<li>Once it has them, the panel writes <code>left</code>, <code>top</code>, <code>width</code> and <code>height</code> on its own element.</li>
+<li>While <code>maximized</code> it fills the element it is positioned in, and while <code>minimized</code> it is as high as its taskbar, whatever place and size it was given. It keeps its <code>position</code> and <code>dimensions</code> meanwhile.</li>
+<li>The panel is never shown narrower than its taskbar needs.</li>
+</ul>
+<hr>
+<h2 id="4-core-concepts-state-data-operations-events-and-gestures" class="tsd-anchor-link">4. Core Concepts: State, Data, Operations, Events, and Gestures<a href="#4-core-concepts-state-data-operations-events-and-gestures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="41-state" class="tsd-anchor-link">4.1 State<a href="#41-state" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li>
+<p><strong><code>condition</code></strong> (<code>normal</code> | <code>minimized</code> | <code>maximized</code>)</p>
+<ul>
+<li>Whether the window is normal, collapsed to its taskbar, or enlarged to fill the space it has.</li>
+<li>It decides what the taskbar shows: minimize and maximize while <code>normal</code>; restore and maximize while <code>minimized</code>; minimize and restore while <code>maximized</code>. Close is always shown. The pin is hidden while <code>maximized</code>.</li>
+<li><strong>Optional attribute</strong>: absent from the DOM when <code>normal</code> (the default).</li>
+</ul>
+</li>
+<li>
+<p><strong><code>status</code></strong> (<code>pinned</code> | <code>unpinned</code>)</p>
+<ul>
+<li>Whether the window is pinned in place. The panel holds it, and the pin in the taskbar shows it.</li>
+<li>Pinned stops the end user from moving the panel, not from resizing it.</li>
+<li><strong>Optional attribute</strong>: absent from the DOM when <code>unpinned</code> (the default).</li>
+</ul>
+</li>
+<li>
+<p><strong><code>visibility</code></strong> (<code>visible</code> | <code>hidden</code>)</p>
+<ul>
+<li>Whether the panel is displayed. A hidden panel keeps everything else as it is.</li>
+<li><strong>Optional attribute</strong>: absent from the DOM when <code>visible</code> (the default).</li>
+</ul>
+</li>
+</ul>
+<p>Any other value is rejected: assigning it to the property throws, and writing it to the attribute puts the current state back. Assigning <code>null</code> returns a state to its default.</p>
+<h3 id="42-data" class="tsd-anchor-link">4.2 Data<a href="#42-data" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li>
+<p><strong><code>position</code></strong> (<code>{ left, top }</code> | <code>null</code>)</p>
+<ul>
+<li>The place of the panel's upper left corner in the element it is positioned in, in pixels.</li>
+<li><code>null</code> until the panel is moved or given a position.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>dimensions</code></strong> (<code>{ width, height }</code> | <code>null</code>)</p>
+<ul>
+<li>How large the panel is, in pixels; neither may be negative.</li>
+<li><code>null</code> until the panel is resized or given dimensions.</li>
+</ul>
+</li>
+</ul>
+<p>The getter returns a frozen copy that the panel owns: changing the object that was assigned changes nothing, and assigning to a field of the returned value throws. A value with a missing, extra or invalid field is rejected with a message that names the field, such as <code>Invalid position value: top is required</code>. <code>null</code> cannot be assigned.</p>
+<p>Assigning data places or sizes the panel and sends no event. The host application can place a pinned or maximized panel this way; only the end user's drag is stopped.</p>
+<h3 id="43-operations" class="tsd-anchor-link">4.3 Operations<a href="#43-operations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hide()</code></td>
+<td>hides the panel</td>
+</tr>
+<tr>
+<td><code>show()</code></td>
+<td>shows the panel</td>
+</tr>
+<tr>
+<td><code>pin()</code></td>
+<td>sets <code>status</code> to <code>pinned</code>; the pin shows pinned</td>
+</tr>
+<tr>
+<td><code>unpin()</code></td>
+<td>sets <code>status</code> to <code>unpinned</code>; the pin shows unpinned</td>
+</tr>
+<tr>
+<td><code>minimize()</code></td>
+<td>sets <code>condition</code> to <code>minimized</code>: the panel collapses to its taskbar</td>
+</tr>
+<tr>
+<td><code>maximize()</code></td>
+<td>sets <code>condition</code> to <code>maximized</code>: the panel fills the space it has</td>
+</tr>
+<tr>
+<td><code>restore()</code></td>
+<td>returns the panel to how it was: a maximized panel becomes normal; a minimized panel returns to the condition it had when it was minimized</td>
+</tr>
+<tr>
+<td><code>close()</code></td>
+<td>dispatches <code>onclose</code>, then removes the panel from the page</td>
+</tr>
+</tbody>
+</table>
+<p>An operation whose outcome is already true does nothing and sends no event.</p>
+<h3 id="44-events" class="tsd-anchor-link">4.4 Events<a href="#44-events" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Dispatched when</th>
+<th><code>detail</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>onhide</code></td>
+<td>the panel becomes hidden</td>
+<td><code>{ visibility: &quot;hidden&quot; }</code></td>
+</tr>
+<tr>
+<td><code>onshow</code></td>
+<td>the panel becomes visible</td>
+<td><code>{ visibility: &quot;visible&quot; }</code></td>
+</tr>
+<tr>
+<td><code>onpin</code></td>
+<td><code>status</code> becomes <code>pinned</code></td>
+<td><code>{ status: &quot;pinned&quot; }</code></td>
+</tr>
+<tr>
+<td><code>onunpin</code></td>
+<td><code>status</code> becomes <code>unpinned</code></td>
+<td><code>{ status: &quot;unpinned&quot; }</code></td>
+</tr>
+<tr>
+<td><code>onminimize</code></td>
+<td><code>condition</code> becomes <code>minimized</code></td>
+<td><code>{ condition: &quot;minimized&quot; }</code></td>
+</tr>
+<tr>
+<td><code>onmaximize</code></td>
+<td><code>condition</code> becomes <code>maximized</code></td>
+<td><code>{ condition: &quot;maximized&quot; }</code></td>
+</tr>
+<tr>
+<td><code>onrestore</code></td>
+<td><code>condition</code> becomes <code>normal</code></td>
+<td><code>{ condition: &quot;normal&quot; }</code></td>
+</tr>
+<tr>
+<td><code>onclose</code></td>
+<td>the panel closes, before it is removed from the page</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>onmove</code></td>
+<td>the end user drags the panel to a new position, once for every step</td>
+<td><code>{ position }</code></td>
+</tr>
+<tr>
+<td><code>onresize</code></td>
+<td>the end user drags the grip to new dimensions, once for every step</td>
+<td><code>{ dimensions }</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Subscribe with the property of the same name, such as <code>panel.onmove = handler</code>, or with <code>addEventListener(&quot;onmove&quot;, handler)</code>. <code>onevent</code> receives every event.</li>
+<li>A state event is sent whenever the state changes, whether by an operation, the property, the attribute or a control.</li>
+<li>Restoring a panel that was minimized from maximized makes it <code>maximized</code>, so it sends <code>onmaximize</code>, not <code>onrestore</code>.</li>
+<li><code>onclose</code> and <code>onresize</code> deliberately replace the properties of the same name every HTML element has: on the panel they subscribe to the panel's own events.</li>
+</ul>
+<h3 id="45-gestures" class="tsd-anchor-link">4.5 Gestures<a href="#45-gestures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<table>
+<thead>
+<tr>
+<th>Gesture</th>
+<th>On</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pointerdown</code></td>
+<td>the taskbar</td>
+<td>starts dragging the panel, unless it is pinned or maximized, or the press is on a control</td>
+</tr>
+<tr>
+<td><code>pointerdown</code></td>
+<td>the grip</td>
+<td>starts resizing the panel, while it is normal</td>
+</tr>
+<tr>
+<td><code>pointermove</code></td>
+<td>the taskbar, the grip</td>
+<td>the panel, or its lower right corner, follows the pointer</td>
+</tr>
+<tr>
+<td><code>pointerup</code>, <code>pointercancel</code></td>
+<td>the taskbar, the grip</td>
+<td>ends the drag or the resizing where the panel is</td>
+</tr>
+</tbody>
+</table>
+<p>A click on a control in the taskbar is the control's own gesture: the panel hears what the control reports, and pins, unpins, minimizes, maximizes, restores or closes itself.</p>
+<p>Moving and resizing need a pointer; they have no keyboard equivalent.</p>
+<hr>
+<h2 id="5-development-workflow" class="tsd-anchor-link">5. Development Workflow<a href="#5-development-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="51-testing" class="tsd-anchor-link">5.1 Testing<a href="#51-testing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Unit tests run with Karma + Jasmine. The specification is checked first, then the suite covers composition, states, data, validation, operations, events and gestures. The suite defines the five controls and the taskbar once, as a host does.</p>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">test</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="52-documentation-typedoc" class="tsd-anchor-link">5.2 Documentation (Typedoc)<a href="#52-documentation-typedoc" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<pre><code class="bash"><span class="hl-8">npm</span><span class="hl-2"> </span><span class="hl-9">run</span><span class="hl-2"> </span><span class="hl-9">document</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Auto-generates API docs from TypeScript annotations.</p>
+<h3 id="53-import-maps" class="tsd-anchor-link">5.3 Import Maps<a href="#53-import-maps" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>The host maps the panel, the base component, the taskbar and the five controls:</p>
+<pre><code class="html"><span class="hl-0">&lt;</span><span class="hl-1">script</span><span class="hl-11"> </span><span class="hl-3">type</span><span class="hl-11">=</span><span class="hl-4">&quot;importmap&quot;</span><span class="hl-0">&gt;</span><br/><span class="hl-11">  {</span><br/><span class="hl-11">    &quot;imports&quot;: {</span><br/><span class="hl-11">      &quot;@scalable.software/panel&quot;: &quot;./node_modules/@scalable.software/panel/dist/index.js&quot;,</span><br/><span class="hl-11">      &quot;@scalable.software/component&quot;: &quot;./node_modules/@scalable.software/component/dist/index.js&quot;,</span><br/><span class="hl-11">      &quot;@scalable.software/taskbar&quot;: &quot;./node_modules/@scalable.software/taskbar/dist/index.js&quot;,</span><br/><span class="hl-11">      &quot;@scalable.software/pin&quot;: &quot;./node_modules/@scalable.software/pin/dist/index.js&quot;,</span><br/><span class="hl-11">      &quot;@scalable.software/minimize&quot;: &quot;./node_modules/@scalable.software/minimize/dist/index.js&quot;,</span><br/><span class="hl-11">      &quot;@scalable.software/maximize&quot;: &quot;./node_modules/@scalable.software/maximize/dist/index.js&quot;,</span><br/><span class="hl-11">      &quot;@scalable.software/restore&quot;: &quot;./node_modules/@scalable.software/restore/dist/index.js&quot;,</span><br/><span class="hl-11">      &quot;@scalable.software/close&quot;: &quot;./node_modules/@scalable.software/close/dist/index.js&quot;</span><br/><span class="hl-11">    }</span><br/><span class="hl-11">  }</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">script</span><span class="hl-0">&gt;</span>
+</code><button type="button">Copy</button></pre>
+
+<pre><code class="js"><span class="hl-12">import</span><span class="hl-2"> { </span><span class="hl-7">Panel</span><span class="hl-2"> } </span><span class="hl-12">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/panel&quot;</span><span class="hl-2">;</span><br/><span class="hl-12">import</span><span class="hl-2"> { </span><span class="hl-7">Taskbar</span><span class="hl-2"> } </span><span class="hl-12">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/taskbar&quot;</span><span class="hl-2">;</span><br/><span class="hl-12">import</span><span class="hl-2"> { </span><span class="hl-7">Pin</span><span class="hl-2"> } </span><span class="hl-12">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/pin&quot;</span><span class="hl-2">;</span><br/><span class="hl-12">import</span><span class="hl-2"> { </span><span class="hl-7">Minimize</span><span class="hl-2"> } </span><span class="hl-12">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/minimize&quot;</span><span class="hl-2">;</span><br/><span class="hl-12">import</span><span class="hl-2"> { </span><span class="hl-7">Maximize</span><span class="hl-2"> } </span><span class="hl-12">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/maximize&quot;</span><span class="hl-2">;</span><br/><span class="hl-12">import</span><span class="hl-2"> { </span><span class="hl-7">Restore</span><span class="hl-2"> } </span><span class="hl-12">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/restore&quot;</span><span class="hl-2">;</span><br/><span class="hl-12">import</span><span class="hl-2"> { </span><span class="hl-7">Close</span><span class="hl-2"> } </span><span class="hl-12">from</span><span class="hl-2"> </span><span class="hl-9">&quot;@scalable.software/close&quot;</span><span class="hl-2">;</span><br/><br/><span class="hl-12">await</span><span class="hl-2"> </span><span class="hl-7">Pin</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;pin.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-12">await</span><span class="hl-2"> </span><span class="hl-7">Minimize</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;minimize.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-12">await</span><span class="hl-2"> </span><span class="hl-7">Maximize</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;maximize.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-12">await</span><span class="hl-2"> </span><span class="hl-7">Restore</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;restore.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-12">await</span><span class="hl-2"> </span><span class="hl-7">Close</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;close.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-12">await</span><span class="hl-2"> </span><span class="hl-7">Taskbar</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;taskbar.template.html&quot;</span><span class="hl-2">);</span><br/><span class="hl-12">await</span><span class="hl-2"> </span><span class="hl-7">Panel</span><span class="hl-2">.</span><span class="hl-7">Template</span><span class="hl-2">.</span><span class="hl-8">load</span><span class="hl-2">(</span><span class="hl-9">&quot;panel.template.html&quot;</span><span class="hl-2">);</span><br/><br/><span class="hl-2">[</span><span class="hl-7">Pin</span><span class="hl-2">, </span><span class="hl-7">Minimize</span><span class="hl-2">, </span><span class="hl-7">Maximize</span><span class="hl-2">, </span><span class="hl-7">Restore</span><span class="hl-2">, </span><span class="hl-7">Close</span><span class="hl-2">, </span><span class="hl-7">Taskbar</span><span class="hl-2">, </span><span class="hl-7">Panel</span><span class="hl-2">].</span><span class="hl-8">forEach</span><span class="hl-2">((</span><span class="hl-7">Component</span><span class="hl-2">) </span><span class="hl-5">=&gt;</span><br/><span class="hl-2">  </span><span class="hl-7">customElements</span><span class="hl-2">.</span><span class="hl-8">define</span><span class="hl-2">(</span><span class="hl-7">Component</span><span class="hl-2">.</span><span class="hl-7">Tag</span><span class="hl-2">, </span><span class="hl-7">Component</span><span class="hl-2">)</span><br/><span class="hl-2">);</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Define the controls and the taskbar, and load every template, before the panel, so that the taskbar and its controls are complete the moment the panel is connected.</p>
+<h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<blockquote>
+<p>This software and its documentation are released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License (CC BY-NC-SA 4.0). This means you are free to share, copy, distribute, and transmit the work, and to adapt it, but only under the following conditions:</p>
 <p>Attribution: You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).</p>
 <p>NonCommercial: You may not use this material for commercial purposes.</p>
 <p>ShareAlike: If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.</p>
 <p>For more details, please visit the full <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">license agreement</a>.</p>
 </blockquote>
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-index-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><h4 class="uppercase">Member Visibility</h4><form><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div><div class="tsd-theme-toggle"><h4 class="uppercase">Theme</h4><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-index-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#md:component-template"><span>Component <wbr/>Template</span></a><ul><li><a href="#md:getting-started"><span>Getting <wbr/>Started</span></a></li><li><a href="#md:install-dependencies"><span>Install <wbr/>Dependencies</span></a></li><li><a href="#md:creating-a-new-component"><span>Creating a <wbr/>New <wbr/>Component</span></a></li><li><a href="#md:update-the-component-metadata"><span>Update the <wbr/>Component <wbr/>Metadata</span></a></li><li><a href="#md:creating-a-new-component-1"><span>Creating a <wbr/>New <wbr/>Component</span></a></li><li><ul><li><a href="#md:testing-the-component"><span>Testing the <wbr/>Component</span></a></li><li><a href="#md:document-the-component-api"><span>Document the <wbr/>Component API</span></a></li></ul></li><li><a href="#md:license"><span>License</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-1"></use></svg><span>component.template</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="."><li>Loading...</li></ul></nav></div></div></div><footer></footer><div class="overlay"></div></body></html>
+</div></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details"><a href="#panel"><span>Panel</span></a>
+<ul>
+<li><a href="#1-introduction"><span>1. <wbr/>Introduction</span></a></li>
+<li>
+<ul>
+<li><a href="#11-installation-setup"><span>1.1 <wbr/>Installation &amp; <wbr/>Setup</span></a></li></ul></li>
+<li><a href="#2-quick-start-usage-walkthrough"><span>2. <wbr/>Quick <wbr/>Start <wbr/>Usage <wbr/>Walkthrough</span></a></li>
+<li><a href="#3-architectural-overview"><span>3. <wbr/>Architectural <wbr/>Overview</span></a></li>
+<li>
+<ul>
+<li><a href="#31-composition"><span>3.1 <wbr/>Composition</span></a></li>
+<li><a href="#32-class-lifecycle"><span>3.2 <wbr/>Class <wbr/>Lifecycle</span></a></li>
+<li><a href="#33-placement"><span>3.3 <wbr/>Placement</span></a></li></ul></li>
+<li><a href="#4-core-concepts-state-data-operations-events-and-gestures"><span>4. <wbr/>Core <wbr/>Concepts: <wbr/>State, <wbr/>Data, <wbr/>Operations, <wbr/>Events, and <wbr/>Gestures</span></a></li>
+<li>
+<ul>
+<li><a href="#41-state"><span>4.1 <wbr/>State</span></a></li>
+<li><a href="#42-data"><span>4.2 <wbr/>Data</span></a></li>
+<li><a href="#43-operations"><span>4.3 <wbr/>Operations</span></a></li>
+<li><a href="#44-events"><span>4.4 <wbr/>Events</span></a></li>
+<li><a href="#45-gestures"><span>4.5 <wbr/>Gestures</span></a></li></ul></li>
+<li><a href="#5-development-workflow"><span>5. <wbr/>Development <wbr/>Workflow</span></a></li>
+<li>
+<ul>
+<li><a href="#51-testing"><span>5.1 <wbr/>Testing</span></a></li>
+<li><a href="#52-documentation-typedoc"><span>5.2 <wbr/>Documentation (<wbr/>Typedoc)</span></a></li>
+<li><a href="#53-import-maps"><span>5.3 <wbr/>Import <wbr/>Maps</span></a></li></ul></li>
+<li><a href="#license"><span>License</span></a></li></ul></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="modules.html">Panel</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer></footer>
+<div class="overlay"></div></body></html>

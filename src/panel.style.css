@@ -1,0 +1,119 @@
+/* =======================
+  Host Element Styles
+======================= */
+:host {
+  display: inline-block;
+  position: absolute;
+  min-width: min-content;
+
+  --window-background-color: #ffffff;
+  --window-border-color: #d1d1d1;
+  --window-text-color: #000000;
+  --window-radius: 8px;
+  --window-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+  --grip-color: #a1a1a1;
+}
+
+/* =======================
+  Dark Mode Variables
+======================= */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --window-background-color: #1e1e1e;
+    --window-border-color: #3c3c3c;
+    --window-text-color: #f0f0f0;
+    --grip-color: #6a6a6a;
+    --window-shadow:
+      0 1px 3px rgba(255, 255, 255, 0.12), 0 3px 8px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* =======================
+  State Visibility
+======================= */
+:host([visibility="hidden"]) {
+  display: none;
+}
+
+/* =======================
+  State Condition: Minimized
+======================= */
+:host([condition="minimized"]) {
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+:host([condition="minimized"]) .content {
+  display: none;
+}
+
+/* =======================
+  State Condition: Maximized
+======================= */
+:host([condition="maximized"]) {
+  position: absolute !important;
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* =======================
+  Window Styles
+======================= */
+.window {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--window-background-color);
+  color: var(--window-text-color);
+  border: 1px solid var(--window-border-color);
+  border-radius: var(--window-radius);
+  box-shadow: var(--window-shadow);
+}
+/* =======================
+  Taskbar Styles
+======================= */
+task-bar {
+  display: block;
+  flex-shrink: 0;
+  user-select: none;
+  touch-action: none;
+}
+/* =======================
+  Content Styles
+======================= */
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+/* =======================
+  Grip Styles
+======================= */
+.grip {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  touch-action: none;
+  background: linear-gradient(
+    135deg,
+    transparent 0 50%,
+    var(--grip-color) 50% 60%,
+    transparent 60% 70%,
+    var(--grip-color) 70% 80%,
+    transparent 80%
+  );
+}
+
+:host([condition="minimized"]) .grip,
+:host([condition="maximized"]) .grip {
+  display: none;
+}

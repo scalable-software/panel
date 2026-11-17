@@ -1,0 +1,363 @@
+{
+  "Component": "Panel",
+  "Package": "panel",
+  "Description": "A theme-aware web component that holds the host's content in a window, under a taskbar that brings the window's controls. The panel is part of the page's HTML when the page loads, and the host defines the five controls, then `task-bar`, then `window-panel`, each after loading its template.",
+  "Tag": "window-panel",
+  "Composition": {
+    "template": {
+      "description": "The HTML template for the panel component.",
+      "type": "template",
+      "id": "window-panel",
+      "contains": ["div.window"]
+    },
+    "div.window": {
+      "description": "The surface of the window. It holds the taskbar along its top, the content below it, and the grip at its lower right.",
+      "type": "div",
+      "class": "window",
+      "contains": ["task-bar", "div.content", "div.grip"]
+    },
+    "task-bar": {
+      "description": "The taskbar of the panel: the `task-bar` component, which brings the pin and the minimize, maximize, restore and close controls. The host defines the five controls, then `task-bar`, and loads their templates, before the panel. Cached as `elements.taskbar`: the panel listens to each control through it, with the control's own `on…` properties, so that connecting the panel again never subscribes twice, and hides the controls that do not fit its `condition`. The pin's `onpin` leads to the panel's `pin`, and its `onunpin` to `unpin`: the end user pins and unpins the panel by clicking the pin. The minimize control's `onminimize` leads to the panel's `minimize`, the maximize control's `onmaximize` to `maximize`, the restore control's `onrestore` to `restore`, and the close control's `onclose` to `close`. The taskbar removes nothing itself: closing is the panel's.",
+      "type": "task-bar",
+      "cached": true,
+      "contains": ["slot.title"]
+    },
+    "slot.title": {
+      "description": "The place where the title the host gives the panel is shown, in the centre of the taskbar. The host marks the title with `slot=\"title\"`. The title is the host's own: the panel neither listens to it nor changes it.",
+      "type": "slot",
+      "class": "title",
+      "attributes": {
+        "name": "title"
+      }
+    },
+    "div.content": {
+      "description": "The region below the taskbar. It holds the slot for the host's content. It is not shown while the panel is `minimized`.",
+      "type": "div",
+      "class": "content",
+      "contains": ["slot"]
+    },
+    "div.grip": {
+      "description": "The grip at the lower right of the window: the end user drags it to resize the panel. It is shown only while the panel is `normal`.",
+      "type": "div",
+      "class": "grip",
+      "cached": true
+    },
+    "slot": {
+      "description": "The place where the content the host places inside the panel is shown. The content is the host's own: the panel neither listens to it nor changes it.",
+      "type": "slot"
+    }
+  },
+  "States": {
+    "condition": {
+      "type": "Condition",
+      "description": "Indicates whether the window is normal, collapsed to its taskbar, or enlarged to fill the space it has. While `minimized`, only the taskbar is shown, where the panel sits; the panel keeps the position and the dimensions it had. While `maximized`, the panel fills the space it has, which is the element it is positioned in; it also keeps the position and the dimensions it had. It decides which controls the taskbar shows: minimize and maximize while `normal`; restore and maximize while `minimized`; minimize and restore while `maximized`. Close is always shown. The pin is hidden while `maximized`, and shown otherwise, with the `status` the panel holds.",
+      "values": ["normal", "minimized", "maximized"],
+      "default": "normal",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    },
+    "status": {
+      "type": "Status",
+      "description": "Indicates whether the window is pinned in place or unpinned. The panel holds it, and the pin in the taskbar shows it.",
+      "values": ["pinned", "unpinned"],
+      "default": "unpinned",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    },
+    "visibility": {
+      "type": "Visibility",
+      "description": "Indicates whether the panel is visible or hidden. A hidden panel is not shown and keeps everything else as it is: when it is shown again, it is as it was.",
+      "values": ["visible", "hidden"],
+      "default": "visible",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    }
+  },
+  "Data": {
+    "position": {
+      "type": "Position",
+      "description": "Where the panel is: the place of its upper left corner in the element it is positioned in. It is `null` until the panel is moved or given a position; until then the panel is where the host application placed it. A `minimized` panel has and keeps a position; a `maximized` panel keeps its position without showing it.",
+      "properties": {
+        "left": {
+          "type": "number",
+          "description": "The distance from the left edge of the element the panel is positioned in, in pixels."
+        },
+        "top": {
+          "type": "number",
+          "description": "The distance from the top edge of the element the panel is positioned in, in pixels."
+        }
+      },
+      "default": null,
+      "readonly": false
+    },
+    "dimensions": {
+      "type": "Dimensions",
+      "description": "How large the panel is. It is `null` until the panel is resized or given dimensions; until then the panel has the size the host application gave it. The panel is never shown smaller than its taskbar. A `minimized` or `maximized` panel keeps its dimensions without showing them.",
+      "properties": {
+        "width": {
+          "type": "number",
+          "description": "The width of the panel, in pixels; not negative."
+        },
+        "height": {
+          "type": "number",
+          "description": "The height of the panel, in pixels; not negative."
+        }
+      },
+      "default": null,
+      "readonly": false
+    }
+  },
+  "Operations": {
+    "hide": {
+      "description": "Sets `visibility` to `hidden` and hides the panel.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "show": {
+      "description": "Sets `visibility` to `visible` and shows the panel.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "pin": {
+      "description": "Sets `status` to `pinned`, and the pin in the taskbar shows pinned.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "unpin": {
+      "description": "Sets `status` to `unpinned`, and the pin in the taskbar shows unpinned.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "minimize": {
+      "description": "Sets `condition` to `minimized`, and collapses the panel to its taskbar.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "maximize": {
+      "description": "Sets `condition` to `maximized`, and enlarges the panel to fill the space it has.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "restore": {
+      "description": "Returns the panel to how it was. A `maximized` panel becomes `normal`. A `minimized` panel returns to the `condition` it had when it was minimized, `normal` or `maximized`; a panel that was `minimized` from the start becomes `normal`. A `normal` panel stays as it is.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "close": {
+      "description": "Closes the panel: dispatches `onclose`, then removes the panel from the page. A panel that is not in the page stays as it is, and nothing is dispatched.",
+      "parameters": [],
+      "returns": "void"
+    }
+  },
+  "Events": {
+    "onhide": {
+      "description": "Dispatched when `visibility` changes from `visible` to `hidden`.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new visibility of the panel.",
+          "properties": {
+            "visibility": {
+              "type": "Visibility",
+              "values": ["hidden"]
+            }
+          }
+        }
+      ]
+    },
+    "onshow": {
+      "description": "Dispatched when `visibility` changes from `hidden` to `visible`.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new visibility of the panel.",
+          "properties": {
+            "visibility": {
+              "type": "Visibility",
+              "values": ["visible"]
+            }
+          }
+        }
+      ]
+    },
+    "onpin": {
+      "description": "Dispatched when `status` changes from `unpinned` to `pinned`.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new status of the panel.",
+          "properties": {
+            "status": {
+              "type": "Status",
+              "values": ["pinned"]
+            }
+          }
+        }
+      ]
+    },
+    "onunpin": {
+      "description": "Dispatched when `status` changes from `pinned` to `unpinned`.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new status of the panel.",
+          "properties": {
+            "status": {
+              "type": "Status",
+              "values": ["unpinned"]
+            }
+          }
+        }
+      ]
+    },
+    "onminimize": {
+      "description": "Dispatched when `condition` changes from `normal` or `maximized` to `minimized`.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new condition of the panel.",
+          "properties": {
+            "condition": {
+              "type": "Condition",
+              "values": ["minimized"]
+            }
+          }
+        }
+      ]
+    },
+    "onmaximize": {
+      "description": "Dispatched when `condition` changes from `normal` or `minimized` to `maximized`.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new condition of the panel.",
+          "properties": {
+            "condition": {
+              "type": "Condition",
+              "values": ["maximized"]
+            }
+          }
+        }
+      ]
+    },
+    "onrestore": {
+      "description": "Dispatched when `condition` changes from `minimized` or `maximized` to `normal`.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new condition of the panel.",
+          "properties": {
+            "condition": {
+              "type": "Condition",
+              "values": ["normal"]
+            }
+          }
+        }
+      ]
+    },
+    "onclose": {
+      "description": "Dispatched each time the panel closes, before it is removed from the page. It replaces the `onclose` property every HTML element has."
+    },
+    "onmove": {
+      "description": "Dispatched each time the end user drags the panel to a new position: once for every step of the drag.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new position of the panel.",
+          "properties": {
+            "position": {
+              "type": "Position"
+            }
+          }
+        }
+      ]
+    },
+    "onresize": {
+      "description": "Dispatched each time the end user drags the grip to new dimensions: once for every step of the drag. It replaces the `onresize` property every HTML element has.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new dimensions of the panel.",
+          "properties": {
+            "dimensions": {
+              "type": "Dimensions"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "Gestures": {
+    "pointerdown": {
+      "description": "User presses on the taskbar to start dragging the panel, or on the grip to start resizing it.",
+      "triggers": [
+        {
+          "target": "task-bar",
+          "condition": "the panel is `unpinned` and not `maximized`, and the press is not on a control of the taskbar",
+          "operation": "_grab"
+        },
+        {
+          "target": "div.grip",
+          "condition": "the panel is `normal`",
+          "operation": "_grip"
+        }
+      ]
+    },
+    "pointermove": {
+      "description": "User moves the pointer while dragging or resizing: the panel, or its lower right corner, follows it.",
+      "triggers": [
+        {
+          "target": "task-bar",
+          "condition": "the panel is being dragged",
+          "operation": "_drag"
+        },
+        {
+          "target": "div.grip",
+          "condition": "the panel is being resized",
+          "operation": "_stretch"
+        }
+      ]
+    },
+    "pointerup": {
+      "description": "User lifts the pointer: the drag or the resizing ends where the panel is.",
+      "triggers": [
+        {
+          "target": "task-bar",
+          "operation": "_release"
+        },
+        {
+          "target": "div.grip",
+          "operation": "_release"
+        }
+      ]
+    },
+    "pointercancel": {
+      "description": "The browser ends the press, such as when a touch is taken over: the drag or the resizing ends where the panel is.",
+      "triggers": [
+        {
+          "target": "task-bar",
+          "operation": "_release"
+        },
+        {
+          "target": "div.grip",
+          "operation": "_release"
+        }
+      ]
+    }
+  }
+}

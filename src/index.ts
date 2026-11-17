@@ -3,9 +3,17 @@ export {
   CSS,
   Attributes,
   State,
+  Condition,
+  Status,
+  Visibility,
+  Datum,
   Operation,
   Event,
   Gesture
-} from "./component.meta.js";
+} from "./panel.meta.js";
 
-export { component } from "./component.js";
+export type { Position, Dimensions } from "./panel.meta.js";
+
+export { Validate } from "./panel.validation.js";
+
+export { Panel } from "./panel.js";
