@@ -1936,6 +1936,20 @@ events(Event.ON_UNPIN, () => {
                   });
                 });
               });
+
+              when("the end user clicks the pin in the taskbar", () => {
+                beforeEach(() => {
+                  clickPin(panel);
+                });
+
+                then("`panel.status` is `Status.UNPINNED`", () => {
+                  expect(panel.status).toBe(Status.UNPINNED);
+                });
+
+                then("`panel.onunpin` is called once", () => {
+                  expect(onunpin).toHaveBeenCalledTimes(1);
+                });
+              });
             });
           });
         });
