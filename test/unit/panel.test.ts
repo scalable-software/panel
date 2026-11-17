@@ -1167,6 +1167,29 @@ data(Datum.POSITION, () => {
           then("its `position` is `null`", () => {
             expect(apart.position).toBeNull();
           });
+
+          and("its `position` is set to `{ left: 120, top: 80 }`", () => {
+            beforeEach(() => {
+              apart.position = { left: 120, top: 80 };
+            });
+
+            when("it is added to DOM", () => {
+              beforeEach(() => {
+                document.body.appendChild(apart);
+              });
+              afterEach(() => {
+                apart.remove();
+              });
+
+              then("its `position` equals `{ left: 120, top: 80 }`", () => {
+                expect(apart.position).toEqual({ left: 120, top: 80 });
+              });
+
+              then("it is placed 120 from the left and 80 from the top", () => {
+                expect([apart.style.left, apart.style.top]).toEqual(["120px", "80px"]);
+              });
+            });
+          });
         });
 
         then("`panel.position` setter exists", () => {
@@ -1233,6 +1256,27 @@ data(Datum.POSITION, () => {
               expect(panel.style.top).toBe("80px");
             });
 
+            then("`panel.condition`, `panel.status` and `panel.visibility` are as they were", () => {
+              expect(panel.condition).toBe(Condition.NORMAL);
+              expect(panel.status).toBe(Status.UNPINNED);
+              expect(panel.visibility).toBe(Visibility.VISIBLE);
+            });
+
+            when("the panel is removed from DOM and added again", () => {
+              beforeEach(() => {
+                panel.remove();
+                document.body.appendChild(panel);
+              });
+
+              then("`panel.position` equals `place`", () => {
+                expect(panel.position).toEqual({ left: 120, top: 80 });
+              });
+
+              then("the panel is placed 120 from the left and 80 from the top", () => {
+                expect([panel.style.left, panel.style.top]).toEqual(["120px", "80px"]);
+              });
+            });
+
             when("`panel.position` is set to a position without `top`", () => {
               let error: Error;
               beforeEach(() => {
@@ -1256,6 +1300,37 @@ data(Datum.POSITION, () => {
                 expect(panel.position).toEqual({ left: 120, top: 80 });
               });
             });
+          });
+
+          when("`panel.position` is set to `null`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                (panel as { position: unknown }).position = null;
+              } catch (err) {
+                error = err as Error;
+              }
+            });
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
+            });
+
+            then("error message contains 'Invalid position value: null'", () => {
+              expect(error.message).toBe("Invalid position value: null");
+            });
+
+            then("`panel.position` is `null` still", () => {
+              expect(panel.position).toBeNull();
+            });
+          });
+
+          then("assigning `null` to `panel.position` does not compile", () => {
+            const assign = () => {
+              // @ts-expect-error: the setter of `position` does not accept `null`
+              panel.position = null;
+            };
+            expect(assign).toEqual(jasmine.any(Function));
           });
         });
       });
