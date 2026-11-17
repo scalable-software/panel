@@ -2914,6 +2914,47 @@ events(Event.ON_RESTORE, () => {
         then("`panel.onrestore` setter exists", () => {
           expect(hasSetter(panel, Event.ON_RESTORE)).toBeTrue();
         });
+
+        and("`panel.onrestore` setter exists", () => {
+          and("`panel.condition` is set to `Condition.MAXIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MAXIMIZED;
+            });
+
+            and("`panel.onrestore` is set to a listener", () => {
+              let onrestore: jasmine.Spy;
+              beforeEach(() => {
+                onrestore = jasmine.createSpy("onrestore");
+                panel.onrestore = onrestore;
+              });
+              afterEach(() => {
+                panel.onrestore = null;
+              });
+
+              when("`panel.condition` is set to `Condition.NORMAL`", () => {
+                beforeEach(() => {
+                  panel.condition = Condition.NORMAL;
+                });
+
+                then("`panel.onrestore` is called", () => {
+                  expect(onrestore).toHaveBeenCalled();
+                });
+
+                then(
+                  "`panel.onrestore` is called with `{ detail: { condition: Condition.NORMAL } }`",
+                  () => {
+                    const message = {
+                      detail: { condition: Condition.NORMAL }
+                    };
+                    expect(onrestore).toHaveBeenCalledWith(
+                      jasmine.objectContaining(message)
+                    );
+                  }
+                );
+              });
+            });
+          });
+        });
       });
     });
   });
