@@ -10,6 +10,8 @@
   --window-text-color: #000000;
   --window-radius: 8px;
   --window-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+  --grip-color: #a1a1a1;
 }
 
 /* =======================
