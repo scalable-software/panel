@@ -182,7 +182,10 @@ export class Panel extends Component implements Meta {
    * @category State
    * @hidden
    */
-  protected elements: { taskbar: Taskbar | null } = { taskbar: null };
+  protected elements: { taskbar: Taskbar | null; grip: HTMLDivElement | null } = {
+    taskbar: null,
+    grip: null
+  };
 
   /**
    * @hidden
@@ -506,6 +509,7 @@ export class Panel extends Component implements Meta {
     // template is not upgraded yet when the panel is connected
     customElements.upgrade(this.root);
     this.elements.taskbar = this.root.querySelector<Taskbar>(Taskbar.Tag);
+    this.elements.grip = this.root.querySelector<HTMLDivElement>(".grip");
   };
 
   /**
