@@ -3,6 +3,12 @@
 ======================= */
 :host {
   display: inline-block;
+
+  --window-background-color: #ffffff;
+  --window-border-color: #d1d1d1;
+  --window-text-color: #000000;
+  --window-radius: 8px;
+  --window-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* =======================
