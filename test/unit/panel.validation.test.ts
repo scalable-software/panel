@@ -707,6 +707,32 @@ validation(Datum.DIMENSIONS, () => {
           });
         });
       });
+
+      and("`value` is dimensions with an undeclared `depth`", () => {
+        let value: any;
+        beforeEach(() => {
+          value = { width: 120, height: 80, depth: 4 };
+        });
+
+        when("`Validate.dimensions(value)` is called", () => {
+          let error: unknown | undefined;
+          beforeEach(() => {
+            try {
+              Validate.dimensions(value);
+            } catch (err) {
+              error = err;
+            }
+          });
+
+          then("an error is thrown", () => {
+            expect(error).not.toBeUndefined();
+          });
+
+          then("error message contains 'Invalid dimensions value: depth is not declared'", () => {
+            expect((error as Error).message).toEqual("Invalid dimensions value: depth is not declared");
+          });
+        });
+      });
     });
   });
 });
