@@ -1254,6 +1254,29 @@ operation(Operation.PIN, () => {
         then("`panel.pin` method exists", () => {
           expect(panel.pin).toBeDefined();
         });
+
+        and("`panel.pin` method exists", () => {
+          and("`panel.status` is `Status.UNPINNED`", () => {
+            beforeEach(() => {
+              panel.status = Status.UNPINNED;
+            });
+
+            when("invoking `panel.pin`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = panel.pin();
+              });
+
+              then("`panel.status` is `Status.PINNED`", () => {
+                expect(panel.status).toBe(Status.PINNED);
+              });
+
+              then("`panel.pin` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
+            });
+          });
+        });
       });
     });
   });
