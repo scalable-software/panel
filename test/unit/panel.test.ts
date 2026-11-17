@@ -2952,6 +2952,72 @@ events(Event.ON_RESTORE, () => {
                   }
                 );
               });
+
+              when("`panel.condition` is set to `Condition.NORMAL` twice", () => {
+                beforeEach(() => {
+                  panel.condition = Condition.NORMAL;
+                  panel.condition = Condition.NORMAL;
+                });
+
+                then("`panel.onrestore` is called once", () => {
+                  expect(onrestore).toHaveBeenCalledTimes(1);
+                });
+              });
+
+              when("`panel.onrestore` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    panel.onrestore = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then("error message contains 'Invalid onrestore value: invalid'", () => {
+                  expect(error.message).toBe("Invalid onrestore value: invalid");
+                });
+
+                when("`panel.condition` is set to `Condition.NORMAL`", () => {
+                  beforeEach(() => {
+                    panel.condition = Condition.NORMAL;
+                  });
+
+                  then("`panel.onrestore` is still called", () => {
+                    expect(onrestore).toHaveBeenCalled();
+                  });
+                });
+              });
+
+              and("`panel.onrestore` is set to a new listener", () => {
+                let onrestore2: jasmine.Spy;
+                beforeEach(() => {
+                  onrestore2 = jasmine.createSpy("onrestore2");
+                  panel.onrestore = onrestore2;
+                });
+                afterEach(() => {
+                  panel.onrestore = null;
+                });
+
+                when("`panel.condition` is set to `Condition.NORMAL`", () => {
+                  beforeEach(() => {
+                    panel.condition = Condition.NORMAL;
+                  });
+
+                  then("old `panel.onrestore` is not called", () => {
+                    expect(onrestore).not.toHaveBeenCalled();
+                  });
+
+                  then("new `panel.onrestore` is called", () => {
+                    expect(onrestore2).toHaveBeenCalled();
+                  });
+                });
+              });
             });
           });
         });
