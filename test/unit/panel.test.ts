@@ -1414,6 +1414,29 @@ data(Datum.DIMENSIONS, () => {
           then("its `dimensions` is `null`", () => {
             expect(apart.dimensions).toBeNull();
           });
+
+          and("its `dimensions` is set to `{ width: 120, height: 80 }`", () => {
+            beforeEach(() => {
+              apart.dimensions = { width: 120, height: 80 };
+            });
+
+            when("it is added to DOM", () => {
+              beforeEach(() => {
+                document.body.appendChild(apart);
+              });
+              afterEach(() => {
+                apart.remove();
+              });
+
+              then("its `dimensions` equals `{ width: 120, height: 80 }`", () => {
+                expect(apart.dimensions).toEqual({ width: 120, height: 80 });
+              });
+
+              then("it is 120 wide and 80 high", () => {
+                expect([apart.style.width, apart.style.height]).toEqual(["120px", "80px"]);
+              });
+            });
+          });
         });
 
         then("`panel.dimensions` setter exists", () => {
@@ -1480,6 +1503,27 @@ data(Datum.DIMENSIONS, () => {
               expect(panel.style.height).toBe("80px");
             });
 
+            then("`panel.condition`, `panel.status` and `panel.visibility` are as they were", () => {
+              expect(panel.condition).toBe(Condition.NORMAL);
+              expect(panel.status).toBe(Status.UNPINNED);
+              expect(panel.visibility).toBe(Visibility.VISIBLE);
+            });
+
+            when("the panel is removed from DOM and added again", () => {
+              beforeEach(() => {
+                panel.remove();
+                document.body.appendChild(panel);
+              });
+
+              then("`panel.dimensions` equals `size`", () => {
+                expect(panel.dimensions).toEqual({ width: 120, height: 80 });
+              });
+
+              then("the panel is 120 wide and 80 high", () => {
+                expect([panel.style.width, panel.style.height]).toEqual(["120px", "80px"]);
+              });
+            });
+
             when("`panel.dimensions` is set to dimensions without `height`", () => {
               let error: Error;
               beforeEach(() => {
@@ -1503,6 +1547,37 @@ data(Datum.DIMENSIONS, () => {
                 expect(panel.dimensions).toEqual({ width: 120, height: 80 });
               });
             });
+          });
+
+          when("`panel.dimensions` is set to `null`", () => {
+            let error: Error;
+            beforeEach(() => {
+              try {
+                (panel as { dimensions: unknown }).dimensions = null;
+              } catch (err) {
+                error = err as Error;
+              }
+            });
+
+            then("an error is thrown", () => {
+              expect(error).toBeDefined();
+            });
+
+            then("error message contains 'Invalid dimensions value: null'", () => {
+              expect(error.message).toBe("Invalid dimensions value: null");
+            });
+
+            then("`panel.dimensions` is `null` still", () => {
+              expect(panel.dimensions).toBeNull();
+            });
+          });
+
+          then("assigning `null` to `panel.dimensions` does not compile", () => {
+            const assign = () => {
+              // @ts-expect-error: the setter of `dimensions` does not accept `null`
+              panel.dimensions = null;
+            };
+            expect(assign).toEqual(jasmine.any(Function));
           });
         });
       });
