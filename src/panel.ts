@@ -189,7 +189,9 @@ export class Panel extends Component implements Meta {
   protected _attributeHandlers = {
     [Attributes.CONDITION]: (value: Condition | null) =>
       (this.condition = value),
-    [Attributes.STATUS]: (value: Status | null) => (this.status = value)
+    [Attributes.STATUS]: (value: Status | null) => (this.status = value),
+    [Attributes.VISIBILITY]: (value: Visibility | null) =>
+      (this.visibility = value)
   };
 
   /**
