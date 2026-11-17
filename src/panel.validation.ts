@@ -4,7 +4,7 @@
 
 import { Condition, Status, Visibility } from "./panel.meta.js";
 
-import { type Position } from "./panel.meta.js";
+import { type Position, type Dimensions } from "./panel.meta.js";
 
 /**
  * @category Validation
@@ -78,5 +78,13 @@ export class Validate {
       throw new Error("Invalid position value: top is invalid");
 
     return value as Position;
+  };
+
+  /**
+   * Validates that the value is dimensions: a plain object with a `width` and a `height`.
+   * @category Validation
+   */
+  public static dimensions = (value: unknown) => {
+    return value as Dimensions;
   };
 }
