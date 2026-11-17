@@ -885,6 +885,16 @@ state(State.VISIBILITY, () => {
             });
           });
 
+          when("`panel.visibility` is set to `null`", () => {
+            beforeEach(() => {
+              panel.visibility = null;
+            });
+
+            then("`panel.visibility` is `Visibility.VISIBLE`", () => {
+              expect(panel.visibility).toBe(Visibility.VISIBLE);
+            });
+          });
+
           when("`panel.visibility` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
