@@ -73,6 +73,24 @@
       }
     }
   },
+  "Data": {
+    "position": {
+      "type": "Position",
+      "description": "Where the panel is: the place of its upper left corner in the element it is positioned in. It is `null` until the panel is moved or given a position; until then the panel is where the host application placed it. A `minimized` panel has and keeps a position; a `maximized` panel keeps its position without showing it.",
+      "properties": {
+        "left": {
+          "type": "number",
+          "description": "The distance from the left edge of the element the panel is positioned in, in pixels."
+        },
+        "top": {
+          "type": "number",
+          "description": "The distance from the top edge of the element the panel is positioned in, in pixels."
+        }
+      },
+      "default": null,
+      "readonly": false
+    }
+  },
   "Operations": {
     "hide": {
       "description": "Sets `visibility` to `hidden` and hides the panel.",
@@ -230,7 +248,61 @@
     },
     "onclose": {
       "description": "Dispatched each time the panel closes, before it is removed from the page. It replaces the `onclose` property every HTML element has."
+    },
+    "onmove": {
+      "description": "Dispatched each time the end user drags the panel to a new position: once for every step of the drag.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new position of the panel.",
+          "properties": {
+            "position": {
+              "type": "Position"
+            }
+          }
+        }
+      ]
     }
   },
-  "Gestures": {}
+  "Gestures": {
+    "pointerdown": {
+      "description": "User presses on the taskbar to start dragging the panel.",
+      "triggers": [
+        {
+          "target": "task-bar",
+          "condition": "the panel is `unpinned` and not `maximized`, and the press is not on a control of the taskbar",
+          "operation": "_grab"
+        }
+      ]
+    },
+    "pointermove": {
+      "description": "User moves the pointer while dragging: the panel follows it.",
+      "triggers": [
+        {
+          "target": "task-bar",
+          "condition": "the panel is being dragged",
+          "operation": "_drag"
+        }
+      ]
+    },
+    "pointerup": {
+      "description": "User lifts the pointer: the drag ends where the panel is.",
+      "triggers": [
+        {
+          "target": "task-bar",
+          "operation": "_release"
+        }
+      ]
+    },
+    "pointercancel": {
+      "description": "The browser ends the press, such as when a touch is taken over: the drag ends where the panel is.",
+      "triggers": [
+        {
+          "target": "task-bar",
+          "operation": "_release"
+        }
+      ]
+    }
+  }
 }
