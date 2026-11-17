@@ -162,6 +162,13 @@ export class Panel extends Component implements Meta {
   private _onclose: EventListener | null = null;
 
   /**
+   * onmove triggered each time the end user drags the panel to a new position
+   * @category Events
+   * @hidden
+   */
+  private _onmove: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -387,6 +394,15 @@ export class Panel extends Component implements Meta {
    */
   public set onclose(handler: EventListener | null) {
     this._onclose = this._subscribe(Event.ON_CLOSE, this._onclose, handler);
+  }
+
+  /**
+   * Triggered each time the end user drags the panel to a new position
+   * @event
+   * @category Events
+   */
+  public set onmove(handler: EventListener | null) {
+    this._onmove = this._subscribe(Event.ON_MOVE, this._onmove, handler);
   }
 
   /**
