@@ -298,7 +298,9 @@ export class Panel extends Component implements Meta {
    * Minimize the panel when it is normal or maximized
    * @category Operations
    */
-  public minimize = () => {};
+  public minimize = () => {
+    this.condition = Condition.MINIMIZED;
+  };
 
   /**
    * List operations to perform for selected attributes being observed in the DOM.
