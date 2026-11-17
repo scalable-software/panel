@@ -3246,6 +3246,41 @@ events(Event.ON_CLOSE, () => {
         then("`panel.onclose` setter exists", () => {
           expect(hasSetter(panel, Event.ON_CLOSE)).toBeTrue();
         });
+
+        and("`panel.onclose` setter exists", () => {
+          and("`panel.onclose` is set to a listener", () => {
+            let onclose: jasmine.Spy;
+            let connected: boolean[];
+            beforeEach(() => {
+              connected = [];
+              onclose = jasmine
+                .createSpy("onclose")
+                .and.callFake(() => connected.push(panel.isConnected));
+              panel.onclose = onclose;
+            });
+            afterEach(() => {
+              panel.onclose = null;
+            });
+
+            when("invoking `panel.close`", () => {
+              beforeEach(() => {
+                panel.close();
+              });
+
+              then("`panel.onclose` is called", () => {
+                expect(onclose).toHaveBeenCalled();
+              });
+
+              then("the panel was still in the page when `panel.onclose` was called", () => {
+                expect(connected).toEqual([true]);
+              });
+
+              then("the panel is removed from the page", () => {
+                expect(panel.isConnected).toBeFalse();
+              });
+            });
+          });
+        });
       });
     });
   });
