@@ -422,6 +422,8 @@ export class Panel extends Component implements Meta {
    * @category Operations
    */
   public close = () => {
+    this._dispatch(Event.ON_CLOSE);
+
     this.remove();
   };
 
