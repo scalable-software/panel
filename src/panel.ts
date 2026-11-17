@@ -162,14 +162,23 @@ export class Panel extends Component implements Meta {
     return this._visibility;
   }
   public set visibility(visibility: Visibility | null) {
-    // Normalize
-    visibility = visibility ?? Visibility.VISIBLE;
+    try {
+      // Normalize
+      visibility = visibility ?? Visibility.VISIBLE;
 
-    // Validate
-    visibility = Validate.visibility(visibility);
+      // Validate
+      visibility = Validate.visibility(visibility);
 
-    // Mutate
-    this._visibility = visibility;
+      // Mutate
+      this._visibility = visibility;
+    } finally {
+      // Reflect
+      this._reflect(
+        Attributes.VISIBILITY,
+        this._visibility,
+        Visibility.VISIBLE
+      );
+    }
   }
 
   /**
