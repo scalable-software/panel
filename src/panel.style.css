@@ -86,6 +86,13 @@ task-bar {
   flex-shrink: 0;
   user-select: none;
   touch-action: none;
+
+  /* The taskbar sits inside the edge of the window: it follows the inner curve of the
+     top corners, draws no edge of its own, and has a line beneath it */
+  --bar-radius: calc(var(--window-radius) - 1px) calc(var(--window-radius) - 1px)
+    0 0;
+  --bar-border-color: transparent;
+  border-bottom: 1px solid var(--window-border-color);
 }
 /* =======================
   Content Styles
