@@ -6,7 +6,8 @@
   position: absolute;
   min-width: min-content;
 
-  --window-background-color: #ffffff;
+  --window-background-color: rgba(255, 255, 255, 0.45);
+  --window-blur: blur(14px) saturate(1.4);
   --window-border-color: #d1d1d1;
   --window-text-color: #000000;
   --window-radius: 8px;
