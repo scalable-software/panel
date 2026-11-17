@@ -89,6 +89,13 @@ export class Validate {
     if (typeof value !== "object" || value === null || Array.isArray(value))
       throw new Error(`Invalid dimensions value: ${value}`);
 
+    const { width, height, ...rest } = value as Record<string, unknown>;
+
+    // Undeclared fields
+    const undeclared = Object.keys(rest)[0];
+    if (undeclared)
+      throw new Error(`Invalid dimensions value: ${undeclared} is not declared`);
+
     return value as Dimensions;
   };
 }
