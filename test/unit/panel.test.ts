@@ -1541,8 +1541,129 @@ operation(Operation.RESTORE, () => {
               then("`panel.condition` is `Condition.MAXIMIZED`", () => {
                 expect(panel.condition).toBe(Condition.MAXIMIZED);
               });
+
+              when("invoking `panel.restore` again", () => {
+                beforeEach(() => {
+                  panel.restore();
+                });
+
+                then("`panel.condition` is `Condition.NORMAL`", () => {
+                  expect(panel.condition).toBe(Condition.NORMAL);
+                });
+              });
             });
           });
+
+          and("a normal panel is minimized", () => {
+            beforeEach(() => {
+              panel.minimize();
+            });
+
+            when("invoking `panel.restore`", () => {
+              beforeEach(() => {
+                panel.restore();
+              });
+
+              then("`panel.condition` is `Condition.NORMAL`", () => {
+                expect(panel.condition).toBe(Condition.NORMAL);
+              });
+            });
+          });
+
+          and("a maximized panel is minimized by its `condition` attribute", () => {
+            beforeEach(() => {
+              panel.setAttribute(Attributes.CONDITION, Condition.MAXIMIZED);
+              panel.setAttribute(Attributes.CONDITION, Condition.MINIMIZED);
+            });
+
+            when("invoking `panel.restore`", () => {
+              beforeEach(() => {
+                panel.restore();
+              });
+
+              then("`panel.condition` is `Condition.MAXIMIZED`", () => {
+                expect(panel.condition).toBe(Condition.MAXIMIZED);
+              });
+            });
+          });
+
+          and("a minimized panel is maximized", () => {
+            beforeEach(() => {
+              panel.minimize();
+              panel.maximize();
+            });
+
+            when("invoking `panel.restore`", () => {
+              beforeEach(() => {
+                panel.restore();
+              });
+
+              then("`panel.condition` is `Condition.NORMAL`", () => {
+                expect(panel.condition).toBe(Condition.NORMAL);
+              });
+            });
+          });
+
+          and("a panel is maximized, minimized, restored twice and minimized again", () => {
+            beforeEach(() => {
+              panel.maximize();
+              panel.minimize();
+              panel.restore();
+              panel.restore();
+              panel.minimize();
+            });
+
+            when("invoking `panel.restore`", () => {
+              beforeEach(() => {
+                panel.restore();
+              });
+
+              then("`panel.condition` is `Condition.NORMAL`", () => {
+                expect(panel.condition).toBe(Condition.NORMAL);
+              });
+            });
+          });
+
+          and("`panel.condition` is `Condition.NORMAL`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.NORMAL;
+            });
+
+            when("invoking `panel.restore`", () => {
+              beforeEach(() => {
+                panel.restore();
+              });
+
+              then("`panel.condition` is `Condition.NORMAL`", () => {
+                expect(panel.condition).toBe(Condition.NORMAL);
+              });
+            });
+          });
+
+          and(
+            "a panel with `condition` `Condition.MINIMIZED` in its markup is added to DOM",
+            () => {
+              let minimized: Panel;
+              beforeEach(() => {
+                minimized = place(
+                  `<${Tag} ${Attributes.CONDITION}="${Condition.MINIMIZED}"></${Tag}>`
+                );
+              });
+              afterEach(() => {
+                minimized.remove();
+              });
+
+              when("invoking `restore` on it", () => {
+                beforeEach(() => {
+                  minimized.restore();
+                });
+
+                then("its `condition` is `Condition.NORMAL`", () => {
+                  expect(minimized.condition).toBe(Condition.NORMAL);
+                });
+              });
+            }
+          );
         });
       });
     });
