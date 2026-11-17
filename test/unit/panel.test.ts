@@ -4825,6 +4825,43 @@ gesture(Gesture.POINTERCANCEL, () => {
             });
           });
         });
+
+        and("`panel.onresize` is set to a listener", () => {
+          let onresize: jasmine.Spy;
+          beforeEach(() => {
+            onresize = jasmine.createSpy("onresize");
+            panel.onresize = onresize;
+          });
+          afterEach(() => {
+            panel.onresize = null;
+          });
+
+          and("the end user presses on the grip", () => {
+            let start: { x: number; y: number };
+            beforeEach(() => {
+              start = onGrip(panel);
+              gripPointer(panel, Gesture.POINTERDOWN, start.x, start.y);
+            });
+            afterEach(() => {
+              gripPointer(panel, Gesture.POINTERUP, start.x, start.y);
+            });
+
+            when("the browser ends the press, and the pointer moves", () => {
+              beforeEach(() => {
+                gripPointer(panel, Gesture.POINTERCANCEL, start.x, start.y);
+                gripPointer(panel, Gesture.POINTERMOVE, start.x + 25, start.y + 15);
+              });
+
+              then("`panel.dimensions` is `null`", () => {
+                expect(panel.dimensions).toBeNull();
+              });
+
+              then("`panel.onresize` is not called", () => {
+                expect(onresize).not.toHaveBeenCalled();
+              });
+            });
+          });
+        });
       });
     });
   });
