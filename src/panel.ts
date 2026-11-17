@@ -127,6 +127,14 @@ export class Panel extends Component implements Meta {
   private _grabbed: { pointer: Position; origin: Position } | null = null;
 
   /**
+   * The resizing under way: where the pointer was pressed, and how large the panel was
+   * then. `null` while the panel is not being resized
+   * @category Gesture
+   * @hidden
+   */
+  private _gripped: { pointer: Position; origin: Dimensions } | null = null;
+
+  /**
    * onhide triggered when panel visibility changes to hidden
    * @category Events
    * @hidden
@@ -610,6 +618,10 @@ export class Panel extends Component implements Meta {
       Gesture.POINTERCANCEL,
       this._handleTaskbarPointercancel
     );
+
+    const grip = this.elements.grip;
+    grip?.addEventListener(Gesture.POINTERDOWN, this._handleGripPointerdown);
+    grip?.addEventListener(Gesture.POINTERMOVE, this._handleGripPointermove);
   };
 
   /**
@@ -646,6 +658,10 @@ export class Panel extends Component implements Meta {
       Gesture.POINTERCANCEL,
       this._handleTaskbarPointercancel
     );
+
+    const grip = this.elements.grip;
+    grip?.removeEventListener(Gesture.POINTERDOWN, this._handleGripPointerdown);
+    grip?.removeEventListener(Gesture.POINTERMOVE, this._handleGripPointermove);
   };
 
   /**
@@ -728,6 +744,24 @@ export class Panel extends Component implements Meta {
   private _handleTaskbarPointercancel = () => this._release();
 
   /**
+   * Handles a press on the grip: grips the panel where the pointer is
+   * @category Gesture
+   * @hidden
+   */
+  private _handleGripPointerdown = (event: PointerEvent) => {
+    this._capture(event);
+    this._grip({ left: event.clientX, top: event.clientY });
+  };
+
+  /**
+   * Handles the pointer moving over the grip: stretches a gripped panel along
+   * @category Gesture
+   * @hidden
+   */
+  private _handleGripPointermove = (event: PointerEvent) =>
+    this._gripped && this._stretch({ left: event.clientX, top: event.clientY });
+
+  /**
    * Whether a pointer event is on one of the controls of the taskbar. The taskbar hides
    * which of its parts was pressed, so the place of the pointer is compared with the box
    * of each control that is shown.
@@ -752,16 +786,16 @@ export class Panel extends Component implements Meta {
   };
 
   /**
-   * Keeps the pointer's events coming to the taskbar until the press ends, also when the
-   * pointer leaves it. A pointer that is not pressed cannot be kept.
+   * Keeps the pointer's events coming to the part that was pressed until the press ends,
+   * also when the pointer leaves it. A pointer that is not pressed cannot be kept.
    * @category Gesture
    * @hidden
    */
   private _capture = (event: PointerEvent) => {
     try {
-      this.elements.taskbar?.setPointerCapture(event.pointerId);
+      (event.currentTarget as Element).setPointerCapture(event.pointerId);
     } catch {
-      // the pointer is not pressed: its events come to the taskbar while it is over it
+      // the pointer is not pressed: its events come to the part while it is over it
     }
   };
 
@@ -794,6 +828,38 @@ export class Panel extends Component implements Meta {
 
     const detail = { position: this.position };
     this._dispatch(Event.ON_MOVE, detail);
+  };
+
+  /**
+   * Grips the panel: remembers where the pointer is, and how large the panel is
+   * @category Operations
+   * @hidden
+   */
+  private _grip = (pointer: Position) => {
+    const origin = this._dimensions ?? {
+      width: this.offsetWidth,
+      height: this.offsetHeight
+    };
+    this._gripped = { pointer, origin };
+  };
+
+  /**
+   * Stretches the gripped panel: its lower right moves as far as the pointer has moved
+   * since it was gripped
+   * @category Operations
+   * @hidden
+   */
+  private _stretch = (pointer: Position) => {
+    if (!this._gripped) return;
+
+    const { pointer: from, origin } = this._gripped;
+    this.dimensions = {
+      width: origin.width + pointer.left - from.left,
+      height: origin.height + pointer.top - from.top
+    };
+
+    const detail = { dimensions: this.dimensions };
+    this._dispatch(Event.ON_RESIZE, detail);
   };
 
   /**
