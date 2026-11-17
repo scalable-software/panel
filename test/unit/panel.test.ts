@@ -12,7 +12,8 @@ import {
   Operation,
   Event,
   Datum,
-  type Position
+  type Position,
+  Gesture
 } from "@scalable.software/panel";
 import {
   Taskbar,

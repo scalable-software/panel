@@ -433,9 +433,50 @@ metadata(Metadata.GESTURE, () => {
       expect(Gesture).toBeDefined();
     });
 
-    when("Gesture is defined", () => {
+    and("Gesture is defined", () => {
       then("Gesture is an object", () => {
         expect(typeof Gesture).toBe("object");
+      });
+
+      when("Gesture is an object", () => {
+        then("no gesture name is taken by the platform", () => {
+          const taken = Object.values(Gesture).filter(
+            (name) => name in HTMLElement.prototype
+          );
+          expect(taken).toEqual([]);
+        });
+
+        then("`Gesture.POINTERDOWN` exists", () => {
+          expect(Gesture.POINTERDOWN).toBeDefined();
+        });
+
+        then("`Gesture.POINTERDOWN` is `pointerdown`", () => {
+          expect(Gesture.POINTERDOWN).toBe("pointerdown");
+        });
+
+        then("`Gesture.POINTERMOVE` exists", () => {
+          expect(Gesture.POINTERMOVE).toBeDefined();
+        });
+
+        then("`Gesture.POINTERMOVE` is `pointermove`", () => {
+          expect(Gesture.POINTERMOVE).toBe("pointermove");
+        });
+
+        then("`Gesture.POINTERUP` exists", () => {
+          expect(Gesture.POINTERUP).toBeDefined();
+        });
+
+        then("`Gesture.POINTERUP` is `pointerup`", () => {
+          expect(Gesture.POINTERUP).toBe("pointerup");
+        });
+
+        then("`Gesture.POINTERCANCEL` exists", () => {
+          expect(Gesture.POINTERCANCEL).toBeDefined();
+        });
+
+        then("`Gesture.POINTERCANCEL` is `pointercancel`", () => {
+          expect(Gesture.POINTERCANCEL).toBe("pointercancel");
+        });
       });
     });
   });
