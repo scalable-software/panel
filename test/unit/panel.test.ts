@@ -11,7 +11,8 @@ import {
   Visibility,
   Operation,
   Event,
-  Datum
+  Datum,
+  type Position
 } from "@scalable.software/panel";
 import {
   Taskbar,
@@ -1165,6 +1166,27 @@ data(Datum.POSITION, () => {
 
           then("its `position` is `null`", () => {
             expect(apart.position).toBeNull();
+          });
+        });
+
+        then("`panel.position` setter exists", () => {
+          expect(hasSetter(panel, "position")).toBeTrue();
+        });
+
+        and("`panel.position` setter exists, and `place` is `{ left: 120, top: 80 }`", () => {
+          let place: Position;
+          beforeEach(() => {
+            place = { left: 120, top: 80 };
+          });
+
+          when("`panel.position` is set to `place`", () => {
+            beforeEach(() => {
+              panel.position = place;
+            });
+
+            then("`panel.position` equals `place`", () => {
+              expect(panel.position).toEqual({ left: 120, top: 80 });
+            });
           });
         });
       });
