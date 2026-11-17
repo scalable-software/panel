@@ -1723,6 +1723,94 @@ operation(Operation.CLOSE, () => {
             then("`panel.close` returns nothing", () => {
               expect(result).toBeUndefined();
             });
+
+            then("the taskbar still holds its five controls", () => {
+              const taskbar = panel.root.querySelector(Taskbar.Tag) as Taskbar;
+              const controls = [
+                taskbar.pin,
+                taskbar.minimize,
+                taskbar.maximize,
+                taskbar.restore,
+                taskbar.close
+              ];
+              expect(controls.every((control) => !!control?.parentNode)).toBeTrue();
+            });
+
+            then("the taskbar is still in the panel", () => {
+              expect(panel.root.querySelector(Taskbar.Tag)).not.toBeNull();
+            });
+          });
+
+          and("`panel.condition` is `Condition.NORMAL`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.NORMAL;
+            });
+
+            then("the taskbar shows `close`", () => {
+              expect(shown(panel)).toEqual([
+                Control.MINIMIZE,
+                Control.MAXIMIZE,
+                Control.CLOSE
+              ]);
+            });
+
+            when("the end user clicks `close` in the taskbar", () => {
+              beforeEach(() => {
+                click(panel, Control.CLOSE);
+              });
+
+              then("the panel is removed from the page", () => {
+                expect(panel.isConnected).toBeFalse();
+              });
+            });
+          });
+
+          and("`panel.condition` is `Condition.MINIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MINIMIZED;
+            });
+
+            then("the taskbar shows `close`", () => {
+              expect(shown(panel)).toEqual([
+                Control.MAXIMIZE,
+                Control.RESTORE,
+                Control.CLOSE
+              ]);
+            });
+
+            when("the end user clicks `close` in the taskbar", () => {
+              beforeEach(() => {
+                click(panel, Control.CLOSE);
+              });
+
+              then("the panel is removed from the page", () => {
+                expect(panel.isConnected).toBeFalse();
+              });
+            });
+          });
+
+          and("`panel.condition` is `Condition.MAXIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MAXIMIZED;
+            });
+
+            then("the taskbar shows `close`", () => {
+              expect(shown(panel)).toEqual([
+                Control.MINIMIZE,
+                Control.RESTORE,
+                Control.CLOSE
+              ]);
+            });
+
+            when("the end user clicks `close` in the taskbar", () => {
+              beforeEach(() => {
+                click(panel, Control.CLOSE);
+              });
+
+              then("the panel is removed from the page", () => {
+                expect(panel.isConnected).toBeFalse();
+              });
+            });
           });
         });
       });
@@ -3357,6 +3445,50 @@ events(Event.ON_CLOSE, () => {
 
               then("the panel is removed from the page", () => {
                 expect(panel.isConnected).toBeFalse();
+              });
+
+              then("the panel was still in the page when `panel.onclose` was called", () => {
+                expect(connected).toEqual([true]);
+              });
+
+              and("the closed panel is added to the page again", () => {
+                beforeEach(() => {
+                  document.body.appendChild(panel);
+                });
+
+                when("the end user clicks `close` in the taskbar", () => {
+                  beforeEach(() => {
+                    click(panel, Control.CLOSE);
+                  });
+
+                  then("`panel.onclose` is called a second time, and no more", () => {
+                    expect(onclose).toHaveBeenCalledTimes(2);
+                  });
+
+                  then("the panel is removed from the page", () => {
+                    expect(panel.isConnected).toBeFalse();
+                  });
+                });
+              });
+            });
+
+            and("the panel is removed from the page by the host", () => {
+              beforeEach(() => {
+                panel.remove();
+              });
+
+              then("`panel.onclose` is not called", () => {
+                expect(onclose).not.toHaveBeenCalled();
+              });
+
+              when("invoking `panel.close`", () => {
+                beforeEach(() => {
+                  panel.close();
+                });
+
+                then("`panel.onclose` is not called", () => {
+                  expect(onclose).not.toHaveBeenCalled();
+                });
               });
             });
           });
