@@ -1188,6 +1188,43 @@ data(Datum.POSITION, () => {
               expect(panel.position).toEqual({ left: 120, top: 80 });
             });
 
+            then("`panel.position` is a copy, not `place` itself", () => {
+              expect(panel.position).not.toBe(place);
+            });
+
+            then("`panel.position` is frozen", () => {
+              expect(Object.isFrozen(panel.position)).toBeTrue();
+            });
+
+            when("`place.left` is changed afterwards", () => {
+              beforeEach(() => {
+                place.left = 500;
+              });
+
+              then("`panel.position.left` is still 120", () => {
+                expect(panel.position?.left).toBe(120);
+              });
+            });
+
+            when("`panel.position.left` is assigned", () => {
+              let error: unknown;
+              beforeEach(() => {
+                try {
+                  (panel.position as Position).left = 500;
+                } catch (err) {
+                  error = err;
+                }
+              });
+
+              then("a `TypeError` is thrown", () => {
+                expect(error).toEqual(jasmine.any(TypeError));
+              });
+
+              then("`panel.position.left` is still 120", () => {
+                expect(panel.position?.left).toBe(120);
+              });
+            });
+
             when("`panel.position` is set to a position without `top`", () => {
               let error: Error;
               beforeEach(() => {
