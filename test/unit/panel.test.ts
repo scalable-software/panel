@@ -4528,6 +4528,26 @@ gesture(Gesture.POINTERDOWN, () => {
               });
             });
           });
+
+          and("`panel.condition` is `Condition.MAXIMIZED`", () => {
+            beforeEach(() => {
+              panel.condition = Condition.MAXIMIZED;
+            });
+
+            when("the end user drags the grip", () => {
+              beforeEach(() => {
+                stretch(panel, 25, 15);
+              });
+
+              then("`panel.dimensions` is `null`", () => {
+                expect(panel.dimensions).toBeNull();
+              });
+
+              then("`panel.onresize` is not called", () => {
+                expect(onresize).not.toHaveBeenCalled();
+              });
+            });
+          });
         });
       });
     });
