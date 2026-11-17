@@ -3279,6 +3279,17 @@ events(Event.ON_CLOSE, () => {
                 expect(panel.isConnected).toBeFalse();
               });
             });
+
+            when("invoking `panel.close` twice", () => {
+              beforeEach(() => {
+                panel.close();
+                panel.close();
+              });
+
+              then("`panel.onclose` is called once", () => {
+                expect(onclose).toHaveBeenCalledTimes(1);
+              });
+            });
           });
         });
       });
