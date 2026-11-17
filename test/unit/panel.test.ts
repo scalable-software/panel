@@ -225,14 +225,14 @@ composition(Composition.TEMPLATE, () => {
           });
 
           then(
-            "`div.window` contains `task-bar` and `div.content`, in that order, and nothing else",
+            "`div.window` contains `task-bar`, `div.content` and `div.grip`, in that order, and nothing else",
             () => {
               const parts = [...div.children].map((part) =>
                 part.className
                   ? `${part.localName}.${part.className}`
                   : part.localName
               );
-              expect(parts).toEqual([Taskbar.Tag, "div.content"]);
+              expect(parts).toEqual([Taskbar.Tag, "div.content", "div.grip"]);
             }
           );
 
