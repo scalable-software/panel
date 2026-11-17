@@ -332,6 +332,12 @@ composition(Composition.ELEMENT, () => {
           }
         );
 
+        then("`panel.elements.grip` is a cached reference to `div.grip`", () => {
+          const part = panel.root.querySelector("div.grip");
+          expect(part).not.toBeNull();
+          expect(panel["elements"].grip).toBe(part as HTMLDivElement);
+        });
+
         then("the cached `task-bar` offers its five controls", () => {
           const taskbar = panel["elements"].taskbar;
           const controls = [
