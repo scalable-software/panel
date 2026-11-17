@@ -165,6 +165,9 @@ export class Panel extends Component implements Meta {
       // Validate
       status = Validate.status(status);
 
+      // Guard
+      if (this._status === status) return;
+
       // Mutate
       this._status = status;
 
