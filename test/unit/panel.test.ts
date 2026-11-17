@@ -1266,6 +1266,47 @@ events(Event.ON_SHOW, () => {
         then("`panel.onshow` setter exists", () => {
           expect(hasSetter(panel, Event.ON_SHOW)).toBeTrue();
         });
+
+        and("`panel.onshow` setter exists", () => {
+          and("`panel.visibility` is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              panel.visibility = Visibility.HIDDEN;
+            });
+
+            and("`panel.onshow` is set to a listener", () => {
+              let onshow: jasmine.Spy;
+              beforeEach(() => {
+                onshow = jasmine.createSpy("onshow");
+                panel.onshow = onshow;
+              });
+              afterEach(() => {
+                panel.onshow = null;
+              });
+
+              when("`panel.visibility` is set to `Visibility.VISIBLE`", () => {
+                beforeEach(() => {
+                  panel.visibility = Visibility.VISIBLE;
+                });
+
+                then("`panel.onshow` is called", () => {
+                  expect(onshow).toHaveBeenCalled();
+                });
+
+                then(
+                  "`panel.onshow` is called with `{ detail: { visibility: Visibility.VISIBLE } }`",
+                  () => {
+                    const message = {
+                      detail: { visibility: Visibility.VISIBLE }
+                    };
+                    expect(onshow).toHaveBeenCalledWith(
+                      jasmine.objectContaining(message)
+                    );
+                  }
+                );
+              });
+            });
+          });
+        });
       });
     });
   });
