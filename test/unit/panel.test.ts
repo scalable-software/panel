@@ -1304,6 +1304,72 @@ events(Event.ON_SHOW, () => {
                   }
                 );
               });
+
+              when("`panel.visibility` is set to `Visibility.VISIBLE` twice", () => {
+                beforeEach(() => {
+                  panel.visibility = Visibility.VISIBLE;
+                  panel.visibility = Visibility.VISIBLE;
+                });
+
+                then("`panel.onshow` is called once", () => {
+                  expect(onshow).toHaveBeenCalledTimes(1);
+                });
+              });
+
+              when("`panel.onshow` is set to `invalid`", () => {
+                let error: Error;
+                beforeEach(() => {
+                  try {
+                    // @ts-expect-error
+                    panel.onshow = "invalid";
+                  } catch (err) {
+                    error = err as Error;
+                  }
+                });
+
+                then("an error is thrown", () => {
+                  expect(error).toBeDefined();
+                });
+
+                then("error message contains 'Invalid onshow value: invalid'", () => {
+                  expect(error.message).toBe("Invalid onshow value: invalid");
+                });
+
+                when("`panel.visibility` is set to `Visibility.VISIBLE`", () => {
+                  beforeEach(() => {
+                    panel.visibility = Visibility.VISIBLE;
+                  });
+
+                  then("`panel.onshow` is still called", () => {
+                    expect(onshow).toHaveBeenCalled();
+                  });
+                });
+              });
+
+              and("`panel.onshow` is set to a new listener", () => {
+                let onshow2: jasmine.Spy;
+                beforeEach(() => {
+                  onshow2 = jasmine.createSpy("onshow2");
+                  panel.onshow = onshow2;
+                });
+                afterEach(() => {
+                  panel.onshow = null;
+                });
+
+                when("`panel.visibility` is set to `Visibility.VISIBLE`", () => {
+                  beforeEach(() => {
+                    panel.visibility = Visibility.VISIBLE;
+                  });
+
+                  then("old `panel.onshow` is not called", () => {
+                    expect(onshow).not.toHaveBeenCalled();
+                  });
+
+                  then("new `panel.onshow` is called", () => {
+                    expect(onshow2).toHaveBeenCalled();
+                  });
+                });
+              });
             });
           });
         });
