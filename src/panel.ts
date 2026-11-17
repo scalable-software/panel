@@ -290,6 +290,9 @@ export class Panel extends Component implements Meta {
     return this._position;
   }
   public set position(position: Position) {
+    // Validate
+    position = Validate.position(position);
+
     // Mutate
     this._position = position;
   }
