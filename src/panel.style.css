@@ -32,6 +32,13 @@
 }
 
 /* =======================
+  State Condition: Minimized
+======================= */
+:host([condition="minimized"]) .content {
+  display: none;
+}
+
+/* =======================
   Window Styles
 ======================= */
 .window {
