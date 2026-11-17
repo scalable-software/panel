@@ -62,6 +62,10 @@ const shown = (panel: Panel) => {
 const pinOf = (panel: Panel) =>
   (panel.root.querySelector(Taskbar.Tag) as Taskbar).pin as Pin;
 
+// A click by the end user on the pin in the taskbar of a panel
+const clickPin = (panel: Panel) =>
+  (pinOf(panel).root.querySelector(".icon") as HTMLElement).click();
+
 // Configuration
 configuration(Configuration.TAG, () => {
   and("Panel imported", () => {
@@ -1779,6 +1783,20 @@ events(Event.ON_PIN, () => {
                 then("new `panel.onpin` is called", () => {
                   expect(onpin2).toHaveBeenCalled();
                 });
+              });
+            });
+
+            when("the end user clicks the pin in the taskbar", () => {
+              beforeEach(() => {
+                clickPin(panel);
+              });
+
+              then("`panel.status` is `Status.PINNED`", () => {
+                expect(panel.status).toBe(Status.PINNED);
+              });
+
+              then("`panel.onpin` is called once", () => {
+                expect(onpin).toHaveBeenCalledTimes(1);
               });
             });
           });
