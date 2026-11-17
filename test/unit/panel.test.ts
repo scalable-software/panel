@@ -2500,6 +2500,72 @@ events(Event.ON_MAXIMIZE, () => {
                 }
               );
             });
+
+            when("`panel.condition` is set to `Condition.MAXIMIZED` twice", () => {
+              beforeEach(() => {
+                panel.condition = Condition.MAXIMIZED;
+                panel.condition = Condition.MAXIMIZED;
+              });
+
+              then("`panel.onmaximize` is called once", () => {
+                expect(onmaximize).toHaveBeenCalledTimes(1);
+              });
+            });
+
+            when("`panel.onmaximize` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  panel.onmaximize = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid onmaximize value: invalid'", () => {
+                expect(error.message).toBe("Invalid onmaximize value: invalid");
+              });
+
+              when("`panel.condition` is set to `Condition.MAXIMIZED`", () => {
+                beforeEach(() => {
+                  panel.condition = Condition.MAXIMIZED;
+                });
+
+                then("`panel.onmaximize` is still called", () => {
+                  expect(onmaximize).toHaveBeenCalled();
+                });
+              });
+            });
+
+            and("`panel.onmaximize` is set to a new listener", () => {
+              let onmaximize2: jasmine.Spy;
+              beforeEach(() => {
+                onmaximize2 = jasmine.createSpy("onmaximize2");
+                panel.onmaximize = onmaximize2;
+              });
+              afterEach(() => {
+                panel.onmaximize = null;
+              });
+
+              when("`panel.condition` is set to `Condition.MAXIMIZED`", () => {
+                beforeEach(() => {
+                  panel.condition = Condition.MAXIMIZED;
+                });
+
+                then("old `panel.onmaximize` is not called", () => {
+                  expect(onmaximize).not.toHaveBeenCalled();
+                });
+
+                then("new `panel.onmaximize` is called", () => {
+                  expect(onmaximize2).toHaveBeenCalled();
+                });
+              });
+            });
           });
         });
       });
