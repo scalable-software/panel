@@ -4,6 +4,7 @@
 :host {
   display: inline-block;
   position: absolute;
+  min-width: min-content;
 
   --window-background-color: #ffffff;
   --window-border-color: #d1d1d1;
