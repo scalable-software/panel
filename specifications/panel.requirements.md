@@ -20,6 +20,7 @@ building the window, or placing and wiring its controls, itself.
 - Showing a title the host application places in the window, in the bar.
 - Hiding the window and showing it again, when the host application decides, with the
   window as it was.
+- Consistency with the device colour theme.
 
 **Out of scope**
 
@@ -27,6 +28,7 @@ building the window, or placing and wiring its controls, itself.
   part of the page when the page loads.
 - Stacking several windows, and deciding which one is in front.
 - Remembering where a window was between visits.
+- Application-level theme switching; the window follows the device colour scheme only.
 - The content itself: the window neither listens to it nor changes it.
 
 ---
@@ -43,3 +45,8 @@ the window frames what I show.
 
 As a **host application**, when a window is not relevant to the current context, I want to
 hide it and show it again later, so that the end user only sees windows that apply.
+
+### STORY: Theme Compatibility
+
+As an **end user**, I want the window to match my device's light or dark colour scheme, so
+that it looks consistent with the rest of my interface.
