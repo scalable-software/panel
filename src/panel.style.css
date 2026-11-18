@@ -1,8 +1,12 @@
 /* =======================
   Host Element Styles
 ======================= */
-:host {
+/* Reveals the panel once this stylesheet applies; the template hides it until then */
+:host(:defined) {
   display: inline-block;
+}
+
+:host {
   position: absolute;
   min-width: min-content;
 
