@@ -91,7 +91,6 @@
   Taskbar Styles
 ======================= */
 task-bar {
-  display: block;
   flex-shrink: 0;
   user-select: none;
   touch-action: none;
