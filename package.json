@@ -13,6 +13,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./meta": {
+      "types": "./dist/panel.meta.d.ts",
+      "default": "./dist/panel.meta.js"
     }
   },
   "types": "dist/index.d.ts",
