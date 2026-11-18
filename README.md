@@ -122,8 +122,8 @@ For more details on **States**, **Data**, **Operations**, **Events** and **Gestu
 
 ### 3.1 Composition
 
-- **Template** (`panel.template.html`): Defines DOM structure — a `.window` surface holding the `<task-bar>`, with a slot named `title` in its centre, a `.content` region with the default slot, and the `.grip`. A small `style` hides the window until the stylesheet has loaded.
-- **Style** (`panel.style.css`): Encapsulates the surface of the window, the layout of its parts, the grip, what a minimized, maximized or hidden panel looks like, and light/dark theme adaptation. The window is glass: translucent, with what lies behind it blurred. The taskbar is opaque and fits inside the edge of the window.
+- **Template** (`panel.template.html`): Defines DOM structure — a `.window` surface holding the `<task-bar>`, with a slot named `title` in its centre, a `.content` region with the default slot, and the `.grip`. Its one style rule, `:host { display: none; }`, keeps the panel hidden until its stylesheet applies, so the panel is never seen unstyled.
+- **Style** (`panel.style.css`): Encapsulates the surface of the window, the layout of its parts, the grip, what a minimized, maximized or hidden panel looks like, and light/dark theme adaptation. The window is glass: translucent, with what lies behind it blurred. The taskbar is opaque and fits inside the edge of the window. The stylesheet's rule `:host(:defined) { display: inline-block; }` reveals the panel; a stylesheet that replaces this one must carry that rule, or the panel stays hidden.
 - **Class** (`panel.ts`): Extends the base component class to handle lifecycle hooks, attribute reflection, the states, the data, the operations, the dispatch of its events, and the gestures on the taskbar and the grip.
 
 ### 3.2 Class Lifecycle
@@ -151,9 +151,8 @@ The panel is positioned (`position: absolute`) in the nearest positioned element
 
 A stylesheet loads a moment after a component is added to the page, and again each time it is added. Until then a component has its structure but not its layout.
 
-- The window of the panel stays hidden until the panel's stylesheet has loaded, so the panel is never shown before it is laid out.
-- It then waits a further 0.2 seconds, while the controls of the taskbar settle. This is a stopgap: it is to be removed once the controls no longer fade their borders when their own stylesheets load.
-- For that moment the panel still takes room in the page, without showing anything.
+- The panel stays hidden, and takes no room in the page, until its stylesheet applies; it then shows at once, in its finished look.
+- The taskbar and each of its controls do the same with their own stylesheets, so none of them is seen unstyled inside the window.
 
 ---
 
