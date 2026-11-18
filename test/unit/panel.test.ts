@@ -239,20 +239,17 @@ composition(Composition.TEMPLATE, () => {
           expect(parts).toEqual(["link", "style", "div"]);
         });
 
-        then("`div.window` is hidden before the stylesheet of the panel has loaded", () => {
-          const div = panel.root.querySelector("div.window") as HTMLDivElement;
-          expect(getComputedStyle(div).visibility).toBe("hidden");
+        then("the panel is not displayed before the stylesheet of the panel has loaded", () => {
+          expect(getComputedStyle(panel).display).toBe("none");
         });
 
-        when("the stylesheets have loaded, and the controls have settled", () => {
+        when("the stylesheets have loaded", () => {
           beforeEach(async () => {
             await styled(panel);
-            await new Promise((resolve) => setTimeout(resolve, 300));
           });
 
-          then("`div.window` is visible", () => {
-            const div = panel.root.querySelector("div.window") as HTMLDivElement;
-            expect(getComputedStyle(div).visibility).toBe("visible");
+          then("the panel is displayed", () => {
+            expect(getComputedStyle(panel).display).not.toBe("none");
           });
         });
 
