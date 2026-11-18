@@ -35,6 +35,7 @@ building the window, or placing and wiring its controls, itself.
 - Resizing the window with a grip at its lower right, while it is neither collapsed nor
   enlarged, and reporting its new dimensions to the host application.
 - Consistency with the device colour theme.
+- Appearing in its finished look from the moment it is first seen, in any host.
 
 **Out of scope**
 
@@ -121,3 +122,11 @@ shows as much of the content as I need.
 
 As a **host application**, I want to be told when the window has been resized, so that I can
 act on its new dimensions.
+
+### STORY: Clean First Appearance
+
+As an **end user**, when a page with the window opens, I want the window to appear in its
+finished look at once, so that the interface looks steady instead of flickering into place.
+
+As a **host application**, I want the window to appear finished without my adding anything
+for it, so that I can place it on any page and the page does not jump while it loads.
